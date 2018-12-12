@@ -65,8 +65,8 @@ class DataManager:
 
     def get_edu_data(self):
 
-        edu_array = []
-        check_array = []
+        X_array = []
+        y_array = []
 
         n_array = self.__norma(np.array(self.__full_data))
         self.__full_data = []
@@ -77,10 +77,10 @@ class DataManager:
                 if end > self.__data_len:
                     break
 
-                edu_array.append(n_array[j:end-self.__control_size])
+                X_array.append(n_array[j:end-self.__control_size])
                 # Выборка HIGH, LOW
-                check_array.append(n_array[end - self.__control_size:end][0][1:3])
-        return np.array(edu_array), np.array(check_array)
+                y_array.append(n_array[end - self.__control_size:end][0][1:3])
+        return np.array(X_array), np.array(y_array)
 
     def __norma(self, data):
         """
