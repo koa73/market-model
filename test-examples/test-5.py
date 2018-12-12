@@ -1,5 +1,4 @@
-import datetime
+import numpy as np
 
-now = datetime.datetime.now()
-print(now.strftime("%d-%m-%Y_%H:%M"))
-print(str(now))
+p="USDRUB.csv"
+print(p[:-4])

@@ -16,6 +16,8 @@ class DataManager:
     __full_data = []
     __data_len = 0
 
+    np.random.seed(42)
+
     __data_mean = np.empty(shape=[0, 5])
     __data_std = np.empty(shape=[0, 5])
 
@@ -88,8 +90,7 @@ class DataManager:
         :return: Нормализованный массив data_return, среднее по столбцу data_mean, стандартное отклонение по столбцу data_std
         """
         data_return = data.astype(np.float64)  # Приведение типов
-        self.__data_mean = data.mean(axis=0)  # Вычисляем среднее по каждому столбцу
-        self.__data_std = data.std(axis=0)  # Определяем стандартное отклонение по каждому столбцу
+        self.__get_normalize_values(data) # Считываем параметры нормализации из файла
         data_return -= self.__data_mean  # Вычитаем среднее
         data_return /= self.__data_std  # Делим на отклонение
         return data_return
@@ -123,3 +124,31 @@ class DataManager:
         json_file.write(model.to_json())
         json_file.close()
         model.save_weights(self.__fileDir + "/models/last_" + str(ts) + ".h5")
+        self.__save_normalize_values()
+
+    def __save_normalize_values(self):
+        """
+        Записываем данные нормализации модели в файл
+        :return: Null
+        """
+        np.save(self.__fileDir + "/data/"+self.__filename[:-4]+"_std.npy", self.__data_std)
+        np.save(self.__fileDir + "/data/"+self.__filename[:-4]+"_mean.npy", self.__data_mean)
+
+    def __get_normalize_values(self, data):
+        """
+                :param data: Массив данных
+                :return: Null
+                Считывает или вычисляет данные нормализации
+        """
+        std_file = self.__fileDir + "/data/"+self.__filename[:-4]+"_std.npy"
+        mean_file = self.__fileDir + "/data/"+self.__filename[:-4]+"_mean.npy"
+
+        if os.path.exists(std_file):
+            self.__data_std = np.load(std_file)
+        else:
+            self.__data_std = data.std(axis=0)  # Определяем стандартное отклонение по каждому столбцу
+
+        if os.path.exists(mean_file):
+            self.__data_mean = np.load(mean_file)
+        else:
+            self.__data_mean = data.mean(axis=0)  # Вычисляем среднее по каждому столбцу

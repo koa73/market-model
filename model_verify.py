@@ -1,10 +1,10 @@
 import tensorflow as tf
 import dataman as d
 
-model = "last_12-12-2018_11_00"
+model = "last_12-12-2018_17_51"
 
 # Загрузка проверочных данных
-data = d.DataManager("USDRUB-v.csv", 5, 1)
+data = d.DataManager("USDRUB.csv", 5, 1)
 X_test, y_test = data.get_edu_data()
 
 # Загружаем сеть
