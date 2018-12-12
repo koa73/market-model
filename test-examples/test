@@ -1,0 +1,73 @@
+import csv
+import os
+import random
+
+filename = "USDRUB.csv"
+fileDir = os.path.dirname(os.path.realpath('__file__'))
+
+# размер пакета случайной выборки из массива [min, max], min >=4
+batch_size_range = [10, 10]
+# количество строк проверочных данных в выборке, должно быть меньше или равно min-3 значения batch_size_range
+control_size = 1
+# все данные по инструменту
+full_array = []
+
+
+def main():
+
+    read_data()
+    # получение массивов для обучения сети
+    edu_array, check_array = get_input_edu_data()
+    print(edu_array)
+    print(check_array[0][:4])
+
+
+def get_input_edu_data():
+    # Возвращает две матрицы случайного среза данных заданного размера
+
+    # определение размера батча
+    if batch_size_range[0] == batch_size_range[1]:
+        batch_size = batch_size_range[0]
+    else:
+        batch_size = random.randint(batch_size_range[0], batch_size_range[1])
+
+    # проверка соответствия размеравыборки и контрольных значений
+    if (control_size+3 > batch_size or control_size == 0):
+        raise Exception('Invalid "control_size" value.')
+
+    i = random.randint(0, len(full_array) - batch_size - 1)
+    offset = i + batch_size - control_size
+    end = offset + control_size
+    print('Slice range start : %.0f, offset : %0.f, end: %0.f' % (i, offset, end))
+
+    return full_array[i:offset], full_array[offset: end]
+
+
+def normalise_value(val):
+    # Производит нормализацию входных данных и приведению их формату float
+    if not isinstance(val, float):
+        val = float(val)
+    if val > 1:
+        return 1/val
+
+
+def read_data():
+    # Формирует массив данных из файла CSV, производит нормализацию
+    try:
+        with open(fileDir + '/' + filename, newline='') as f:
+            # remove first string with column name data
+            next(f)
+            rows = csv.reader(f, delimiter=';', quotechar='|')
+
+            for row in rows:
+                new_row = []
+                for elem in row[4:9]:
+                    new_row.append(normalise_value(elem))
+                    #new_row.append(elem)
+                full_array.append(new_row)
+
+    except FileNotFoundError:
+        print('Error: File "' + filename + '" not found')
+
+
+main()
