@@ -52,12 +52,12 @@ class DataManager:
                         new_row.append(self.__convert_to_float(elem))
                     self.__full_data.append(new_row)
 
-                self.__get_normalize_values()
+                self.__get_norma_values()
 
         except FileNotFoundError:
             print('Error: File "' + self.__tiker + '.csv" not found')
 
-    def __get_data(self, start, end):
+    def __get_data(self, start, end, normalize):
         """
         Формирование одномерного массива для обучения и проверки обучения
         :return:
@@ -65,8 +65,11 @@ class DataManager:
         x_array = []
         y_array = []
 
-        n_array = self.__norma(np.array(self.__full_data[start:end]))
-        #n_array = np.array(self.__full_data[start:end])
+        if(normalize):
+            n_array = self.__norma(np.array(self.__full_data[start:end]))
+        else:
+            n_array = np.array(self.__full_data[start:end])
+
         data_len = n_array.shape[0]
 
         for i in range(data_len - self.__batch_size + 1):
@@ -76,7 +79,8 @@ class DataManager:
                     break
                 x_array.append(np.concatenate(n_array[j:end - self.__control_size], axis=None))
                 # Удаление лишних данных (<OPEN> High Low <CLOSE><VAL>)
-                y_array.append(np.concatenate((np.delete(n_array[end - self.__control_size:end], np.s_[0, 3, 4], 1)), axis=None))
+                y_array.append(np.concatenate((np.delete(n_array[end - self.__control_size:end], np.s_[0, 3, 4], 1)),
+                                              axis=None))
 
         return np.array(x_array), np.array(y_array)
 
@@ -90,7 +94,7 @@ class DataManager:
         data_return /= self.__data_std  # Делим на отклонение
         return data_return
 
-    def __get_normalize_values(self):
+    def __get_norma_values(self):
         """
         Стандартного отклонения и средних по каждому столбщу по обучающим данным
         :return: Null
@@ -124,7 +128,7 @@ class DataManager:
 
     def denorm_x_array(self, data):
         """
-        Денормализация Y массива
+        Денормализация X массива
         :param data:
         :return:
         """
@@ -143,7 +147,7 @@ class DataManager:
         :return:
         """
         data_len = self.__data_len - self.__batch_size * 2
-        return self.__get_data(0, data_len)
+        return self.__get_data(0, data_len, True)
 
     def get_test_data(self):
         """
@@ -151,7 +155,7 @@ class DataManager:
         :return:
         """
         data_len = self.__data_len - self.__batch_size * 2
-        return self.__get_data(data_len - self.__batch_size * 2, data_len)
+        return self.__get_data(data_len - self.__batch_size * 2, data_len, True)
 
     def get_verify_data(self):
         """
@@ -159,7 +163,7 @@ class DataManager:
         :return:
         """
         data_len = self.__data_len - self.__batch_size * 2
-        return self.__get_data(data_len, None)
+        return self.__get_data(data_len, None, True)
 
 
 
