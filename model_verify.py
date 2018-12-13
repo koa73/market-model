@@ -1,11 +1,13 @@
 import tensorflow as tf
 import dataman as d
 
-model = "last_12-12-2018_17_51"
+model = "last_12-12-2018_19_53"
 
 # Загрузка проверочных данных
-data = d.DataManager("USDRUB.csv", 5, 1)
+data = d.DataManager("USDRUB-v.csv", 5, 1)
 X_test, y_test = data.get_edu_data()
+
+#print(data.de_norma(X_test))
 
 # Загружаем сеть
 json_file = open(data.get_current_dir()+"/models/"+model+".json", "r")
