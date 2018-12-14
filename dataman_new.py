@@ -97,7 +97,6 @@ class DataManager:
         return np.reshape(np.expand_dims(data, axis=1), (data.shape[0], self.__batch_size - self.__control_size,
                                                          self.__data_col))
 
-
     def __norma(self, data):
         """
         :param data: Массив данных
