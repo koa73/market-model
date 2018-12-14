@@ -2,6 +2,7 @@ import csv
 import os
 import numpy as np
 import datetime
+import re
 
 
 class DataManager:
@@ -14,6 +15,7 @@ class DataManager:
     __control_size = 1
 
     __full_data = []
+    __date_array = []
     __data_len = 0
     # Количество столбцов данных выбираемых из файла
     __data_col = 5
@@ -40,6 +42,11 @@ class DataManager:
         if not isinstance(val, float):
             return float(val)
 
+    @staticmethod
+    def __rebuild_date(str):
+        m = re.findall("(\d{4})(\d{2})(\d{2})", str)[0]
+        return m[2]+'.'+m[1]+'.'+m[0]
+
     def __read_data(self):
         # Формирует массив данных из файла CSV, производит нормализацию
         try:
@@ -49,7 +56,10 @@ class DataManager:
                 rows = csv.reader(f, delimiter=';', quotechar='|')
 
                 for row in rows:
+
+                    self.__date_array.append(self.__rebuild_date(row[2]))
                     new_row = []
+
                     for elem in row[4:9]:
                         new_row.append(self.__convert_to_float(elem))
                     self.__full_data.append(new_row)
