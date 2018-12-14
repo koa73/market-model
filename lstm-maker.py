@@ -1,9 +1,25 @@
 import tensorflow as tf
 import numpy as np
-import lstm-dataman
+import pandas as pd
+import pandas_datareader.data as pdr
+import lstmdataman
 
+filename = 'data/USDRUB.csv'
+separator = ';'
+main_ticker_data = lstmdataman.loaddata(filename, separator)
 
+train_vol = 0.8         # Сколько берем от объема для обучения
+train_seq = 3           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
 
+#X_train, y_train, X_test, y_test, data_mean, data_std = lstmdataman.prepadedata(main_ticker_data, train_seq, train_vol)
+X_train, y_train = lstmdataman.prepadedata(main_ticker_data, train_seq, train_vol)
+
+print("=======X_train==========")
+print(X_train[0])
+print("========y_train=========")
+print(y_train[0])
+
+exit(0)
 #data = d.DataManager("USDRUB.csv", 5, 1)
 
 #X_train, y_train = data.get_edu_data()
