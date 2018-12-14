@@ -140,8 +140,8 @@ class DataManager:
                 :return: Null
                 Считывает или вычисляет данные нормализации
         """
-        std_file = self.__fileDir + "/data/"+self.__filename[:-4]+"_std.npy"
-        mean_file = self.__fileDir + "/data/"+self.__filename[:-4]+"_mean.npy"
+        std_file = self.__fileDir + "/data/USDRUB_std.npy"
+        mean_file = self.__fileDir + "/data/USDRUB_mean.npy"
 
         if os.path.exists(std_file):
             self.__data_std = np.load(std_file)

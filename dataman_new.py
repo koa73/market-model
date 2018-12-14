@@ -15,11 +15,13 @@ class DataManager:
 
     __full_data = []
     __data_len = 0
+    # Количество столбцов данных выбираемых из файла
+    __data_col = 5
 
     np.random.seed(42)
 
-    __data_mean = np.empty(shape=[0, 5])
-    __data_std = np.empty(shape=[0, 5])
+    __data_mean = np.empty(shape=[0, __data_col])
+    __data_std = np.empty(shape=[0, __data_col])
 
     def __init__(self, tiker, batch_size, control_size):
 
@@ -57,18 +59,18 @@ class DataManager:
         except FileNotFoundError:
             print('Error: File "' + self.__tiker + '.csv" not found')
 
-    def __get_data(self, start, end, normalize):
+    def __get_data(self, start, end, x_shape_3d):
         """
         Формирование одномерного массива для обучения и проверки обучения
+        :x_shape_3d - true -3D array, false - 2D
         :return:
         """
         x_array = []
         y_array = []
 
-        if(normalize):
-            n_array = self.__norma(np.array(self.__full_data[start:end]))
-        else:
-            n_array = np.array(self.__full_data[start:end])
+        n_array = self.__norma(np.array(self.__full_data[start:end]))
+
+        #n_array = np.array(self.__full_data[start:end])
 
         data_len = n_array.shape[0]
 
@@ -82,7 +84,19 @@ class DataManager:
                 y_array.append(np.concatenate((np.delete(n_array[end - self.__control_size:end], np.s_[0, 3, 4], 1)),
                                               axis=None))
 
-        return np.array(x_array), np.array(y_array)
+        if (x_shape_3d):
+            return self.__reshape_x_array(np.array(x_array)), np.array(y_array)
+        else:
+            return np.array(x_array), np.array(y_array)
+
+    def __reshape_x_array(self, data):
+        """
+        Изменение формы массива X из 2D в 3D
+        :return:
+        """
+        return np.reshape(np.expand_dims(data, axis=1), (data.shape[0], self.__batch_size - self.__control_size,
+                                                         self.__data_col))
+
 
     def __norma(self, data):
         """
@@ -132,8 +146,9 @@ class DataManager:
         :param data:
         :return:
         """
-        data *= self.__data_std
-        data += self.__data_mean
+        factor = int(data.shape[-1]/self.__data_col)
+        data *= np.tile(self.__data_std, factor)
+        data += np.tile(self.__data_mean, factor)
         return data
 
     """
@@ -141,29 +156,32 @@ class DataManager:
 
     ****************************************************************************************************************
     """
-    def get_edu_data(self):
+    def get_edu_data(self, x_array_3d=False):
         """
         Возвращает массивы данных для обучения сети
+        :x_array_3d: - возвращать массмв Х в виде 3D array
         :return:
         """
         data_len = self.__data_len - self.__batch_size * 2
-        return self.__get_data(0, data_len, True)
+        return self.__get_data(0, data_len, x_array_3d)
 
-    def get_test_data(self):
+    def get_test_data(self, x_array_3d=False):
         """
         Возвращает данные участвовавшие в обучении для проверки модели
+        :x_array_3d: - возвращать массмв Х в виде 3D array
         :return:
         """
         data_len = self.__data_len - self.__batch_size * 2
-        return self.__get_data(data_len - self.__batch_size * 2, data_len, True)
+        return self.__get_data(data_len - self.__batch_size * 2, data_len, x_array_3d)
 
-    def get_verify_data(self):
+    def get_verify_data(self, x_array_3d=False):
         """
         Возвращает данные не участвовавшие в обучениии модели
+        :x_array_3d: - возвращать массмв Х в виде 3D array
         :return:
         """
         data_len = self.__data_len - self.__batch_size * 2
-        return self.__get_data(data_len, None, True)
+        return self.__get_data(data_len, None,  x_array_3d)
 
 
 
