@@ -9,14 +9,14 @@ data = d.DataManager("USDRUB", 5, 2)
 X_train, y_train = data.get_edu_data()
 
 model = tf.keras.Sequential()
-model.add(tf.keras.layers.Dense(25, input_shape=(X_train.shape[1],), activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(13, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(6, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(4,  activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(135, input_shape=(X_train.shape[1],), activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(123, activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(116, activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(4))
 
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(X_train, y_train, epochs=100, batch_size=10, validation_split=0.05, verbose=2)      #Тренировка сети
-#model.fit(X_train, y_train, epochs=5, batch_size=10, verbose=1)
+model.fit(X_train, y_train, epochs=10, batch_size=10, validation_split=0.05, verbose=2)      #Тренировка сети
+#model.fit(X_train, y_train, epochs=5, batch_size=10, verbose=2)
 
 # Сохраняем сеть
 data.save(model)
