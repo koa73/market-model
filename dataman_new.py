@@ -134,10 +134,10 @@ class DataManager:
         """
         now = datetime.datetime.now()
         ts = now.strftime("%d-%m-%Y_%H_%M")
-        json_file = open(self.__fileDir + "/models/last_" + str(ts) + ".json", "w")
+        json_file = open(self.__fileDir + "\models\last_" + str(ts) + ".json", "w")
         json_file.write(model.to_json())
         json_file.close()
-        model.save_weights(self.__fileDir + "/models/last_" + str(ts) + ".h5")
+        model.save_weights(self.__fileDir + "\models\last_" + str(ts) + ".h5")
 
     def denorm_y_array(self, data):
         """
@@ -174,7 +174,7 @@ class DataManager:
         data_len = self.__data_len - self.__batch_size * 2
         return self.__get_data(0, data_len, x_array_3d)
 
-    def get_test_data(self, x_array_3d=False):
+    def get_validation_data(self, x_array_3d=False):
         """
         Возвращает данные участвовавшие в обучении для проверки модели
         :x_array_3d: - возвращать массмв Х в виде 3D array
@@ -183,7 +183,7 @@ class DataManager:
         data_len = self.__data_len - self.__batch_size * 2
         return self.__get_data(data_len - self.__batch_size * 2, data_len, x_array_3d)
 
-    def get_verify_data(self, x_array_3d=False):
+    def get_test_data(self, x_array_3d=False):
         """
         Возвращает данные не участвовавшие в обучениии модели
         :x_array_3d: - возвращать массмв Х в виде 3D array

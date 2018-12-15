@@ -1,9 +1,10 @@
-#!/usr/bin/env python3.6
+#!/usr/bin/env python3.5
+
 import dataman as d
 import tensorflow as tf
 from keras.layers import LSTM, Dense
 
-data = d.DataManager("USDRUB.csv", 5, 1)
+data = d.DataManager("USDRUB", 5, 1)
 
 X_train, y_train = data.get_edu_data()
 
