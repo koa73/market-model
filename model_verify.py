@@ -1,10 +1,10 @@
 import tensorflow as tf
 import dataman_new as d
 
-model = "last_2"
+model = "last_15-12-2018_22_30"
 
 # Загрузка проверочных данных
-data = d.DataManager("USDRUB", 5, 2)
+data = d.DataManager("USDRUB", 5, 1)
 X_test, y_test = data.get_test_data()
 
 #print(data.de_norma(X_test))
