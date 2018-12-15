@@ -4,18 +4,17 @@ import dataman_new as d
 import tensorflow as tf
 
 
-data = d.DataManager("USDRUB", 5, 2)
+data = d.DataManager("USDRUB", 5, 1)
 
 X_train, y_train = data.get_edu_data()
 
 model = tf.keras.Sequential()
-model.add(tf.keras.layers.Dense(135, input_shape=(X_train.shape[1],), activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(235, input_shape=(X_train.shape[1],), activation=tf.nn.relu))
 model.add(tf.keras.layers.Dense(123, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(116, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(4, activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(2, activation=tf.nn.relu))
 
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(X_train, y_train, epochs=38, batch_size=10, validation_split=0.05, verbose=2)      #Тренировка сети
+model.fit(X_train, y_train, epochs=38, batch_size=10, validation_split=0.005, verbose=2)      #Тренировка сети
 #model.fit(X_train, y_train, epochs=5, batch_size=10, verbose=2)
 
 # Сохраняем сеть

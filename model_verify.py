@@ -1,7 +1,7 @@
 import tensorflow as tf
 import dataman_new as d
 
-model = "last_1"
+model = "last_2"
 
 # Загрузка проверочных данных
 data = d.DataManager("USDRUB", 5, 2)
@@ -23,8 +23,14 @@ print("MSE  %f" % mse)
 print("MAE  %f" % mae)
 
 print("=====================================")
-predict = data.denorm_x_array(loaded_model.predict(X_test))    # Предсказания
-y_test_denorm = data.denorm_y_array(y_test)
 
+predict = data.denorm_y_array(loaded_model.predict(X_test))    # Предсказания
+print (predict)
+print("++++++++++++++++++++++++++++++++++++++++")
+
+y_test_denorm = data.denorm_y_array(y_test)
+print(y_test_denorm)
+
+print("++++++++++++=======================")
 for i in range(len(y_test)):
     print(predict[i], y_test_denorm[i], "\t", [y_test_denorm[i][0]-predict[i][0], predict[i][1]-y_test_denorm[i][1]])
