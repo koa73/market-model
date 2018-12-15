@@ -10,17 +10,19 @@ X_train, y_train = data.get_edu_data()
 
 model = tf.keras.Sequential()
 print(X_train.shape)
-model.add(tf.keras.layers.Dense(750, input_shape=(X_train.shape[1],), activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(620, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(12, activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(46, input_shape=(X_train.shape[1],), activation=tf.nn.relu))
+#model.add(tf.keras.layers.Dense(20, activation=tf.nn.relu))
+#model.add(tf.keras.layers.Dense(10, activation=tf.nn.relu))
+#model.add(tf.keras.layers.Dense(5, activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(23, activation=tf.nn.relu))
 model.add(tf.keras.layers.Dense(2, activation=tf.nn.relu))
 
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-#model.fit(X_train, y_train, epochs=5, batch_size=10, validation_split=0.005, verbose=2)      #Тренировка сети
-model.fit(X_train, y_train, epochs=5, batch_size=10, verbose=2)
+model.fit(X_train, y_train, epochs=5, batch_size=5, validation_split=0.005, verbose=2)      #Тренировка сети
+#model.fit(X_train, y_train, epochs=5, batch_size=10, verbose=2)
 
 # Сохраняем сеть
-data.save(model)
+#data.save(model)
 
 # Проверка обучения
 X_validate, y_validate = data.get_validation_data()
