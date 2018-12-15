@@ -1,3 +1,4 @@
+#!/usr/bin/env python3.6
 import dataman as d
 import tensorflow as tf
 from keras.layers import LSTM, Dense
