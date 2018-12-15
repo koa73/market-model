@@ -14,6 +14,8 @@ train_seq = 3           # Непрерывная последовательно�
 X_train, y_train, X_test, y_test, data_mean, data_std = lstmdataman.prepadedata(main_ticker_data, train_seq, train_vol)
 #X_train, y_train = lstmdataman.prepadedata(main_ticker_data, train_seq, train_vol)
 
+print("data_mean: ", data_mean)
+print("data_std: ", data_std)
 #exit(0)
 
 model = tf.keras.Sequential()
@@ -38,25 +40,25 @@ pred = model.predict(X_test)    # Предсказания
 
 #Денормализация
 last_pred = pred[len(y_test) - 1]    #Последнее предсказание
-last_pred *= data_std[0]          #Умножаем на стандартное отклонение для 0 столбца
-last_pred += data_mean[0]         #Прибавляем среднее для 0 столбца
+last_pred *= data_std[1:4]          #Умножаем на стандартное отклонение для 0 столбца
+last_pred += data_mean[1:4]         #Прибавляем среднее для 0 столбца
 last_y = y_test[len(y_test) - 1]
-last_y *= data_std[0]
-last_y += data_mean[0]
+last_y *= data_std[1:4]
+last_y += data_mean[1:4]
 
 first_pred = pred[0]                 #Первое предсказание
-first_pred *= data_std[0]          #Умножаем на стандартное отклонение для 0 столбца
-first_pred += data_mean[0]         #Прибавляем среднее для 0 столбца
+first_pred *= data_std[1:4]          #Умножаем на стандартное отклонение для 0 столбца
+first_pred += data_mean[1:4]        #Прибавляем среднее для 0 столбца
 first_y = y_test[0]
-first_y *= data_std[0]
-first_y += data_mean[0]
+first_y *= data_std[1:4]
+first_y += data_mean[1:4]
 
 middle_pred = pred[len(y_test) // 2]  #Среднее предсказание
-middle_pred *= data_std[0]          #Умножаем на стандартное отклонение для 0 столбца
-middle_pred += data_mean[0]         #Прибавляем среднее для 0 столбца
+middle_pred *= data_std[1:4]           #Умножаем на стандартное отклонение для 0 столбца
+middle_pred += data_mean[1:4]          #Прибавляем среднее для 0 столбца
 middle_y = y_test[len(y_test) // 2]
-middle_y *= data_std[0]
-middle_y += data_mean[0]
+middle_y *= data_std[1:4]
+middle_y += data_mean[1:4]
 
 # Вывод результатов прогона по тестовому массиву - первый, середина и последний
 print(first_pred, first_y, (first_pred - first_y))

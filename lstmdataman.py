@@ -20,6 +20,10 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     data_column = main_ticker_data.shape[1]
     # Переводим в формат np.array
     main_ticker_data = main_ticker_data.values
+
+    # --- Нормализация
+    main_ticker_data, data_mean, data_std = normax(main_ticker_data)
+
     print("main_ticker_data.shape: ", main_ticker_data.shape)
     # Тренировочные данные начинаются с 0 элемента массива
     train_start = 0
@@ -32,8 +36,8 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     data_test = main_ticker_data[np.arange(test_start, test_end), :]
 
     # --- Нормализация учебного набора. Тестовый набор должен нормализоваться этими же параметрами mean и std
-    data_train, data_mean, data_std = normax(data_train)
-    data_test = normay(data_test, data_mean, data_std)
+    #data_train, data_mean, data_std = normax(data_train)
+    #data_test = normay(data_test, data_mean, data_std)
 
     # --- Делаем реверс наборов, для того, чтобы избежать удаления последних данных при целочисленном делении
     reverse_order = []
@@ -56,7 +60,7 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     for z in range(0, train_seq):
         for i in range(0, row_train):
             x = np.array(data_train_reverse[i + z: i + z + train_seq])
-            y = np.array(data_train_reverse[i + z + train_seq + 1, 1:4])
+            y = np.array(data_train_reverse[i + z + train_seq, 1:4])
             input_train.append(x)
             output_train.append(y)
     X_train = np.array(input_train)
@@ -75,7 +79,9 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     for z in range(0, train_seq):
         for i in range(0, row_test):
             xt = np.array(data_test_reverse[i + z: i + z + train_seq])
-            yt = np.array(data_test_reverse[i + z + train_seq + 1, 1:4])
+            yt = np.array(data_test_reverse[i + z + train_seq, 1:4])
+            #print(xt)
+            #print(yt)
             input_test.append(xt)
             output_test.append(yt)
     X_test = np.array(input_test)
