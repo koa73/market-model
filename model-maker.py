@@ -15,7 +15,7 @@ model.add(tf.keras.layers.Dense(116, activation=tf.nn.relu))
 model.add(tf.keras.layers.Dense(4))
 
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
-model.fit(X_train, y_train, epochs=10, batch_size=10, validation_split=0.05, verbose=2)      #Тренировка сети
+model.fit(X_train, y_train, epochs=38, batch_size=10, validation_split=0.05, verbose=2)      #Тренировка сети
 #model.fit(X_train, y_train, epochs=5, batch_size=10, verbose=2)
 
 # Сохраняем сеть
