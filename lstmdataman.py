@@ -94,8 +94,19 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     print("============")
 
     # --- Обратный реверс
+    reverse_order = []
+    for i in range(0, data_train_reverse.shape[0]):
+        reverse_order = np.append(reverse_order, (data_train_reverse.shape[0] - 1) - i)
+    data_train = data_train_reverse[reverse_order.astype(np.int64)]
+    print("data_train.shape: ", data_train.shape)
 
-    # ---
+    reverse_ordert = []
+    for i in range(0, data_test_reverse.shape[0]):
+        reverse_ordert = np.append(reverse_ordert, (data_test_reverse.shape[0] - 1) - i)
+    data_test = data_test_reverse[reverse_ordert.astype(np.int64)]
+    print("data_test.shape: ", data_test.shape)
+
+    # --- Вывод
     return X_train, y_train, X_test, y_test, data_mean, data_std
     #return X_train, y_train
 
