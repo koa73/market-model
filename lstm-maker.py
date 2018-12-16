@@ -66,7 +66,7 @@ print(middle_pred, middle_y, (middle_pred - middle_y))
 print(last_pred, last_y, (last_pred - last_y))
 
 # Сохраняем сеть
-#lstmdataman.save(model, mse, mae, data_mean, data_std)
+lstmdataman.save(model, mse, mae, data_mean, data_std)
 
 
 
