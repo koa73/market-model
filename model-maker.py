@@ -12,11 +12,7 @@ X_train, y_train = data.get_edu_data()
 model = tf.keras.Sequential()
 print(X_train.shape)
 model.add(tf.keras.layers.Dense(46, input_shape=(X_train.shape[1],), activation=tf.nn.relu))
-model.add(tf.keras.layers.Dropout(0.5))
-model.add(tf.keras.layers.Dense(46, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dropout(0.5))
-model.add(tf.keras.layers.Dense(46, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(2))
+model.add(tf.keras.layers.Dense(2, activation=tf.nn.relu))
 
 
 def mean_pred(y_true, y_pred):

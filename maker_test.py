@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.5
 
 from keras.layers import Input, Dense, Dropout
+from keras.callbacks import ModelCheckpoint
 from keras.models import Model
 import dataman_new as d
 
@@ -22,7 +23,13 @@ model = Model(inputs=inputs, outputs=predictions)
 model.compile(optimizer='adam',
               loss='mse',
               metrics=['mae'])
-model.fit(X_train, y_train, epochs=5, batch_size=5, validation_split=0.01, verbose=2)  # starts training
+
+'''
+saves the model weights after each epoch if the validation loss decreased
+'''
+checkpointer = ModelCheckpoint(filepath=data.get_current_dir()+ "\models\weights.hdf5", verbose=1, save_best_only=True)
+
+model.fit(X_train, y_train, epochs=300, batch_size=5, validation_split=0.01, verbose=2, callbacks=[checkpointer])  # starts training
 
 # Тестирование модели
 X_test, y_test = data.get_test_data()
@@ -40,4 +47,4 @@ for i in range(len(y_test_shaped)):
     print(predict[i], y_test_shaped[i], "\t", predict[i][0]-y_test_shaped[i])
 
 # Сохраняем сеть
-#data.save(model)
+data.save(model)
