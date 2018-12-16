@@ -11,17 +11,17 @@ X_train, y_train = data.get_edu_data()
 
 model = tf.keras.Sequential()
 print(X_train.shape)
-model.add(tf.keras.layers.Dense(46, input_shape=(X_train.shape[1],), activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(46, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(46, activation=tf.nn.relu))
-model.add(tf.keras.layers.Dense(2, activation=tf.nn.sigmoid))
+model.add(tf.keras.layers.Dense(92, input_shape=(X_train.shape[1],), activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(92, activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(92, activation=tf.nn.relu))
+model.add(tf.keras.layers.Dense(2))
 
 
 def mean_pred(y_true, y_pred):
     return K.mean(y_pred[0])
 
 model.compile(loss=['mse'], optimizer='adam', metrics=['mae'])
-model.fit(X_train, y_train, epochs=150, batch_size=1, validation_split=0.005, verbose=2)      #Тренировка сети
+model.fit(X_train, y_train, epochs=5, batch_size=10, validation_split=0.005, verbose=2)      #Тренировка сети
 #model.fit(X_train, y_train, epochs=5, batch_size=10, verbose=2)
 
 # Сохраняем сеть
