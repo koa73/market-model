@@ -1,5 +1,7 @@
 import pandas as pd
 import numpy as np
+import os
+import datetime
 
 def loaddata(filename, separator):
     # Читаем файл
@@ -110,6 +112,7 @@ def normax(data):
     data_return /= data_std  # Делим на отклонение
     return data_return, data_mean, data_std
 
+
 def normay(data, data_mean, data_std):
     """
     :param data: Массив данных
@@ -119,6 +122,7 @@ def normay(data, data_mean, data_std):
     data_return -= data_mean  # Вычитаем среднее
     data_return /= data_std  # Делим на отклонение
     return data_return
+
 
 def denorma(data, std, mean):
     """
@@ -130,3 +134,21 @@ def denorma(data, std, mean):
     data *= std     # Умножаем на стандартное отклонение для 0 столбца
     data += mean    # Прибавляем среднее для 0 столбца
     return data
+
+
+def save(model, mse, mae, data_mean, data_std):
+    """
+    :param model:
+    :return: Null
+    """
+    filedir = "models"
+    now = datetime.datetime.now()
+    ts = now.strftime("%d-%m-%Y_%H_%M")
+    json_file = open(filedir + "/last_" + str(ts) + str(mse) + str(mae) + ".json", "w")
+    json_file.write(model.to_json())
+    json_file.close()
+    model.save_weights(filedir + "/last_" + str(ts) + str(mse) + str(mae) + ".h5")
+    paradata_file = open(filedir + "/last_" + str(ts) + str(mse) + str(mae) + ".txt", "w")
+    paradata_file.write(data_mean + '\n')
+    paradata_file.write(data_std + '\n')
+    paradata_file.close()

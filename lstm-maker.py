@@ -28,7 +28,7 @@ model.add(tf.keras.layers.Dense(3))
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 
 print("\n====== Train ======\n")
-model.fit(X_train, y_train, epochs=3, batch_size=10)      #Тренировка сети
+model.fit(X_train, y_train, epochs=1, batch_size=10)      #Тренировка сети
 
 print("\n====== Test ======\n")
 mse, mae = model.evaluate(X_train, y_train) #Проверка на тестовых данных, определяем величину ошибок
