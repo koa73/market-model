@@ -28,12 +28,12 @@ model.add(tf.keras.layers.Dense(3))
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 
 print("\n====== Train ======\n")
-model.fit(X_train, y_train, epochs=5, batch_size=5)      #Тренировка сети
+model.fit(X_train, y_train, epochs=3, batch_size=10)      #Тренировка сети
 
 print("\n====== Test ======\n")
 mse, mae = model.evaluate(X_train, y_train) #Проверка на тестовых данных, определяем величину ошибок
 print("MSE  %f" % mse)
-print("MAE  %f" % mse)
+print("MAE  %f" % mae)
 pred = model.predict(X_test)    # Предсказания
 
 #print(pred)
@@ -65,10 +65,8 @@ print(first_pred, first_y, (first_pred - first_y))
 print(middle_pred, middle_y, (middle_pred - middle_y))
 print(last_pred, last_y, (last_pred - last_y))
 
-
 # Сохраняем сеть
-#prefix = "mixa"
-#data.save(model, prefix)
+#lstmdataman.save(model, mse, mae, data_mean, data_std)
 
 
 
