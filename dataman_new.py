@@ -160,6 +160,9 @@ class DataManager:
         data += np.tile(self.__data_mean, factor)
         return data
 
+    def reshapy_y_by_coll(self, y_array, remove_col):
+        return np.concatenate(np.delete(y_array, (remove_col,), axis=1), axis=None)
+
     """
     ****************************************************************************************************************
 
@@ -191,6 +194,12 @@ class DataManager:
         """
         data_len = self.__data_len - self.__batch_size * 2
         return self.__get_data(data_len, None,  x_array_3d)
+
+    def predict_report(self, y_test, predict):
+        print("----------------------------- Test -----------------------------------------------")
+        for i in range(len(y_test)):
+            print(predict[i], y_test[i], "\t",
+                  [y_test[i][0] - predict[i][0], predict[i][1] - y_test[i][1]])
 
 
 
