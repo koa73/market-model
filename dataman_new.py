@@ -95,9 +95,9 @@ class DataManager:
                                               axis=None))
 
         if (x_shape_3d):
-            return self.__reshape_x_array(np.array(x_array)), np.array(y_array)
+            return self.__reshape_x_array(np.array(x_array)), self.__denorm_y_array(np.array(y_array))
         else:
-            return np.array(x_array), np.array(y_array)
+            return np.array(x_array), self.__denorm_y_array(np.array(y_array))
 
     def __reshape_x_array(self, data):
         """
@@ -139,7 +139,7 @@ class DataManager:
         json_file.close()
         model.save_weights(self.__fileDir + "\models\last_" + str(ts) + ".h5")
 
-    def denorm_y_array(self, data):
+    def __denorm_y_array(self, data):
         """
         Денормализация Y массива
         :param data:

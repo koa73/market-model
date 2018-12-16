@@ -8,7 +8,7 @@ x_train, y_train = data.get_edu_data()
 
 print(y_train)
 print("----------------------------------------------------------")
-print(data.denorm_y_array(y_train))
+print(y_train)
 print("==========================================")
 print(x_train)
 print('*********************************************')

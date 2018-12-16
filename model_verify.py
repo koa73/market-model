@@ -1,7 +1,7 @@
 import tensorflow as tf
 import dataman_new as d
 
-model = "last_15-12-2018_22_49"
+model = "last_16-12-2018_11_45"
 
 # Загрузка проверочных данных
 data = d.DataManager("USDRUB", 5, 1)
@@ -24,11 +24,11 @@ print("MAE  %f" % mae)
 
 print("=====================================")
 
-predict = data.denorm_y_array(loaded_model.predict(X_test))    # Предсказания
+predict = loaded_model.predict(X_test)    # Предсказания
 print (predict)
 print("++++++++++++++++++++++++++++++++++++++++")
 
-y_test_denorm = data.denorm_y_array(y_test)
+y_test_denorm = y_test
 print(y_test_denorm)
 
 print("++++++++++++=======================")
