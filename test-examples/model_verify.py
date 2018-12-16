@@ -1,11 +1,11 @@
 import tensorflow as tf
-import dataman_new as d
+import dataman as d
 
-model = "last_15-12-2018_22_49"
+model = "last_12-12-2018_19_53"
 
 # Загрузка проверочных данных
-data = d.DataManager("USDRUB", 5, 1)
-X_test, y_test = data.get_test_data()
+data = d.DataManager("USDRUB-v.csv", 5, 1)
+X_test, y_test = data.get_edu_data()
 
 #print(data.de_norma(X_test))
 
@@ -23,14 +23,8 @@ print("MSE  %f" % mse)
 print("MAE  %f" % mae)
 
 print("=====================================")
+predict = data.de_norma(loaded_model.predict(X_test))    # Предсказания
+y_test_denorm = data.de_norma(y_test)
 
-predict = data.denorm_y_array(loaded_model.predict(X_test))    # Предсказания
-print (predict)
-print("++++++++++++++++++++++++++++++++++++++++")
-
-y_test_denorm = data.denorm_y_array(y_test)
-print(y_test_denorm)
-
-print("++++++++++++=======================")
 for i in range(len(y_test)):
     print(predict[i], y_test_denorm[i], "\t", [y_test_denorm[i][0]-predict[i][0], predict[i][1]-y_test_denorm[i][1]])
