@@ -37,32 +37,15 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     data_train = main_ticker_data[np.arange(train_start, train_end), :]
     data_test = main_ticker_data[np.arange(test_start, test_end), :]
 
-    # --- Нормализация учебного набора. Тестовый набор должен нормализоваться этими же параметрами mean и std
-    #data_train, data_mean, data_std = normax(data_train)
-    #data_test = normay(data_test, data_mean, data_std)
-
-    # --- Делаем реверс наборов, для того, чтобы избежать удаления последних данных при целочисленном делении
-    reverse_order = []
-    for i in range(0, data_train.shape[0]):
-        reverse_order = np.append(reverse_order, (data_train.shape[0] - 1) - i)
-    data_train_reverse = data_train[reverse_order.astype(np.int64)]
-    print("data_train_reverse.shape: ", data_train_reverse.shape)
-
-    reverse_ordert = []
-    for i in range(0, data_test.shape[0]):
-        reverse_ordert = np.append(reverse_ordert, (data_test.shape[0] - 1) - i)
-    data_test_reverse = data_test[reverse_ordert.astype(np.int64)]
-    print("data_test_reverse.shape: ", data_test_reverse.shape)
-
     # --- Подготовка учебного набора
-    print("data_train_reverse.shape: ", data_train_reverse.shape)
+    print("data_train_reverse.shape: ", data_train.shape)
     # Количество наборов в массиве с учетом смещения при комбинаторике
-    row_train = (data_train_reverse.shape[0] // (train_seq + 1)) - (train_seq + 1)
+    row_train = (data_train.shape[0] // (train_seq + 1)) - (train_seq + 1)
     print("row_train: ", row_train)
     for z in range(0, train_seq):
         for i in range(0, row_train):
-            x = np.array(data_train_reverse[i + z: i + z + train_seq])
-            y = np.array(data_train_reverse[i + z + train_seq, 1:4])
+            x = np.array(data_train[i + z: i + z + train_seq])
+            y = np.array(data_train[i + z + train_seq, 1:4])
             input_train.append(x)
             output_train.append(y)
     X_train = np.array(input_train)
@@ -74,16 +57,14 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     #exit(0)
 
     # --- Подготовка тестового набора
-    print("data_test_reverse.shape: ", data_test_reverse.shape)
+    print("data_test_reverse.shape: ", data_test.shape)
     # Количество наборов в массиве с учетом смещения при комбинаторике
-    row_test = (data_test_reverse.shape[0] // (train_seq + 1)) - (train_seq + 1)
+    row_test = (data_test.shape[0] // (train_seq + 1)) - (train_seq + 1)
     print("row_test: ", row_test)
     for z in range(0, train_seq):
         for i in range(0, row_test):
-            xt = np.array(data_test_reverse[i + z: i + z + train_seq])
-            yt = np.array(data_test_reverse[i + z + train_seq, 1:4])
-            #print(xt)
-            #print(yt)
+            xt = np.array(data_test[i + z: i + z + train_seq])
+            yt = np.array(data_test[i + z + train_seq, 1:4])
             input_test.append(xt)
             output_test.append(yt)
     X_test = np.array(input_test)
@@ -92,19 +73,6 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     print("X_test.shape:", X_test.shape)
     print("y_test.shape:", y_test.shape)
     print("============")
-
-    # --- Обратный реверс
-    reverse_order = []
-    for i in range(0, data_train_reverse.shape[0]):
-        reverse_order = np.append(reverse_order, (data_train_reverse.shape[0] - 1) - i)
-    data_train = data_train_reverse[reverse_order.astype(np.int64)]
-    print("data_train.shape: ", data_train.shape)
-
-    reverse_ordert = []
-    for i in range(0, data_test_reverse.shape[0]):
-        reverse_ordert = np.append(reverse_ordert, (data_test_reverse.shape[0] - 1) - i)
-    data_test = data_test_reverse[reverse_ordert.astype(np.int64)]
-    print("data_test.shape: ", data_test.shape)
 
     # --- Вывод
     return X_train, y_train, X_test, y_test, data_mean, data_std
