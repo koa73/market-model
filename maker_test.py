@@ -3,14 +3,14 @@
 from keras.layers import Input, Dense, Dropout
 from keras.callbacks import ModelCheckpoint
 from keras.models import Model
-import datama_new as d
+import datama as d
 
 data = d.DataManager("USDRUB", 5, 1)
 
 X_train, y_train_c = data.get_edu_data()
 y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
 
-print(y_train)
+print(X_train)
 
 # This returns a tensor
 inputs = Input(shape=(20,))
@@ -29,9 +29,9 @@ model.compile(optimizer='adam',
 '''
 saves the model weights after each epoch if the validation loss decreased
 '''
-checkpointer = ModelCheckpoint(filepath=data.get_current_dir()+ "\models\weights.hdf5", verbose=1, save_best_only=True)
-
-model.fit(X_train, y_train, epochs=10, batch_size=5, validation_split=0.01, verbose=2, callbacks=[checkpointer])  # starts training
+#checkpointer = ModelCheckpoint(filepath=data.get_current_dir()+ "\models\weights.hdf5", verbose=1, save_best_only=True)
+#model.fit(X_train, y_train, epochs=10, batch_size=5, validation_split=0.01, verbose=2, callbacks=[checkpointer])  # starts training
+model.fit(X_train, y_train, epochs=10, batch_size=5, validation_split=0.01, verbose=2)  # starts training
 
 # Тестирование модели
 X_test, y_test = data.get_test_data()

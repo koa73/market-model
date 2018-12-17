@@ -1,5 +1,5 @@
 #!/usr/bin/env python3.6
-import datama_new as d
+import datama as d
 
 # Загрузка проверочных данных
 data = d.DataManager("USDRUB-w", 5, 1)
