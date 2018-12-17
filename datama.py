@@ -163,8 +163,10 @@ class DataManager:
         :param data:
         :return:
         """
-        data *= np.tile(self.__data_std[1:3], self.__control_size)
-        data += np.tile(self.__data_mean[1:3], self.__control_size)
+        #data *= np.tile(self.__data_std[1:3], self.__control_size)
+        #data += np.tile(self.__data_mean[1:3], self.__control_size)
+        data *= np.tile(self.__data_std[1:2], self.__control_size)
+        data += np.tile(self.__data_mean[1:2], self.__control_size)
         return data
 
     def denorm_x_array(self, data):
@@ -210,6 +212,7 @@ class DataManager:
         :return:
         """
         data_len = self.__data_len - self.__batch_size * 2
+        print('--->> ',data_len)
         return self.__get_data(0, data_len, x_array_3d)
 
     def get_test_data(self, x_array_3d=False):

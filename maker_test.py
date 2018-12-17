@@ -10,12 +10,11 @@ data = d.DataManager("USDRUB", 5, 1)
 X_train, y_train_c = data.get_edu_data()
 y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
 
-print(X_train)
-
 # This returns a tensor
 inputs = Input(shape=(20,))
 
 # a layer instance is callable on a tensor, and returns a tensor
+x = Dense(60, activation='relu')(inputs)
 x = Dense(60, activation='relu')(inputs)
 predictions = Dense(1, activation='relu', name="output")(x)
 
@@ -31,7 +30,7 @@ saves the model weights after each epoch if the validation loss decreased
 '''
 #checkpointer = ModelCheckpoint(filepath=data.get_current_dir()+ "\models\weights.hdf5", verbose=1, save_best_only=True)
 #model.fit(X_train, y_train, epochs=10, batch_size=5, validation_split=0.01, verbose=2, callbacks=[checkpointer])  # starts training
-model.fit(X_train, y_train, epochs=10, batch_size=5, validation_split=0.01, verbose=2)  # starts training
+model.fit(X_train, y_train, epochs=20, batch_size=1, validation_split=0.05, verbose=2)  # starts training
 
 # Тестирование модели
 X_test, y_test = data.get_test_data()
@@ -42,8 +41,13 @@ mse, mae = model.evaluate(X_test, y_test_shaped, verbose=0, batch_size=10)      
 print("MSE  %f" % mse)
 print("MAE  %f" % mae)
 
-predict = model.predict(X_test)    # Предсказания
+predict = data.denorm_y_array(model.predict(X_test))    # Предсказания
 
+print('--------------------------------------------------------')
+print(predict)
+print('--------------------------------------------------------')
+print(data.denorm_y(y_test_shaped))
+print('========================================================')
 #data.predict_report(y_test_shaped, predict)
 
 for i in range(len(y_test_shaped)):
