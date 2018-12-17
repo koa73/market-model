@@ -1,7 +1,7 @@
 import tensorflow as tf
 import dataman_new as d
 
-model = "last_16-12-2018_15_35"
+model = "weights_1"
 
 # Загрузка проверочных данных
 data = d.DataManager("USDRUB", 5, 1)

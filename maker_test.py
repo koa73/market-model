@@ -29,7 +29,7 @@ saves the model weights after each epoch if the validation loss decreased
 '''
 checkpointer = ModelCheckpoint(filepath=data.get_current_dir()+ "\models\weights.hdf5", verbose=1, save_best_only=True)
 
-model.fit(X_train, y_train, epochs=300, batch_size=5, validation_split=0.01, verbose=2, callbacks=[checkpointer])  # starts training
+model.fit(X_train, y_train, epochs=10, batch_size=5, validation_split=0.01, verbose=2, callbacks=[checkpointer])  # starts training
 
 # Тестирование модели
 X_test, y_test = data.get_test_data()
