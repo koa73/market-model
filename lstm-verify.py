@@ -12,7 +12,7 @@ separator = ';'
 main_ticker_data = lstmdataman.loaddata(filename, separator)
 
 filedir = "models/"
-model = "last_17-12-2018_10_30.mse.0.053883990893761315.mae0.19663288791974384"
+model = "last_17-12-2018_10_27.mse.0.03252835348248482.mae0.15014645953973135"
 
 train_vol = 0.9         # Сколько берем от объема для обучения
 train_seq = 4           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
