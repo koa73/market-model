@@ -69,29 +69,46 @@ class DataManager:
         except FileNotFoundError:
             print('Error: File "' + self.__tiker + '.csv" not found')
 
-    def __get_data(self, start, end, x_shape_3d):
-        """
-        Формирование одномерного массива для обучения и проверки обучения
-        :x_shape_3d - true -3D array, false - 2D
-        :return:
-        """
+    def __get_data(self, start, end, x_shape_3d=False):
         x_array = []
         y_array = []
 
         n_array = self.__norma(np.array(self.__full_data[start:end]))
-
         #n_array = np.array(self.__full_data[start:end])
 
         data_len = n_array.shape[0]
 
-        for i in range(self.__batch_size):
-            j = i + self.__batch_size
-            if (j <= data_len):
-                end = j - self.__control_size
+        for ii in range(0, self.__batch_size):
+            for i in range(ii, data_len-self.__batch_size+1, self.__batch_size):
+                end = i+self.__batch_size-self.__control_size
                 x_array.append(np.concatenate(n_array[i:end], axis=None))
                 # Удаление лишних данных (<OPEN> High Low <CLOSE><VAL>)
-                y_array.append(np.concatenate((np.delete(n_array[end:end+self.__control_size], np.s_[0, 3, 4], 1)),
+                y_array.append(np.concatenate((np.delete(n_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
                                               axis=None))
+
+        if (x_shape_3d):
+            #return self.__reshape_x_array(np.array(x_array)), self.__denorm_y_array(np.array(y_array))
+            return self.__reshape_x_array(np.array(x_array)), np.array(y_array)
+        else:
+            #return np.array(x_array), self.__denorm_y_array(np.array(y_array))
+            return np.array(x_array), np.array(y_array)
+
+    def __get_data_(self, start, end, x_shape_3d=False):
+        x_array = []
+        y_array = []
+
+        #n_array = self.__norma(np.array(self.__full_data[start:end]))
+        n_array = np.array(self.__full_data[start:end])
+
+        data_len = n_array.shape[0]
+
+        for i in range(0, data_len-self.__batch_size+1):
+            end = i + self.__batch_size-self.__control_size
+            x_array.append(np.concatenate(n_array[i:end], axis=None))
+            # Удаление лишних данных (<OPEN> High Low <CLOSE><VAL>)
+            y_array.append(np.concatenate((np.delete(n_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
+                                          axis=None))
+
 
         if (x_shape_3d):
             #return self.__reshape_x_array(np.array(x_array)), self.__denorm_y_array(np.array(y_array))
