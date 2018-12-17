@@ -8,6 +8,8 @@ def loaddata(filename, separator):
     main_ticker_data = pd.read_csv(filename, sep=separator)
     # Берем только нужные поля
     main_ticker_data = main_ticker_data[['<OPEN>', '<HIGH>', '<LOW>', '<CLOSE>', '<VOL>']]
+    #main_ticker_data = main_ticker_data[['<OPEN_TAR>', '<HIGH_TAR>', '<LOW_TAR>', '<CLOSE_TAR>', '<VOL_TAR>', '<OPEN_DEP1>', '<HIGH_DEP1>', '<LOW_DEP1>', '<CLOSE_DEP1>']]
+    #main_ticker_data = main_ticker_data[['<OPEN_TAR>', '<HIGH_TAR>', '<LOW_TAR>', '<CLOSE_TAR>']]
     return main_ticker_data
 
 def prepadedata(main_ticker_data, train_seq, train_vol):
@@ -57,7 +59,7 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     #exit(0)
 
     # --- Подготовка тестового набора
-    print("data_test_reverse.shape: ", data_test.shape)
+    print("data_test.shape: ", data_test.shape)
     # Количество наборов в массиве с учетом смещения при комбинаторике
     row_test = (data_test.shape[0] // (train_seq + 1)) - (train_seq + 1)
     print("row_test: ", row_test)
