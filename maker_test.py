@@ -3,12 +3,14 @@
 from keras.layers import Input, Dense, Dropout
 from keras.callbacks import ModelCheckpoint
 from keras.models import Model
-import dataman_new as d
+import datama_new as d
 
 data = d.DataManager("USDRUB", 5, 1)
 
 X_train, y_train_c = data.get_edu_data()
 y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
+
+print(y_train)
 
 # This returns a tensor
 inputs = Input(shape=(20,))
@@ -35,6 +37,7 @@ model.fit(X_train, y_train, epochs=10, batch_size=5, validation_split=0.01, verb
 X_test, y_test = data.get_test_data()
 y_test_shaped = data.reshapy_y_by_coll(y_test, 1)
 
+
 mse, mae = model.evaluate(X_test, y_test_shaped, verbose=0, batch_size=10)            # Проверка на тестовых данных, определяем величину ошибок
 print("MSE  %f" % mse)
 print("MAE  %f" % mae)
@@ -47,4 +50,4 @@ for i in range(len(y_test_shaped)):
     print(predict[i], y_test_shaped[i], "\t", predict[i][0]-y_test_shaped[i])
 
 # Сохраняем сеть
-data.save(model)
+#data.save(model)

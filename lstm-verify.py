@@ -12,7 +12,7 @@ separator = ';'
 main_ticker_data = lstmdataman.loaddata(filename, separator)
 
 filedir = "models/"
-model = "last_17-12-2018_10_30.mse.0.053883990893761315.mae0.19663288791974384"
+model = "last_17-12-2018_10_27.mse.0.03252835348248482.mae0.15014645953973135"
 
 train_vol = 0.9         # Сколько берем от объема для обучения
 train_seq = 4           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
@@ -66,14 +66,14 @@ ax1.grid()
 ax1.set(xlabel='time (Day)', ylabel='Close (RUB)', title='Cost')
 ax1.legend()
 
-line1, = ax1.plot(y_test_plot[np.arange(0, len(y_test) - 1), 0], label="Tst_HI")  #Отображаем на графике тестовые данные по колонке 0 по y_test (HIGH)
-line2, = ax1.plot(pred_test_plot[np.arange(0, len(y_test) - 1), 0], label="Prd_HI")  # Предсказания по колонке 0 оранжевым цветом
+#line1, = ax1.plot(y_test_plot[np.arange(0, len(y_test) - 1), 0], label="Tst_HI")  #Отображаем на графике тестовые данные по колонке 0 по y_test (HIGH)
+#line2, = ax1.plot(pred_test_plot[np.arange(0, len(y_test) - 1), 0], label="Prd_HI")  # Предсказания по колонке 0 оранжевым цветом
 
-line3, = ax1.plot(y_test_plot[np.arange(0, len(y_test) - 1), 1], label="Tst_Lo")  #Отображаем на графике тестовые данные по колонке 1 по y_test (LOW)
-line4, = ax1.plot(pred_test_plot[np.arange(0, len(y_test) - 1), 1], label="Prd_Lo")  # Предсказания по колонке 1 красным цветом
+#line3, = ax1.plot(y_test_plot[np.arange(0, len(y_test) - 1), 1], label="Tst_Lo")  #Отображаем на графике тестовые данные по колонке 1 по y_test (LOW)
+#line4, = ax1.plot(pred_test_plot[np.arange(0, len(y_test) - 1), 1], label="Prd_Lo")  # Предсказания по колонке 1 красным цветом
 
 line5, = ax1.plot(y_test_plot[np.arange(0, len(y_test) - 1), 2], label="Tst_Clo")  #Отображаем на графике тестовые данные по колонке 1 по y_test (Close)
-line6, = ax1.plot(pred_test_plot[np.arange(0, len(y_test) - 1), 2], label="Prd_Clo")  # Предсказания по колонке 1
+#line6, = ax1.plot(pred_test_plot[np.arange(0, len(y_test) - 1), 2], label="Prd_Clo")  # Предсказания по колонке 1
 
 ax1.legend()
 

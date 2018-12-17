@@ -84,20 +84,21 @@ class DataManager:
 
         data_len = n_array.shape[0]
 
-        for i in range(data_len - self.__batch_size + 1):
-            for j in range(i, data_len, self.__batch_size):
-                end = j + self.__batch_size
-                if end > data_len:
-                    break
-                x_array.append(np.concatenate(n_array[j:end - self.__control_size], axis=None))
+        for i in range(self.__batch_size):
+            j = i + self.__batch_size
+            if (j <= data_len):
+                end = j - self.__control_size
+                x_array.append(np.concatenate(n_array[i:end], axis=None))
                 # Удаление лишних данных (<OPEN> High Low <CLOSE><VAL>)
-                y_array.append(np.concatenate((np.delete(n_array[end - self.__control_size:end], np.s_[0, 3, 4], 1)),
+                y_array.append(np.concatenate((np.delete(n_array[end:end+self.__control_size], np.s_[0, 3, 4], 1)),
                                               axis=None))
 
         if (x_shape_3d):
-            return self.__reshape_x_array(np.array(x_array)), self.__denorm_y_array(np.array(y_array))
+            #return self.__reshape_x_array(np.array(x_array)), self.__denorm_y_array(np.array(y_array))
+            return self.__reshape_x_array(np.array(x_array)), np.array(y_array)
         else:
-            return np.array(x_array), self.__denorm_y_array(np.array(y_array))
+            #return np.array(x_array), self.__denorm_y_array(np.array(y_array))
+            return np.array(x_array), np.array(y_array)
 
     def __reshape_x_array(self, data):
         """
@@ -139,7 +140,7 @@ class DataManager:
         json_file.close()
         model.save_weights(self.__fileDir + "\models\last_" + str(ts) + ".h5")
 
-    def __denorm_y_array(self, data):
+    def denorm_y_array(self, data):
         """
         Денормализация Y массива
         :param data:
@@ -160,8 +161,25 @@ class DataManager:
         data += np.tile(self.__data_mean, factor)
         return data
 
-    def reshapy_y_by_coll(self, y_array, remove_col):
+    def reshapy_y_by_coll(self, y_array, remove_col=1):
+        """
+
+        :param y_array:
+        :param remove_col: удаляет 1 столбец из массива, по умолчанию <Low> значение
+        :return:
+        """
         return np.concatenate(np.delete(y_array, (remove_col,), axis=1), axis=None)
+
+    def denorm_y(self, data, i=0):
+        """
+
+        :param data:
+        :param i: выбирает 1 из параметров нормализации из массива
+        :return:
+        """
+        data *= np.tile(self.__data_std[1:3][i], data.shape[0])
+        data += np.tile(self.__data_mean[1:3][i], data.shape[0])
+        return data
 
     """
     ****************************************************************************************************************
@@ -177,15 +195,6 @@ class DataManager:
         data_len = self.__data_len - self.__batch_size * 2
         return self.__get_data(0, data_len, x_array_3d)
 
-    def get_validation_data(self, x_array_3d=False):
-        """
-        Возвращает данные участвовавшие в обучении для проверки модели
-        :x_array_3d: - возвращать массмв Х в виде 3D array
-        :return:
-        """
-        data_len = self.__data_len - self.__batch_size * 2
-        return self.__get_data(data_len - self.__batch_size * 2, data_len, x_array_3d)
-
     def get_test_data(self, x_array_3d=False):
         """
         Возвращает данные не участвовавшие в обучениии модели
@@ -196,11 +205,16 @@ class DataManager:
         return self.__get_data(data_len, None,  x_array_3d)
 
     def predict_report(self, y_test, predict):
+        """
+        Временная функция вывода результатов
+        :param y_test:
+        :param predict:
+        :return:
+        """
         print("----------------------------- Test -----------------------------------------------")
         for i in range(len(y_test)):
             print(predict[i], y_test[i], "\t",
                   [y_test[i][0] - predict[i][0], predict[i][1] - y_test[i][1]])
-
 
 
 
