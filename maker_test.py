@@ -5,6 +5,7 @@ from keras.callbacks import ModelCheckpoint
 from keras.models import Model
 import datama as d
 
+
 data = d.DataManager("USDRUB", 5, 1)
 
 X_train, y_train_c = data.get_edu_data()
@@ -15,7 +16,9 @@ inputs = Input(shape=(20,))
 
 # a layer instance is callable on a tensor, and returns a tensor
 x = Dense(60, activation='relu')(inputs)
-x = Dense(60, activation='relu')(inputs)
+x = Dense(60, activation='relu')(x)
+x = Dense(60, activation='relu')(x)
+x = Dense(60, activation='relu')(x)
 predictions = Dense(1, activation='relu', name="output")(x)
 
 # This creates a model that includes
@@ -30,7 +33,7 @@ saves the model weights after each epoch if the validation loss decreased
 '''
 #checkpointer = ModelCheckpoint(filepath=data.get_current_dir()+ "\models\weights.hdf5", verbose=1, save_best_only=True)
 #model.fit(X_train, y_train, epochs=10, batch_size=5, validation_split=0.01, verbose=2, callbacks=[checkpointer])  # starts training
-model.fit(X_train, y_train, epochs=20, batch_size=1, validation_split=0.05, verbose=2)  # starts training
+model.fit(X_train, y_train, epochs=12, batch_size=1, validation_split=0.1, verbose=2)  # starts training
 
 # Тестирование модели
 X_test, y_test = data.get_test_data()
