@@ -1,7 +1,7 @@
 import tensorflow as tf
 import dataman_new as d
 
-model = "last_16-12-2018_11_45"
+model = "last_16-12-2018_15_35"
 
 # Загрузка проверочных данных
 data = d.DataManager("USDRUB", 5, 1)
@@ -22,15 +22,9 @@ mse, mae = loaded_model.evaluate(X_test, y_test)            #Проверка н
 print("MSE  %f" % mse)
 print("MAE  %f" % mae)
 
-print("=====================================")
+score = loaded_model.evaluate(X_test, y_test, verbose=0, batch_size=3)
+print("Точность работы на тестовых данных : %.2f%%" % (score[1]*100))
 
 predict = loaded_model.predict(X_test)    # Предсказания
-print (predict)
-print("++++++++++++++++++++++++++++++++++++++++")
+data.predict_report(y_test, predict)
 
-y_test_denorm = y_test
-print(y_test_denorm)
-
-print("++++++++++++=======================")
-for i in range(len(y_test)):
-    print(predict[i], y_test_denorm[i], "\t", [y_test_denorm[i][0]-predict[i][0], predict[i][1]-y_test_denorm[i][1]])
