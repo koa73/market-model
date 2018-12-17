@@ -29,7 +29,7 @@ model.add(tf.keras.layers.Dense(3))
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 
 print("\n====== Train ======\n")
-model.fit(X_train, y_train, epochs=10, batch_size=10)      #Тренировка сети
+model.fit(X_train, y_train, epochs=2, batch_size=10)      #Тренировка сети
 
 print("\n====== Test ======\n")
 mse, mae = model.evaluate(X_train, y_train) #Проверка на тестовых данных, определяем величину ошибок
@@ -40,7 +40,7 @@ pred = model.predict(X_test)    # Предсказания
 #print(pred)
 
 #Денормализация
-for i in range (0, len(y_test) - 1):
+for i in range(0, len(y_test) - 1):
     last_pred = pred[i]
     last_y = y_test[i]
     last_pred *= data_std[1:4]          #Умножаем на стандартное отклонение для 0 столбца
