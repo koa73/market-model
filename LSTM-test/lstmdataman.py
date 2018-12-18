@@ -3,6 +3,7 @@ import numpy as np
 import os
 import datetime
 
+
 def loaddata(filename, separator):
     # Читаем файл
     main_ticker_data = pd.read_csv(filename, sep=separator)
@@ -11,6 +12,7 @@ def loaddata(filename, separator):
     #main_ticker_data = main_ticker_data[['<OPEN_TAR>', '<HIGH_TAR>', '<LOW_TAR>', '<CLOSE_TAR>', '<VOL_TAR>', '<OPEN_DEP1>', '<HIGH_DEP1>', '<LOW_DEP1>', '<CLOSE_DEP1>']]
     main_ticker_data = main_ticker_data[['<OPEN_TAR>', '<HIGH_TAR>', '<LOW_TAR>', '<CLOSE_TAR>']]
     return main_ticker_data
+
 
 def prepadedata(main_ticker_data, train_seq, train_vol):
     # --- Разделяем данные на учебный и проверочный наборы
@@ -43,13 +45,12 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
 
     # --- Подготовка учебного набора
     # Количество наборов в массиве с учетом смещения при комбинаторике
-    #row_train = (data_train.shape[0] // (train_seq + 1)) - (train_seq + 1) ???????????
-    row_train = data_train.shape[0] - (2 * train_seq)
+    row_train = (data_train.shape[0] // train_seq) - 1
     print("row_train: ", row_train)
-    for z in range(0, train_seq):
-        for i in range(0, row_train):
+    for z in range(0, row_train * train_seq):
+        for i in range(0, (train_seq - 1)):
             x = np.array(data_train[i + z: i + z + train_seq])
-            #y = np.array(data_train[i + z + train_seq, 1:4])
+            #y = np.array(data_train[i + z + train_seq, 1:4])  #Close, High, Low
             y = np.array(data_train[i + z + train_seq, 3])  #Close
             input_train.append(x)
             output_train.append(y)
@@ -62,15 +63,11 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     #exit(0)
 
     # --- Подготовка тестового набора
-    print("data_test.shape: ", data_test.shape)
-    # Количество наборов в массиве с учетом смещения при комбинаторике
-    #row_test = (data_test.shape[0] // (train_seq + 1)) - (train_seq + 1) ???????????
-    row_test = data_test.shape[0] - (2 * train_seq)
+    row_test = (data_test.shape[0] // train_seq) - 1
     print("row_test: ", row_test)
-    for z in range(0, train_seq):
-        for i in range(0, row_test):
+    for z in range(0, row_test * train_seq):
+        for i in range(0, (train_seq - 1)):
             xt = np.array(data_test[i + z: i + z + train_seq])
-            #yt = np.array(data_test[i + z + train_seq, 1:4])
             yt = np.array(data_test[i + z + train_seq, 3])  #Close
             input_test.append(xt)
             output_test.append(yt)
