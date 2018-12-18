@@ -2,7 +2,6 @@
 
 import dataman as d
 import tensorflow as tf
-from keras.layers import LSTM, Dense
 
 data = d.DataManager("USDRUB", 5, 1)
 

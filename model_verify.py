@@ -1,5 +1,5 @@
 import tensorflow as tf
-import dataman_new as d
+import datama as d
 
 model = "weights_1"
 

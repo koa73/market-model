@@ -1,13 +1,17 @@
 #!/usr/bin/env python3.6
-import dataman_new as d
-
+import datama_test as d
 
 # Загрузка проверочных данных
-data = d.DataManager("USDRUB-v", 5, 3)
-x_train, y_train = data.get_edu_data()
+data = d.DataManager("test", 5, 1)
+X_test, y_test = data.get_data_(0, 11)
 
-print(y_train)
-print("==========================================")
-print(x_train)
-print('*********************************************')
-print(data.denorm_x_array(x_train))
+print(X_test)
+print('----------------------')
+print(y_test)
+print('==================================================')
+
+X_test, y_test = data.get_data(0, 11)
+
+print(X_test)
+print('----------------------')
+print(y_test)
