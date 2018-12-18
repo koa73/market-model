@@ -7,9 +7,9 @@ def loaddata(filename, separator):
     # Читаем файл
     main_ticker_data = pd.read_csv(filename, sep=separator)
     # Берем только нужные поля
-    main_ticker_data = main_ticker_data[['<OPEN>', '<HIGH>', '<LOW>', '<CLOSE>', '<VOL>']]
+    #main_ticker_data = main_ticker_data[['<OPEN>', '<HIGH>', '<LOW>', '<CLOSE>', '<VOL>']]
     #main_ticker_data = main_ticker_data[['<OPEN_TAR>', '<HIGH_TAR>', '<LOW_TAR>', '<CLOSE_TAR>', '<VOL_TAR>', '<OPEN_DEP1>', '<HIGH_DEP1>', '<LOW_DEP1>', '<CLOSE_DEP1>']]
-    #main_ticker_data = main_ticker_data[['<OPEN_TAR>', '<HIGH_TAR>', '<LOW_TAR>', '<CLOSE_TAR>']]
+    main_ticker_data = main_ticker_data[['<OPEN_TAR>', '<HIGH_TAR>', '<LOW_TAR>', '<CLOSE_TAR>']]
     return main_ticker_data
 
 def prepadedata(main_ticker_data, train_seq, train_vol):
@@ -21,7 +21,6 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
 
     # Получаем размерность массива
     data_row = main_ticker_data.shape[0]
-    data_column = main_ticker_data.shape[1]
     # Переводим в формат np.array
     main_ticker_data = main_ticker_data.values
 
@@ -38,16 +37,20 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     test_end = data_row
     data_train = main_ticker_data[np.arange(train_start, train_end), :]
     data_test = main_ticker_data[np.arange(test_start, test_end), :]
+    #
+    print("data_train.shape: ", data_train.shape)
+    print("data_test.shape: ", data_test.shape)
 
     # --- Подготовка учебного набора
-    print("data_train_reverse.shape: ", data_train.shape)
     # Количество наборов в массиве с учетом смещения при комбинаторике
-    row_train = (data_train.shape[0] // (train_seq + 1)) - (train_seq + 1)
+    #row_train = (data_train.shape[0] // (train_seq + 1)) - (train_seq + 1) ???????????
+    row_train = data_train.shape[0] - (2 * train_seq)
     print("row_train: ", row_train)
     for z in range(0, train_seq):
         for i in range(0, row_train):
             x = np.array(data_train[i + z: i + z + train_seq])
-            y = np.array(data_train[i + z + train_seq, 1:4])
+            #y = np.array(data_train[i + z + train_seq, 1:4])
+            y = np.array(data_train[i + z + train_seq, 3])  #Close
             input_train.append(x)
             output_train.append(y)
     X_train = np.array(input_train)
@@ -61,12 +64,14 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     # --- Подготовка тестового набора
     print("data_test.shape: ", data_test.shape)
     # Количество наборов в массиве с учетом смещения при комбинаторике
-    row_test = (data_test.shape[0] // (train_seq + 1)) - (train_seq + 1)
+    #row_test = (data_test.shape[0] // (train_seq + 1)) - (train_seq + 1) ???????????
+    row_test = data_test.shape[0] - (2 * train_seq)
     print("row_test: ", row_test)
     for z in range(0, train_seq):
         for i in range(0, row_test):
             xt = np.array(data_test[i + z: i + z + train_seq])
-            yt = np.array(data_test[i + z + train_seq, 1:4])
+            #yt = np.array(data_test[i + z + train_seq, 1:4])
+            yt = np.array(data_test[i + z + train_seq, 3])  #Close
             input_test.append(xt)
             output_test.append(yt)
     X_test = np.array(input_test)
@@ -122,7 +127,7 @@ def save(model, mse, mae, data_mean, data_std):
     :param model:
     :return: Null
     """
-    filedir = "models"
+    filedir = "../models"
     now = datetime.datetime.now()
     ts = now.strftime("%d-%m-%Y_%H_%M")
     json_file = open(filedir + "/last_" + str(ts) + ".mse." + str(mse) + ".mae" + str(mae) + ".json", "w")
