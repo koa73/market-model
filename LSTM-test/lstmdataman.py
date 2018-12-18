@@ -1,16 +1,29 @@
 import pandas as pd
 import numpy as np
+import pandas_datareader.data as pdr
 import os
 import datetime
 
 
-def loaddata(filename, separator):
+def loadfile(ticker, market_identifier, start_date, end_date, separator=","):
+    print("Load data from MOEX\n")
+    raw_data = pdr.DataReader(ticker, 'moex', start_date, end_date)
+    # Выбираем нужный индекс (Идентификатор режима торгов)
+    select_indices = list(np.where(raw_data['BOARDID'] == market_identifier)[0])
+    raw_data = raw_data.iloc[select_indices]
+    raw_data = raw_data[['OPEN', 'LOW', 'HIGH', 'CLOSE', 'VALUE', 'VOLUME']]
+    # Сохраняем файл
+    raw_data.to_csv(ticker + '.csv')
+    print("Load data complete\n")
+
+
+def loaddata(ticker, separator):
     # Читаем файл
-    main_ticker_data = pd.read_csv(filename, sep=separator)
+    main_ticker_data = pd.read_csv(ticker + '.csv', sep=separator)
     # Берем только нужные поля
     #main_ticker_data = main_ticker_data[['<OPEN>', '<HIGH>', '<LOW>', '<CLOSE>', '<VOL>']]
     #main_ticker_data = main_ticker_data[['<OPEN_TAR>', '<HIGH_TAR>', '<LOW_TAR>', '<CLOSE_TAR>', '<VOL_TAR>', '<OPEN_DEP1>', '<HIGH_DEP1>', '<LOW_DEP1>', '<CLOSE_DEP1>']]
-    main_ticker_data = main_ticker_data[['<OPEN_TAR>', '<HIGH_TAR>', '<LOW_TAR>', '<CLOSE_TAR>']]
+    main_ticker_data = main_ticker_data[['OPEN', 'LOW', 'HIGH', 'CLOSE', 'VALUE', 'VOLUME']]
     return main_ticker_data
 
 

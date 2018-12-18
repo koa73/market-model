@@ -6,15 +6,23 @@ import lstmdataman
 import matplotlib.pyplot as plt
 
 #filename = '../data/USDRUB.csv'
-filename = "../data/COMMON_SBER-USDCB_100101_181207.csv"
+#filename = "../data/COMMON_SBER-USDCB_100101_181207.csv"
 #separator = ';'
+
+ticker = 'SBER'
+market_identifier = 'TQBR'
+start_date = '2010-01-01'
+end_date = '2018-12-03'
 separator = ','
-main_ticker_data = lstmdataman.loaddata(filename, separator)
+
+
+#lstmdataman.loadfile(ticker, market_identifier, start_date, end_date)
+main_ticker_data = lstmdataman.loaddata(ticker, separator)
 
 train_vol = 0.9         # Сколько берем от объема для обучения
 train_seq = 2           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
 batch_size = 1
-epochs = 1
+epochs = 5
 
 X_train, y_train, X_test, y_test, data_mean, data_std = lstmdataman.prepadedata(main_ticker_data, train_seq, train_vol)
 
@@ -41,7 +49,7 @@ model.add(tf.keras.layers.LSTM(64, activation='relu', dropout=0.2))
 model.add(tf.keras.layers.Dense(1))
 
 
-model.compile(loss='mse', optimizer='adam', metrics=['mae'])
+model.compile(loss='mse', optimizer='RMSprop', metrics=['mae'])
 
 print("\n====== Train ======\n")
 model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size)      #Тренировка сети
