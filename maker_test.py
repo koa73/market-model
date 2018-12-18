@@ -3,10 +3,11 @@
 from keras.layers import Input, Dense, Dropout
 from keras.callbacks import ModelCheckpoint
 from keras.models import Model
-import datama as d
+import datama as D
+import keras.backend as K
 
 
-data = d.DataManager("USDRUB", 5, 1)
+data = D.DataManager("USDRUB_TOD", 5, 1)
 
 X_train, y_train_c = data.get_edu_data()
 y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
@@ -18,7 +19,7 @@ inputs = Input(shape=(20,))
 x = Dense(60, activation='relu')(inputs)
 x = Dense(60, activation='relu')(x)
 x = Dense(60, activation='relu')(x)
-x = Dense(60, activation='relu')(x)
+#x = Dense(60, activation='relu')(x)
 predictions = Dense(1, activation='relu', name="output")(x)
 
 # This creates a model that includes
@@ -33,14 +34,14 @@ saves the model weights after each epoch if the validation loss decreased
 '''
 #checkpointer = ModelCheckpoint(filepath=data.get_current_dir()+ "\models\weights.hdf5", verbose=1, save_best_only=True)
 #model.fit(X_train, y_train, epochs=10, batch_size=5, validation_split=0.01, verbose=2, callbacks=[checkpointer])  # starts training
-model.fit(X_train, y_train, epochs=12, batch_size=1, validation_split=0.1, verbose=2)  # starts training
+model.fit(X_train, y_train, epochs=15, batch_size=1, validation_split=0.2, verbose=2)  # starts training
 
 # Тестирование модели
 X_test, y_test = data.get_test_data()
 y_test_shaped = data.reshapy_y_by_coll(y_test, 1)
 
 
-mse, mae = model.evaluate(X_test, y_test_shaped, verbose=0, batch_size=10)            # Проверка на тестовых данных, определяем величину ошибок
+mse, mae = model.evaluate(X_test, y_test_shaped, verbose=0)            # Проверка на тестовых данных, определяем величину ошибок
 print("MSE  %f" % mse)
 print("MAE  %f" % mae)
 
@@ -57,4 +58,4 @@ for i in range(len(y_test_shaped)):
     print(predict[i], y_test_shaped[i], "\t", predict[i][0]-y_test_shaped[i])
 
 # Сохраняем сеть
-#data.save(model)
+data.save(model)

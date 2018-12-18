@@ -42,11 +42,6 @@ class DataManager:
         if not isinstance(val, float):
             return float(val)
 
-    @staticmethod
-    def __rebuild_date(str):
-        m = re.findall("(\d{4})(\d{2})(\d{2})", str)[0]
-        return m[2]+'.'+m[1]+'.'+m[0]
-
     def __read_data(self):
         # Формирует массив данных из файла CSV, производит нормализацию
         try:
@@ -57,7 +52,7 @@ class DataManager:
 
                 for row in rows:
 
-                    self.__date_array.append(self.__rebuild_date(row[2]))
+                    self.__date_array.append(row[2])
                     new_row = []
 
                     for elem in row[4:9]:
@@ -200,6 +195,9 @@ class DataManager:
         data += np.tile(self.__data_mean[1:3][i], data.shape[0])
         return data
 
+    def __get_date_range(self):
+        return np.array(self.__date_array[1-self.__batch_size:])
+
     """
     ****************************************************************************************************************
 
@@ -224,7 +222,15 @@ class DataManager:
         data_len = self.__data_len - self.__batch_size * 2
         return self.__get_data(data_len, None,  x_array_3d)
 
-    def predict_report(self, y_test, predict):
+    def get_predict_data(self):
+        """
+
+        :return: X_predict  - массив для предсказания
+        """
+        return np.expand_dims(np.concatenate(self.__norma(np.array(self.__full_data[1-self.__batch_size:])), axis=None),
+                              axis=0)
+
+    def test_report(self, y_test, predict):
         """
         Временная функция вывода результатов
         :param y_test:
@@ -236,5 +242,11 @@ class DataManager:
             print(predict[i], y_test[i], "\t",
                   [y_test[i][0] - predict[i][0], predict[i][1] - y_test[i][1]])
 
+    def predict_report(self, predict):
+        X_array = np.array(self.__full_data[1-self.__batch_size:])
+        date_array = self.__get_date_range()
 
+        for i in range(len(X_array)):
+            print(date_array[i], X_array[i][1])
 
+        print('> HIGH next day : %f' % predict)
