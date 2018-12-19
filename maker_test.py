@@ -7,7 +7,7 @@ import datama as D
 import keras.backend as K
 
 
-data = D.DataManager("USDRUB_TOD", 5, 1)
+data = D.DataManager("USDRUB_TOM", 5, 1)
 
 X_train, y_train_c = data.get_edu_data()
 y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
@@ -16,9 +16,9 @@ y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
 inputs = Input(shape=(20,))
 
 # a layer instance is callable on a tensor, and returns a tensor
-x = Dense(20, activation='relu')(inputs)
-x = Dense(40, activation='relu')(x)
-x = Dense(20, activation='relu')(x)
+x = Dense(300, activation='relu')(inputs)
+x = Dense(300, activation='relu')(x)
+x = Dense(300, activation='relu')(x)
 predictions = Dense(1, name="output")(x)
 
 # This creates a model that includes
