@@ -18,7 +18,7 @@ model.compile(loss='mse', optimizer='adam', metrics=['mae'])                 # �
 # Тестирование модели
 X_test= data.get_predict_data()
 
-predict = data.denorm_y_array(model.predict(X_test))
+predict = model.predict(X_test)
 data.predict_report(predict)                                            # Предсказания
 
 

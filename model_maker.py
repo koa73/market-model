@@ -4,22 +4,21 @@ from keras.layers import Input, Dense, Dropout
 from keras.callbacks import ModelCheckpoint
 from keras.models import Model
 import datama as D
-import keras.backend as K
-
 
 data = D.DataManager("USDRUB_TOM", 5, 1)
 
 X_train, y_train_c = data.get_edu_data()
 y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
 
+
 # This returns a tensor
 inputs = Input(shape=(20,))
 
 # a layer instance is callable on a tensor, and returns a tensor
-x = Dense(60, activation='relu')(inputs)
-x = Dense(60, activation='relu')(x)
-x = Dense(60, activation='relu')(x)
-x = Dense(60, activation='relu')(x)
+x = Dense(196, activation='relu')(inputs)
+x = Dense(196, activation='relu')(x)
+x = Dense(196, activation='relu')(x)
+x = Dense(196, activation='relu')(x)
 predictions = Dense(1, name="output")(x)
 
 # This creates a model that includes
