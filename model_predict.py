@@ -12,7 +12,7 @@ model_json = json_file.read()
 json_file.close()
 
 model = tf.keras.models.model_from_json(model_json)                   # Создаем модель
-model.load_weights(data.get_current_dir()+"/models/"+model_name+".h5")            # Загружаем веса
+model.load_weights(data.get_current_dir()+"/models/"+model_name+".hdf5")            # Загружаем веса
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])                 # Компилируем
 
 # Тестирование модели

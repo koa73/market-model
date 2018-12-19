@@ -16,8 +16,9 @@ y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
 inputs = Input(shape=(20,))
 
 # a layer instance is callable on a tensor, and returns a tensor
-x = Dense(100, activation='relu')(inputs)
-x = Dense(100, activation='relu')(x)
+x = Dense(60, activation='relu')(inputs)
+x = Dense(60, activation='relu')(x)
+x = Dense(60, activation='relu')(x)
 predictions = Dense(1, activation='relu', name="output")(x)
 
 # This creates a model that includes

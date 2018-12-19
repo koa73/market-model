@@ -150,7 +150,7 @@ class DataManager:
         json_file = open(self.__fileDir + "\models\last_" + str(ts) + ".json", "w")
         json_file.write(model.to_json())
         json_file.close()
-        model.save_weights(self.__fileDir + "\models\last_" + str(ts) + ".h5")
+        model.save_weights(self.__fileDir + "\models\last_" + str(ts) + ".hdf5")
 
     def denorm_y_array(self, data):
         """
