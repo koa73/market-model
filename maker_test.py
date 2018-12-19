@@ -16,9 +16,9 @@ y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
 inputs = Input(shape=(20,))
 
 # a layer instance is callable on a tensor, and returns a tensor
-x = Dense(300, activation='relu')(inputs)
-x = Dense(300, activation='relu')(x)
-x = Dense(300, activation='relu')(x)
+x = Dense(820, activation='relu')(inputs)
+x = Dense(820, activation='relu')(x)
+x = Dense(820, activation='relu')(x)
 predictions = Dense(1, name="output")(x)
 
 # This creates a model that includes
@@ -32,7 +32,7 @@ model.compile(optimizer='adam',
 saves the model weights after each epoch if the validation loss decreased
 '''
 checkpointer = ModelCheckpoint(filepath=data.get_current_dir()+ "\models\weights.h5", verbose=1, save_best_only=True)
-model.fit(X_train, y_train, epochs=50, batch_size=1, validation_split=0.2, verbose=2, callbacks=[checkpointer])  # starts training
+model.fit(X_train, y_train, epochs=100, batch_size=1, validation_split=0.15, verbose=2, callbacks=[checkpointer])  # starts training
 #model.fit(X_train, y_train, epochs=85, batch_size=3, validation_split=0.2, verbose=2)  # starts training
 
 # Тестирование модели
