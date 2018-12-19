@@ -1,7 +1,7 @@
 import tensorflow as tf
 import datama as d
 
-model_name = "test"
+model_name = "weights"
 
 # Загрузка проверочных данных
 data = d.DataManager("USDRUB", 5, 1)
@@ -13,7 +13,6 @@ json_file.close()
 
 model = tf.keras.models.model_from_json(model_json)                   # Создаем модель
 model.load_weights(data.get_current_dir()+"/models/"+model_name+".h5")            # Загружаем веса
-data.save_conf(model)                                                        # Запись конфигурации скти для прерывания расчета
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])                 # Компилируем
 
 # Тестирование модели

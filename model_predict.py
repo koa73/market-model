@@ -1,7 +1,7 @@
 import tensorflow as tf
 import datama as d
 
-model_name = "test"
+model_name = "weights"
 
 # Загрузка проверочных данных
 data = d.DataManager("USDRUB", 5, 1)
