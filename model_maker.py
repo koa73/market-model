@@ -7,22 +7,20 @@ import datama as D
 import keras.backend as K
 
 
-data = D.DataManager("USDRUB_TOD", 5, 1)
+data = D.DataManager("USDRUB_TOM", 5, 1)
 
 X_train, y_train_c = data.get_edu_data()
 y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
-
-
-def max_error(y_true, y_pred):
-    return K.abs(y_pred - y_true)
 
 # This returns a tensor
 inputs = Input(shape=(20,))
 
 # a layer instance is callable on a tensor, and returns a tensor
-x = Dense(260, activation='relu')(inputs)
-x = Dense(260, activation='relu')(x)
-predictions = Dense(1,  name="output")(x)
+x = Dense(60, activation='relu')(inputs)
+x = Dense(60, activation='relu')(x)
+x = Dense(60, activation='relu')(x)
+x = Dense(60, activation='relu')(x)
+predictions = Dense(1, name="output")(x)
 
 # This creates a model that includes
 # the Input layer and three Dense layers
@@ -31,12 +29,13 @@ model.compile(optimizer='adam',
               loss='mse',
               metrics=['mae'])
 
+data.save_conf(model)                                                  # Запись конфигурации скти для прерывания расчета
 '''
 saves the model weights after each epoch if the validation loss decreased
 '''
-#checkpointer = ModelCheckpoint(filepath=data.get_current_dir()+ "\models\weights.hdf5", verbose=1, save_best_only=True)
-#model.fit(X_train, y_train, epochs=10, batch_size=5, validation_split=0.01, verbose=2, callbacks=[checkpointer])  # starts training
-model.fit(X_train, y_train, epochs=17, batch_size=1, validation_split=0.2, verbose=2)  # starts training
+checkpointer = ModelCheckpoint(filepath=data.get_current_dir()+ "\models\weights.h5", verbose=1, save_best_only=True)
+model.fit(X_train, y_train, epochs=120, batch_size=1, validation_split=0.15, verbose=2, callbacks=[checkpointer])  # starts training
+#model.fit(X_train, y_train, epochs=85, batch_size=3, validation_split=0.2, verbose=2)  # starts training
 
 # Тестирование модели
 X_test, y_test = data.get_test_data()
@@ -46,7 +45,6 @@ y_test_shaped = data.reshapy_y_by_coll(y_test, 1)
 mse, mae = model.evaluate(X_test, y_test_shaped, verbose=0)            # Проверка на тестовых данных, определяем величину ошибок
 print("MSE  %f" % mse)
 print("MAE  %f" % mae)
-
 
 predict = data.denorm_y_array(model.predict(X_test))    # Предсказания
 
