@@ -69,7 +69,7 @@ class DataManager:
         y_array = []
 
         n_array = self.__norma(np.array(self.__full_data[start:end]))
-        #n_array = np.array(self.__full_data[start:end])
+        dn_array = np.array(self.__full_data[start:end])
 
         data_len = n_array.shape[0]
 
@@ -78,7 +78,7 @@ class DataManager:
                 end = i+self.__batch_size-self.__control_size
                 x_array.append(np.concatenate(n_array[i:end], axis=None))
                 # Удаление лишних данных (<OPEN> High Low <CLOSE><VAL>)
-                y_array.append(np.concatenate((np.delete(n_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
+                y_array.append(np.concatenate((np.delete(dn_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
                                               axis=None))
 
         if (x_shape_3d):
@@ -106,10 +106,8 @@ class DataManager:
 
 
         if (x_shape_3d):
-            #return self.__reshape_x_array(np.array(x_array)), self.__denorm_y_array(np.array(y_array))
             return self.__reshape_x_array(np.array(x_array)), np.array(y_array)
         else:
-            #return np.array(x_array), self.__denorm_y_array(np.array(y_array))
             return np.array(x_array), np.array(y_array)
 
     def __reshape_x_array(self, data):
@@ -125,7 +123,7 @@ class DataManager:
         :param data: Массив данных
         :return: Нормализованный массив data_return, среднее по столбцу data_mean, стандартное отклонение по столбцу data_std
         """
-        data_return = data.astype(np.float64)  # Приведение типов
+        data_return = data.astype(np.float32)  # Приведение типов
         data_return -= self.__data_mean  # Вычитаем среднее
         data_return /= self.__data_std  # Делим на отклонение
         return data_return
@@ -221,7 +219,7 @@ class DataManager:
         """
         data_len = self.__data_len - self.__batch_size * 2
         print('--->> ',data_len)
-        return self.__get_data(0, data_len, x_array_3d)
+        return self.__get_data_(0, data_len, x_array_3d)
 
     def get_test_data(self, x_array_3d=False):
         """
@@ -230,7 +228,7 @@ class DataManager:
         :return:
         """
         data_len = self.__data_len - self.__batch_size * 2
-        return self.__get_data(data_len, None,  x_array_3d)
+        return self.__get_data_(data_len, None,  x_array_3d)
 
     def get_predict_data(self):
         """
