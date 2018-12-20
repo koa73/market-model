@@ -121,8 +121,7 @@ class DataManager:
         :param data: Массив данных
         :return: Нормализованный массив data_return, среднее по столбцу data_mean, стандартное отклонение по столбцу data_std
         """
-        data_return = data
-            #.astype(np.float32)  # Приведение типов
+        data_return = data.astype(np.float32)  # Приведение типов
         data_return -= self.__data_mean  # Вычитаем среднее
         data_return /= self.__data_std  # Делим на отклонение
         return data_return
