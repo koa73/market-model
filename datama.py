@@ -2,7 +2,6 @@ import csv
 import os
 import numpy as np
 import datetime
-import re
 
 
 class DataManager:
@@ -217,7 +216,7 @@ class DataManager:
         """
         data_len = self.__data_len - self.__batch_size * 2
         print('--->> ',data_len)
-        return self.__get_data_(0, data_len, x_array_3d)
+        return self.__get_data(0, data_len, x_array_3d)
 
     def get_graph_data(self, x_array_3d=False):
         """
@@ -225,7 +224,7 @@ class DataManager:
         :x_array_3d: - возвращать массмв Х в виде 3D array
         :return:
         """
-        return self.__get_data_(0, None, x_array_3d)
+        return self.__get_data_(1700, None, x_array_3d)
 
     def get_test_data(self, x_array_3d=False):
         """
