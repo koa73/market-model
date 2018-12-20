@@ -23,7 +23,8 @@ def loaddata(ticker, separator):
     # Берем только нужные поля
     #main_ticker_data = main_ticker_data[['<OPEN>', '<HIGH>', '<LOW>', '<CLOSE>', '<VOL>']]
     #main_ticker_data = main_ticker_data[['<OPEN_TAR>', '<HIGH_TAR>', '<LOW_TAR>', '<CLOSE_TAR>', '<VOL_TAR>', '<OPEN_DEP1>', '<HIGH_DEP1>', '<LOW_DEP1>', '<CLOSE_DEP1>']]
-    main_ticker_data = main_ticker_data[['OPEN', 'LOW', 'HIGH', 'CLOSE', 'VALUE', 'VOLUME']]
+    #main_ticker_data = main_ticker_data[['OPEN', 'LOW', 'HIGH', 'CLOSE', 'VALUE', 'VOLUME']]
+    main_ticker_data = main_ticker_data[['OPEN', 'LOW', 'HIGH', 'CLOSE']]
     return main_ticker_data
 
 
@@ -75,15 +76,15 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     # exit(0)
 
     # --- Подготовка тестового набора
-    #for i in range(0, train_seq):
-    z = 1
-    while z < (data_test.shape[0] - (2 * train_seq)):
-        xt = np.array(data_test[i + z: i + z + train_seq])
-        # y = np.array(data_test[i + z + train_seq, 1:4])  #Close, High, Low
-        yt = np.array(data_test[i + z + train_seq, 3])  # Close
-        z = z + train_seq
-        input_test.append(xt)
-        output_test.append(yt)
+    for i in range(0, train_seq):
+        z = 1
+        while z < (data_test.shape[0] - (2 * train_seq)):
+            xt = np.array(data_test[i + z: i + z + train_seq])
+            # y = np.array(data_test[i + z + train_seq, 1:4])  #Close, High, Low
+            yt = np.array(data_test[i + z + train_seq, 3])  # Close
+            z = z + train_seq
+            input_test.append(xt)
+            output_test.append(yt)
     X_test = np.array(input_test)
     y_test = np.array(output_test)
     print("============")
