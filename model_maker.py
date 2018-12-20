@@ -18,8 +18,7 @@ inputs = Input(shape=(20,))
 x1 = Dense(394, activation='relu')(inputs)
 x2 = Dense(394, activation='relu')(x1)
 x3 = Dense(394, activation='relu')(x2)
-x4 = Dense(394, activation='relu')(x3)
-predictions = Dense(1, name="output")(x4)
+predictions = Dense(1, name="output")(x3)
 
 # This creates a model that includes
 # the Input layer and three Dense layers
@@ -58,4 +57,4 @@ for i in range(len(y_test_shaped)):
     print(predict[i], y_test_shaped[i], "\t", predict[i][0]-y_test_shaped[i])
 
 # Сохраняем сеть
-data.save(model)
+#data.save(model)
