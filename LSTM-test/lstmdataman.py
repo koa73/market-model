@@ -57,14 +57,13 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     print("data_test.shape: ", data_test.shape)
 
     # --- Подготовка учебного набора
-    # Количество наборов в массиве с учетом смещения при комбинаторике
-    row_train = (data_train.shape[0] // train_seq) - 1
-    print("row_train: ", row_train)
-    for z in range(0, row_train * train_seq):
-        for i in range(0, (train_seq - 1)):
+    for i in range(0, train_seq):
+        z = 1
+        while z < (data_train.shape[0] - (2 * train_seq)):
             x = np.array(data_train[i + z: i + z + train_seq])
-            #y = np.array(data_train[i + z + train_seq, 1:4])  #Close, High, Low
-            y = np.array(data_train[i + z + train_seq, 3])  #Close
+            # y = np.array(data_train[i + z + train_seq, 1:4])  #Close, High, Low
+            y = np.array(data_train[i + z + train_seq, 3])  # Close
+            z = z + train_seq
             input_train.append(x)
             output_train.append(y)
     X_train = np.array(input_train)
@@ -73,17 +72,18 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     print("X_train.shape:", X_train.shape)
     print("y_train.shape:", y_train.shape)
     print("============")
-    #exit(0)
+    # exit(0)
 
     # --- Подготовка тестового набора
-    row_test = (data_test.shape[0] // train_seq) - 1
-    print("row_test: ", row_test)
-    for z in range(0, row_test * train_seq):
-        for i in range(0, (train_seq - 1)):
-            xt = np.array(data_test[i + z: i + z + train_seq])
-            yt = np.array(data_test[i + z + train_seq, 3])  #Close
-            input_test.append(xt)
-            output_test.append(yt)
+    #for i in range(0, train_seq):
+    z = 1
+    while z < (data_test.shape[0] - (2 * train_seq)):
+        xt = np.array(data_test[i + z: i + z + train_seq])
+        # y = np.array(data_test[i + z + train_seq, 1:4])  #Close, High, Low
+        yt = np.array(data_test[i + z + train_seq, 3])  # Close
+        z = z + train_seq
+        input_test.append(xt)
+        output_test.append(yt)
     X_test = np.array(input_test)
     y_test = np.array(output_test)
     print("============")
