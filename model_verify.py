@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 model_name = "weights"
 
 # Загрузка проверочных данных
-data = d.DataManager("USDRUB", 5, 1)
+data = d.DataManager("USDRUB", 4, 1)
 
 # Загружаем сеть
 json_file = open(data.get_current_dir()+"/models/"+model_name+".json", "r")

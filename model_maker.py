@@ -1,26 +1,25 @@
 #!/usr/bin/env python3.5
 
-from keras.layers import Input, Dense, Dropout, Concatenate
+from keras.layers import Input, Dense
 from keras.callbacks import ModelCheckpoint
 from keras.models import Model
-from keras import regularizers
 import datama as D
 
-data = D.DataManager("USDRUB_TOM", 5, 1)
+data = D.DataManager("USDRUB_TOM", 4, 1)
 
 X_train, y_train_c = data.get_edu_data()
 y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
 
 
 # This returns a tensor
-inputs = Input(shape=(20,))
+inputs = Input(shape=(15,))
 
 # a layer instance is callable on a tensor, and returns a tensor
-x = Dense(394, activation='relu')(inputs)
-x = Dense(394, activation='relu')(x)
-x = Dense(394, activation='relu')(x)
-x = Dense(394, activation='relu')(x)
-predictions = Dense(1, name="output")(x)
+x1 = Dense(394, activation='relu')(inputs)
+x2 = Dense(394, activation='relu')(x1)
+x3 = Dense(394, activation='relu')(x2)
+x4 = Dense(394, activation='relu')(x3)
+predictions = Dense(1, name="output")(x4)
 
 # This creates a model that includes
 # the Input layer and three Dense layers
