@@ -5,7 +5,7 @@ from keras.callbacks import ModelCheckpoint
 from keras.models import Model
 import datama as D
 
-data = D.DataManager("USDRUB_TOM", 5, 1)
+data = D.DataManager("USDRUB_TOM",4, 1)
 
 X_train, y_train_c = data.get_edu_data()
 y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
@@ -15,10 +15,10 @@ y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
 inputs = Input(shape=(20,))
 
 # a layer instance is callable on a tensor, and returns a tensor
-x = Dense(796, activation='relu')(inputs)
-x = Dense(796, activation='relu')(x)
-x = Dense(796, activation='relu')(x)
-predictions = Dense(1, name="output")(x)
+x1 = Dense(396, activation='relu')(inputs)
+x2 = Dense(396, activation='relu')(x1)
+x3 = Dense(396, activation='relu')(x2)
+predictions = Dense(1, name="output")(x3)
 
 # This creates a model that includes
 # the Input layer and three Dense layers
