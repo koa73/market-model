@@ -69,7 +69,7 @@ class DataManager:
         y_array = []
 
         n_array = self.__norma(np.array(self.__full_data[start:end]))
-        #n_array = np.array(self.__full_data[start:end])
+        dn_array = np.array(self.__full_data[start:end])
 
         data_len = n_array.shape[0]
 
@@ -78,22 +78,20 @@ class DataManager:
                 end = i+self.__batch_size-self.__control_size
                 x_array.append(np.concatenate(n_array[i:end], axis=None))
                 # Удаление лишних данных (<OPEN> High Low <CLOSE><VAL>)
-                y_array.append(np.concatenate((np.delete(n_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
+                y_array.append(np.concatenate((np.delete(dn_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
                                               axis=None))
 
         if (x_shape_3d):
-            #return self.__reshape_x_array(np.array(x_array)), self.__denorm_y_array(np.array(y_array))
             return self.__reshape_x_array(np.array(x_array)), np.array(y_array)
         else:
-            #return np.array(x_array), self.__denorm_y_array(np.array(y_array))
             return np.array(x_array), np.array(y_array)
 
     def __get_data_(self, start, end, x_shape_3d=False):
         x_array = []
         y_array = []
 
-        #n_array = self.__norma(np.array(self.__full_data[start:end]))
-        n_array = np.array(self.__full_data[start:end])
+        n_array = self.__norma(np.array(self.__full_data[start:end]))
+        dn_array = np.array(self.__full_data[start:end])
 
         data_len = n_array.shape[0]
 
@@ -101,15 +99,13 @@ class DataManager:
             end = i + self.__batch_size-self.__control_size
             x_array.append(np.concatenate(n_array[i:end], axis=None))
             # Удаление лишних данных (<OPEN> High Low <CLOSE><VAL>)
-            y_array.append(np.concatenate((np.delete(n_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
+            y_array.append(np.concatenate((np.delete(dn_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
                                           axis=None))
 
 
         if (x_shape_3d):
-            #return self.__reshape_x_array(np.array(x_array)), self.__denorm_y_array(np.array(y_array))
             return self.__reshape_x_array(np.array(x_array)), np.array(y_array)
         else:
-            #return np.array(x_array), self.__denorm_y_array(np.array(y_array))
             return np.array(x_array), np.array(y_array)
 
     def __reshape_x_array(self, data):
@@ -125,7 +121,8 @@ class DataManager:
         :param data: Массив данных
         :return: Нормализованный массив data_return, среднее по столбцу data_mean, стандартное отклонение по столбцу data_std
         """
-        data_return = data.astype(np.float64)  # Приведение типов
+        data_return = data
+            #.astype(np.float32)  # Приведение типов
         data_return -= self.__data_mean  # Вычитаем среднее
         data_return /= self.__data_std  # Делим на отклонение
         return data_return
@@ -151,6 +148,16 @@ class DataManager:
         json_file.write(model.to_json())
         json_file.close()
         model.save_weights(self.__fileDir + "\models\last_" + str(ts) + ".hdf5")
+
+    def save_conf(self, model):
+        """
+        :param model:
+        :return: Null
+        """
+        json_file = open(self.__fileDir + "\models\weights.json", "w")
+        json_file.write(model.to_json())
+        json_file.close()
+
 
     def denorm_y_array(self, data):
         """
