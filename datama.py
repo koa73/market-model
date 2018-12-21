@@ -189,6 +189,15 @@ class DataManager:
         """
         return np.concatenate(np.delete(y_array, (remove_col,), axis=1), axis=None)
 
+    def reshapy_y_by_coll_(self, y_array):
+        """
+
+        :param y_array:
+        :param remove_col: удаляет 1 столбец из массива, по умолчанию <Low> значение
+        :return:
+        """
+        return np.concatenate(np.delete(y_array, (0, 1), axis=1), axis=None)
+
     def denorm_y(self, data, i=0):
         """
 

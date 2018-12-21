@@ -7,6 +7,6 @@ X_test, y_test = data.get_edu_data()
 X_v, y_v = data.get_test_data()
 
 
-print(y_v)
+print(data.reshapy_y_by_coll_(y_v))
 print('==================================================')
 print(X_test[-1:])
