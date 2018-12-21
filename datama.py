@@ -68,7 +68,7 @@ class DataManager:
         y_array = []
 
         n_array = self.__norma(np.array(self.__full_data[start:end]))
-        dn_array = np.array(self.__full_data[start:end])
+        #dn_array = np.array(self.__full_data[start:end])
 
         data_len = n_array.shape[0]
 
@@ -77,7 +77,7 @@ class DataManager:
                 end = i+self.__batch_size-self.__control_size
                 x_array.append(np.concatenate(n_array[i:end], axis=None))
                 # Удаление лишних данных (<OPEN> High Low <CLOSE><VAL>)
-                y_array.append(np.concatenate((np.delete(dn_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
+                y_array.append(np.concatenate((np.delete(n_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
                                               axis=None))
 
         if (x_shape_3d):
@@ -90,7 +90,7 @@ class DataManager:
         y_array = []
 
         n_array = self.__norma(np.array(self.__full_data[start:end]))
-        dn_array = np.array(self.__full_data[start:end])
+        #dn_array = np.array(self.__full_data[start:end])
 
         data_len = n_array.shape[0]
 
@@ -98,7 +98,7 @@ class DataManager:
             end = i + self.__batch_size-self.__control_size
             x_array.append(np.concatenate(n_array[i:end], axis=None))
             # Удаление лишних данных (<OPEN> High Low <CLOSE><VAL>)
-            y_array.append(np.concatenate((np.delete(dn_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
+            y_array.append(np.concatenate((np.delete(n_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
                                           axis=None))
 
 
@@ -120,7 +120,7 @@ class DataManager:
         :param data: Массив данных
         :return: Нормализованный массив data_return, среднее по столбцу data_mean, стандартное отклонение по столбцу data_std
         """
-        data_return = data.astype(np.float32)  # Приведение типов
+        data_return = data.astype(np.float64)  # Приведение типов
         data_return -= self.__data_mean  # Вычитаем среднее
         data_return /= self.__data_std  # Делим на отклонение
         return data_return
@@ -130,10 +130,9 @@ class DataManager:
         Стандартного отклонения и средних по каждому столбщу по обучающим данным
         :return: Null
         """
-        end = self.__data_len - self.__batch_size * 2
-        n_array = np.array(self.__full_data[0:end])
-        self.__data_std = n_array.std(axis=0)  # Определяем стандартное отклонение по каждому столбцу
-        self.__data_mean = n_array.mean(axis=0)  # Вычисляем среднее по каждому столбцу
+        n_array = (np.array(self.__full_data)).astype(np.float64)
+        self.__data_std = n_array.std(axis=0, dtype=np.float64)  # Определяем стандартное отклонение по каждому столбцу
+        self.__data_mean = n_array.mean(axis=0, dtype=np.float64)  # Вычисляем среднее по каждому столбцу
 
     def save(self, model):
         """
@@ -165,8 +164,8 @@ class DataManager:
         """
         #data *= np.tile(self.__data_std[1:3], self.__control_size)
         #data += np.tile(self.__data_mean[1:3], self.__control_size)
-        data *= np.tile(self.__data_std[1:2], self.__control_size)
-        data += np.tile(self.__data_mean[1:2], self.__control_size)
+        data *= np.tile(self.__data_std[1:3], self.__control_size)
+        data += np.tile(self.__data_mean[1:3], self.__control_size)
         return data
 
     def denorm_x_array(self, data):
@@ -216,7 +215,7 @@ class DataManager:
         """
         data_len = self.__data_len - self.__batch_size * 4
         print('--->> ',data_len)
-        return self.__get_data(0, data_len, x_array_3d)
+        return self.__get_data_(0, data_len, x_array_3d)
 
     def get_graph_data(self, x_array_3d=False):
         """
@@ -233,7 +232,7 @@ class DataManager:
         :return:
         """
         data_len = self.__data_len - self.__batch_size * 4
-        return self.__get_data(data_len, None,  x_array_3d)
+        return self.__get_data_(data_len, None,  x_array_3d)
 
     def get_predict_data(self):
         """
