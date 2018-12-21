@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 model_name = "weights"
 
 # Загрузка проверочных данных
-data = d.DataManager("USDRUB", 4, 1)
+data = d.DataManager("USDRUB", 5, 1)
 
 # Загружаем сеть
 json_file = open(data.get_current_dir()+"/models/"+model_name+".json", "r")
@@ -25,11 +25,13 @@ mse, mae = model.evaluate(X_test, y_test_shaped, verbose=0)            # Про�
 print("MSE  %f" % mse)
 print("MAE  %f" % mae)
 
-predict = model.predict(X_test)    # Предсказания
+#predict = data.denorm_y_array(model.predict(X_test))   # Предсказания
+predict = model.predict(X_test)   # Предсказания
 
 print('--------------------------------------------------------')
 print(predict)
 print('--------------------------------------------------------')
+#print(data.denorm_y(y_test_shaped))
 print(y_test_shaped)
 print('========================================================')
 #data.predict_report(y_test_shaped, predict)

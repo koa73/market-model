@@ -54,7 +54,7 @@ class DataManager:
                     self.__date_array.append(row[2])
                     new_row = []
 
-                    for elem in row[4:9]:
+                    for elem in row[4:]:
                         new_row.append(self.__convert_to_float(elem))
                     self.__full_data.append(new_row)
 
@@ -67,8 +67,8 @@ class DataManager:
         x_array = []
         y_array = []
 
-        n_array = self.__norma(np.array(self.__full_data[start:end]))
-        #dn_array = np.array(self.__full_data[start:end])
+        n_array = self.__norma(np.delete(np.array(self.__full_data[start:end]), (5,), axis=1))
+        dn_array = np.array(self.__full_data[start:end])
 
         data_len = n_array.shape[0]
 
@@ -77,7 +77,7 @@ class DataManager:
                 end = i+self.__batch_size-self.__control_size
                 x_array.append(np.concatenate(n_array[i:end], axis=None))
                 # Удаление лишних данных (<OPEN> High Low <CLOSE><VAL>)
-                y_array.append(np.concatenate((np.delete(n_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
+                y_array.append(np.concatenate((np.delete(dn_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
                                               axis=None))
 
         if (x_shape_3d):
@@ -89,8 +89,8 @@ class DataManager:
         x_array = []
         y_array = []
 
-        n_array = self.__norma(np.array(self.__full_data[start:end]))
-        #dn_array = np.array(self.__full_data[start:end])
+        n_array = self.__norma(np.delete(np.array(self.__full_data[start:end]), (5,), axis=1))
+        dn_array = np.array(self.__full_data[start:end])
 
         data_len = n_array.shape[0]
 
@@ -98,7 +98,7 @@ class DataManager:
             end = i + self.__batch_size-self.__control_size
             x_array.append(np.concatenate(n_array[i:end], axis=None))
             # Удаление лишних данных (<OPEN> High Low <CLOSE><VAL>)
-            y_array.append(np.concatenate((np.delete(n_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
+            y_array.append(np.concatenate((np.delete(dn_array[end:end + self.__control_size], np.s_[0, 3, 4], 1)),
                                           axis=None))
 
 
@@ -130,7 +130,8 @@ class DataManager:
         Стандартного отклонения и средних по каждому столбщу по обучающим данным
         :return: Null
         """
-        n_array = (np.array(self.__full_data)).astype(np.float64)
+
+        n_array = (np.delete(np.array(self.__full_data), (5,), axis=1)).astype(np.float64)
         self.__data_std = n_array.std(axis=0, dtype=np.float64)  # Определяем стандартное отклонение по каждому столбцу
         self.__data_mean = n_array.mean(axis=0, dtype=np.float64)  # Вычисляем среднее по каждому столбцу
 
@@ -164,8 +165,8 @@ class DataManager:
         """
         #data *= np.tile(self.__data_std[1:3], self.__control_size)
         #data += np.tile(self.__data_mean[1:3], self.__control_size)
-        data *= np.tile(self.__data_std[1:3], self.__control_size)
-        data += np.tile(self.__data_mean[1:3], self.__control_size)
+        data *= np.tile(self.__data_std[1:2], self.__control_size)
+        data += np.tile(self.__data_mean[1:2], self.__control_size)
         return data
 
     def denorm_x_array(self, data):
@@ -195,8 +196,10 @@ class DataManager:
         :param i: выбирает 1 из параметров нормализации из массива
         :return:
         """
-        data *= np.tile(self.__data_std[1:3][i], data.shape[0])
-        data += np.tile(self.__data_mean[1:3][i], data.shape[0])
+        #data *= np.tile(self.__data_std[1:3][i], data.shape[0])
+        #data += np.tile(self.__data_mean[1:3][i], data.shape[0])
+        data *= np.tile(self.__data_std[1:2][i], data.shape[0])
+        data += np.tile(self.__data_mean[1:2][i], data.shape[0])
         return data
 
     def __get_date_range(self):
@@ -255,7 +258,8 @@ class DataManager:
                   [y_test[i][0] - predict[i][0], predict[i][1] - y_test[i][1]])
 
     def predict_report(self, predict):
-        X_array = np.array(self.__full_data[1-self.__batch_size:])
+        #X_array = self.denorm_x_array(np.array(self.__full_data[1-self.__batch_size:]))
+        X_array = np.array(self.__full_data[1 - self.__batch_size:])
         date_array = self.__get_date_range()
 
         for i in range(len(X_array)):

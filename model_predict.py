@@ -4,7 +4,7 @@ import datama as d
 model_name = "weights"
 
 # Загрузка проверочных данных
-data = d.DataManager("USDRUB", 4, 1)
+data = d.DataManager("USDRUB", 5, 1)
 
 # Загружаем сеть
 json_file = open(data.get_current_dir()+"/models/"+model_name+".json", "r")
@@ -19,6 +19,7 @@ model.compile(loss='mse', optimizer='adam', metrics=['mae'])                 # �
 X_test= data.get_predict_data()
 
 predict = model.predict(X_test)
+#predict = data.denorm_y(model.predict(X_test))
 data.predict_report(predict)                                            # Предсказания
 
 
