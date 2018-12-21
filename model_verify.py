@@ -37,22 +37,26 @@ print('========================================================')
 for i in range(len(y_test_shaped)):
     print(predict[i], y_test_shaped[i], "\t", predict[i][0]-y_test_shaped[i])
 
+try:
+    X_p, y_p = data.get_graph_data()
+    predict = model.predict(X_p)
+    y_test_shaped = data.reshapy_y_by_coll(y_p, 1)
+    # Отображение данных
+    plt.ion()
+    fig = plt.figure()
+    ax1 = fig.add_subplot(111)
+    ax1.grid()
+    ax1.set(xlabel='time (Day)', ylabel='High (USDRUB)', title='Cost')
+    ax1.legend()
 
-X_p, y_p = data.get_graph_data()
-predict = model.predict(X_p)
-y_test_shaped = data.reshapy_y_by_coll(y_p, 1)
-# Отображение данных
-plt.ion()
-fig = plt.figure()
-ax1 = fig.add_subplot(111)
-ax1.grid()
-ax1.set(xlabel='time (Day)', ylabel='High (USDRUB)', title='Cost')
-ax1.legend()
+    line1, = ax1.plot(y_test_shaped,
+                      label="High real")  # Отображаем на графике тестовые данные по колонке 0 по y_test (HIGH)
+    line2, = ax1.plot(predict, label="High predict")  # Предсказания по колонке 0 оранжевым цветом
 
-line1, = ax1.plot(y_test_shaped, label="High real")  #Отображаем на графике тестовые данные по колонке 0 по y_test (HIGH)
-line2, = ax1.plot(predict, label="High predict")  # Предсказания по колонке 0 оранжевым цветом
+    ax1.legend()
+    plt.show()
+    plt.waitforbuttonpress()
 
-ax1.legend()
-plt.show()
-plt.waitforbuttonpress()
+except Exception:
+    None
 
