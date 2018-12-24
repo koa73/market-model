@@ -2,7 +2,6 @@ import csv
 import os
 import numpy as np
 import datetime
-import re
 
 
 class DataManager:
@@ -55,7 +54,7 @@ class DataManager:
                     self.__date_array.append(row[2])
                     new_row = []
 
-                    for elem in row[4:9]:
+                    for elem in row[4:]:
                         new_row.append(self.__convert_to_float(elem))
                     self.__full_data.append(new_row)
 
@@ -68,7 +67,7 @@ class DataManager:
         x_array = []
         y_array = []
 
-        n_array = self.__norma(np.array(self.__full_data[start:end]))
+        n_array = self.__norma(np.delete(np.array(self.__full_data[start:end]), (5,), axis=1))
         dn_array = np.array(self.__full_data[start:end])
 
         data_len = n_array.shape[0]
@@ -90,7 +89,7 @@ class DataManager:
         x_array = []
         y_array = []
 
-        n_array = self.__norma(np.array(self.__full_data[start:end]))
+        n_array = self.__norma(np.delete(np.array(self.__full_data[start:end]), (5,), axis=1))
         dn_array = np.array(self.__full_data[start:end])
 
         data_len = n_array.shape[0]
@@ -121,8 +120,7 @@ class DataManager:
         :param data: Массив данных
         :return: Нормализованный массив data_return, среднее по столбцу data_mean, стандартное отклонение по столбцу data_std
         """
-        data_return = data
-            #.astype(np.float32)  # Приведение типов
+        data_return = data.astype(np.float64)  # Приведение типов
         data_return -= self.__data_mean  # Вычитаем среднее
         data_return /= self.__data_std  # Делим на отклонение
         return data_return
@@ -132,10 +130,10 @@ class DataManager:
         Стандартного отклонения и средних по каждому столбщу по обучающим данным
         :return: Null
         """
-        end = self.__data_len - self.__batch_size * 2
-        n_array = np.array(self.__full_data[0:end])
-        self.__data_std = n_array.std(axis=0)  # Определяем стандартное отклонение по каждому столбцу
-        self.__data_mean = n_array.mean(axis=0)  # Вычисляем среднее по каждому столбцу
+
+        n_array = (np.delete(np.array(self.__full_data), (5,), axis=1)).astype(np.float64)
+        self.__data_std = n_array.std(axis=0, dtype=np.float64)  # Определяем стандартное отклонение по каждому столбцу
+        self.__data_mean = n_array.mean(axis=0, dtype=np.float64)  # Вычисляем среднее по каждому столбцу
 
     def save(self, model):
         """
@@ -191,6 +189,15 @@ class DataManager:
         """
         return np.concatenate(np.delete(y_array, (remove_col,), axis=1), axis=None)
 
+    def reshapy_y_by_coll_(self, y_array):
+        """
+
+        :param y_array:
+        :param remove_col: удаляет 1 столбец из массива, по умолчанию <Low> значение
+        :return:
+        """
+        return np.concatenate(np.delete(y_array, (0, 1), axis=1), axis=None)
+
     def denorm_y(self, data, i=0):
         """
 
@@ -198,8 +205,10 @@ class DataManager:
         :param i: выбирает 1 из параметров нормализации из массива
         :return:
         """
-        data *= np.tile(self.__data_std[1:3][i], data.shape[0])
-        data += np.tile(self.__data_mean[1:3][i], data.shape[0])
+        #data *= np.tile(self.__data_std[1:3][i], data.shape[0])
+        #data += np.tile(self.__data_mean[1:3][i], data.shape[0])
+        data *= np.tile(self.__data_std[1:2][i], data.shape[0])
+        data += np.tile(self.__data_mean[1:2][i], data.shape[0])
         return data
 
     def __get_date_range(self):
@@ -216,9 +225,17 @@ class DataManager:
         :x_array_3d: - возвращать массмв Х в виде 3D array
         :return:
         """
-        data_len = self.__data_len - self.__batch_size * 2
+        data_len = self.__data_len - self.__batch_size * 4
         print('--->> ',data_len)
-        return self.__get_data(0, data_len, x_array_3d)
+        return self.__get_data_(0, data_len, x_array_3d)
+
+    def get_graph_data(self, x_array_3d=False):
+        """
+        Возвращает массивы данных для обучения сети
+        :x_array_3d: - возвращать массмв Х в виде 3D array
+        :return:
+        """
+        return self.__get_data_(1700, None, x_array_3d)
 
     def get_test_data(self, x_array_3d=False):
         """
@@ -226,8 +243,8 @@ class DataManager:
         :x_array_3d: - возвращать массмв Х в виде 3D array
         :return:
         """
-        data_len = self.__data_len - self.__batch_size * 2
-        return self.__get_data(data_len, None,  x_array_3d)
+        data_len = self.__data_len - self.__batch_size * 4
+        return self.__get_data_(data_len, None,  x_array_3d)
 
     def get_predict_data(self):
         """
@@ -250,7 +267,8 @@ class DataManager:
                   [y_test[i][0] - predict[i][0], predict[i][1] - y_test[i][1]])
 
     def predict_report(self, predict):
-        X_array = np.array(self.__full_data[1-self.__batch_size:])
+        #X_array = self.denorm_x_array(np.array(self.__full_data[1-self.__batch_size:]))
+        X_array = np.array(self.__full_data[1 - self.__batch_size:])
         date_array = self.__get_date_range()
 
         for i in range(len(X_array)):

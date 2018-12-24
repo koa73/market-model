@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 model_name = "weights"
 
 # Загрузка проверочных данных
-data = d.DataManager("USDRUB", 5, 1)
+data = d.DataManager("USDRUB_TOM_1", 5, 1)
 
 # Загружаем сеть
 json_file = open(data.get_current_dir()+"/models/"+model_name+".json", "r")
@@ -18,7 +18,7 @@ model.compile(loss='mse', optimizer='adam', metrics=['mae'])                 # �
 
 # Тестирование модели
 X_test, y_test = data.get_test_data()
-y_test_shaped = data.reshapy_y_by_coll(y_test, 1)
+y_test_shaped = data.reshapy_y_by_coll_(y_test)
 
 
 mse, mae = model.evaluate(X_test, y_test_shaped, verbose=0)            # Проверка на тестовых данных, определяем величину ошибок

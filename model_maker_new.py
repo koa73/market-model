@@ -6,10 +6,10 @@ from keras.models import Model
 from keras import regularizers
 import datama as D
 
-data = D.DataManager("USDRUB_TOM", 5, 1)
+data = D.DataManager("USDRUB_TOM_1", 5, 1)
 
 X_train, y_train_c = data.get_edu_data()
-y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
+y_train = data.reshapy_y_by_coll_(y_train_c)      # Get only high
 
 
 # This returns a tensor
