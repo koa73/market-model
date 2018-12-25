@@ -6,7 +6,7 @@ import datetime
 
 
 def loadfile(ticker, market_identifier, start_date, end_date, separator=","):
-    print("Load data from MOEX\n")
+    print("Load data from MOEX, ticker:", ticker)
     raw_data = pdr.DataReader(ticker, 'moex', start_date, end_date)
     # Выбираем нужный индекс (Идентификатор режима торгов)
     select_indices = list(np.where(raw_data['BOARDID'] == market_identifier)[0])
