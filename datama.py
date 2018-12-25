@@ -225,7 +225,7 @@ class DataManager:
         :x_array_3d: - возвращать массмв Х в виде 3D array
         :return:
         """
-        data_len = self.__data_len - self.__batch_size * 4
+        data_len = self.__data_len - self.__batch_size * 20
         print('--->> ',data_len)
         return self.__get_data_(0, data_len, x_array_3d)
 
@@ -235,7 +235,7 @@ class DataManager:
         :x_array_3d: - возвращать массмв Х в виде 3D array
         :return:
         """
-        return self.__get_data_(1700, None, x_array_3d)
+        return self.__get_data_(self.__data_len - self.__batch_size * 20, None, x_array_3d)
 
     def get_test_data(self, x_array_3d=False):
         """
@@ -243,7 +243,7 @@ class DataManager:
         :x_array_3d: - возвращать массмв Х в виде 3D array
         :return:
         """
-        data_len = self.__data_len - self.__batch_size * 4
+        data_len = self.__data_len - self.__batch_size * 20
         return self.__get_data_(data_len, None,  x_array_3d)
 
     def get_predict_data(self):
