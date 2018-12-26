@@ -48,8 +48,6 @@ class DataManager:
                     self.__date_array.append(row[2])
                     self.__full_data.append(row[4:])
 
-                self.__get_norma_values()
-
         except FileNotFoundError:
             print('Error: File "' + self.__tiker + '.csv" not found')
 
