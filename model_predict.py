@@ -16,7 +16,7 @@ model.load_weights(data.get_current_dir()+"/models/"+model_name+".h5")          
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])                 # Компилируем
 
 # Тестирование модели
-X_test= data.get_predict_data()
+X_test = data.get_predict_data()
 
 predict = model.predict(X_test)
 #predict = data.denorm_y(model.predict(X_test))
