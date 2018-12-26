@@ -128,7 +128,7 @@ class DataManager:
         :return: Null
         """
 
-        n_array = (np.delete(np.array(self.__full_data), (5,), axis=1)).astype(np.float64)
+        n_array = (np.delete(np.array(self.__full_data), np.s_[5:], axis=1)).astype(np.float64)
         self.__data_std = n_array.std(axis=0, dtype=np.float64)  # Определяем стандартное отклонение по каждому столбцу
         self.__data_mean = n_array.mean(axis=0, dtype=np.float64)  # Вычисляем среднее по каждому столбцу
 
@@ -151,6 +151,8 @@ class DataManager:
         json_file.write(model.to_json())
         json_file.close()
 
+    def __get_date_range(self):
+        return np.array(self.__date_array[1-self.__batch_size:])
     """
        ****************************************************************************************************************
 
@@ -184,3 +186,25 @@ class DataManager:
         """
         data_len = self.__data_len - self.__batch_size * 20
         return self.__get_data_(data_len, None, False,  x_array_3d)[0]
+
+    def get_predict_data(self, x_array_3d=False):
+        """
+        :return: X_predict  - массив для предсказания
+        """
+        #return np.expand_dims(np.concatenate(self.__norma(np.array(self.__full_data[1-self.__batch_size+1:])), axis=None),
+         #axis=0)
+        return np.expand_dims(np.concatenate(self.__norma(np.delete(np.array(self.__full_data[1-self.__batch_size:],  dtype="float64"), np.s_[5:],
+                                     axis=1)), axis=None), axis=0)
+
+    def predict_report(self, predict):
+
+        X_array = np.delete(np.array(self.__full_data[1 - self.__batch_size:],  dtype="float64"), np.s_[5:], axis=1)
+        date_array = self.__get_date_range()
+
+        for i in range(len(X_array)):
+            print(date_array[i], X_array[i][1])
+
+        print('------------------------------')
+
+        result = X_array[-1][1]*predict/10
+        print('> HIGH next day : %f' % result)
