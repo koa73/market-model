@@ -117,21 +117,12 @@ class DataManager:
         :param data: Массив данных
         :return: Нормализованный массив data_return, среднее по столбцу data_mean, стандартное отклонение по столбцу data_std
         """
+        data_std = data.std(axis=0, dtype=np.float64)  # Определяем стандартное отклонение по каждому столбцу
+        data_mean = data.mean(axis=0, dtype=np.float64)  # Вычисляем среднее по каждому столбцу
         data_return = data.astype(np.float64)  # Приведение типов
-        data_return -= self.__data_mean  # Вычитаем среднее
-        data_return /= self.__data_std  # Делим на отклонение
+        data_return -= data_mean  # Вычитаем среднее
+        data_return /= data_std  # Делим на отклонение
         return data_return
-
-    def __get_norma_values(self):
-        """
-        Стандартного отклонения и средних по каждому столбщу по обучающим данным
-        :return: Null
-        """
-
-        n_array = (np.delete(np.array(self.__full_data), np.s_[5:], axis=1)).astype(np.float64)
-        self.__data_std = n_array.std(axis=0, dtype=np.float64)  # Определяем стандартное отклонение по каждому столбцу
-        self.__data_mean = n_array.mean(axis=0, dtype=np.float64)  # Вычисляем среднее по каждому столбцу
-
 
     def reshapy_y_by_coll(self, y_array, remove_col=1):
         """
