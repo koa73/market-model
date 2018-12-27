@@ -17,9 +17,10 @@ print(y_train)
 inputs = Input(shape=(15,))
 
 # a layer instance is callable on a tensor, and returns a tensor
-x = Dense(160, activation='relu')(inputs)
-x = Dense(160, activation='relu')(x)
-x = Dense(160, activation='relu')(x)
+x = Dense(360, activation='relu')(inputs)
+x = Dense(360, activation='relu')(x)
+x = Dense(360, activation='relu')(x)
+x = Dense(360, activation='relu')(x)
 predictions = Dense(1, name="output")(x)
 
 # This creates a model that includes
