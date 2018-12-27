@@ -35,6 +35,11 @@ class DataManager:
     def get_current_dir(self):
         return self.__fileDir
 
+    def get_mean(self):
+        return self.__data_mean
+
+    def get_std(self):
+        return self.__data_std
 
     def __read_data(self):
         # Формирует массив данных из файла CSV, производит нормализацию
@@ -55,7 +60,7 @@ class DataManager:
         x_array = []
         y_array = []
 
-        #n_array = self.__norma(np.delete(np.array(self.__full_data[start:end]), (5,), axis=1))
+        self.__get_y_norma_values(np.array(self.__full_data))
         n_array = np.delete(np.array(self.__full_data[start:end],  dtype="float64"), np.s_[5:], axis=1)
         dn_array = np.array(self.__full_data[start:end],  dtype="float64")
 
@@ -73,15 +78,17 @@ class DataManager:
                     np.concatenate((np.delete(dn_array[end:end + self.__control_size], np.s_[0, 1, 2, 3, 4, 7, 8], 1)),
                                               axis=None))
         if (x_shape_3d):
-            return self.__reshape_x_array(np.array(x_array, dtype="float64")), np.array(y_array, dtype="float64")
+            return self.__reshape_x_array(np.array(x_array, dtype="float64")), \
+                   np.array(y_array, dtype="float64")
         else:
-            return np.array(x_array, dtype="float64"), np.array(y_array, dtype="float64")
+            return np.array(x_array, dtype="float64"),  np.array(y_array, dtype="float64")
 
     def __get_data_(self, start, end, x_array_norm=True, x_shape_3d=False):
         x_array = []
         y_array = []
 
-        n_array = np.delete(np.array(self.__full_data[start:end],  dtype="float64"), np.s_[5:], axis=1)
+        self.__get_y_norma_values(np.array(self.__full_data, dtype="float64"))
+        n_array = np.delete(np.array(self.__full_data[start:end], dtype="float64"), np.s_[5:], axis=1)
         dn_array = np.array(self.__full_data[start:end], dtype="float64")
 
         data_len = n_array.shape[0]
@@ -100,7 +107,7 @@ class DataManager:
         if (x_shape_3d):
             return self.__reshape_x_array(np.array(x_array,  dtype="float64")), np.array(y_array,  dtype="float64")
         else:
-            return np.array(x_array,  dtype="float64"), np.array(y_array,  dtype="float64")
+            return np.array(x_array,  dtype="float64"),  np.array(y_array,  dtype="float64")
 
     def __reshape_x_array(self, data):
         """
@@ -121,6 +128,24 @@ class DataManager:
         data_return -= data_mean  # Вычитаем среднее
         data_return /= data_std  # Делим на отклонение
         return data_return
+
+    def __get_y_norma_values(self, data):
+        #self.__data_std = data.std(axis=0, dtype=np.float64)  # Определяем стандартное отклонение по каждому столбцу
+        #self.__data_mean = data.mean(axis=0, dtype=np.float64)  # Вычисляем среднее по каждому столбцу
+        self.__data_mean = 10.0042009
+        self.__data_std = 0.128679340
+
+    def __norma_y(self, data):
+        """
+
+        :param data:
+        :return:
+        """
+        data_return = data.astype(np.float64)  # Приведение типов
+        data_return -= self.__data_mean  # Вычитаем среднее
+        data_return /= self.__data_std  # Делим на отклонение
+        return data_return
+
 
     def reshapy_y_by_coll(self, y_array, remove_col=1):
         """
@@ -156,7 +181,7 @@ class DataManager:
         """
         data_len = self.__data_len - self.__batch_size * 20
         print('--->> ', data_len)
-        return self.__get_data_(0, data_len, x_array_3d)
+        return self.__get_data_(0, data_len, True, x_array_3d)
 
     def get_test_data(self, x_array_3d=False):
         """
@@ -165,7 +190,7 @@ class DataManager:
         :return:
         """
         data_len = self.__data_len - self.__batch_size * 20
-        return self.__get_data_(data_len, None,  x_array_3d)
+        return self.__get_data_(data_len, None, True, x_array_3d)
 
     def get_test_denorm_data(self, x_array_3d=False):
         """
@@ -182,8 +207,8 @@ class DataManager:
         """
         #return np.expand_dims(np.concatenate(self.__norma(np.array(self.__full_data[1-self.__batch_size+1:])), axis=None),
          #axis=0)
-        return np.expand_dims(np.concatenate(self.__norma(np.delete(np.array(self.__full_data[1-self.__batch_size:],  dtype="float64"), np.s_[5:],
-                                     axis=1)), axis=None), axis=0)
+        return np.expand_dims(np.concatenate(self.__norma(np.delete(np.array(self.__full_data[1-self.__batch_size:],
+                                                            dtype="float64"), np.s_[5:], axis=1)), axis=None), axis=0)
 
     def predict_report(self, predict):
 
@@ -194,6 +219,6 @@ class DataManager:
             print(date_array[i], X_array[i][1])
 
         print('------------------------------')
-
         result = X_array[-1][1]*predict/10
         print('> HIGH next day : %f' % result)
+
