@@ -133,21 +133,17 @@ def denorma(data, std, mean):
     return data
 
 
-def save(model, mse, mae, data_mean, data_std):
+def save(model, mse, mae):
     """
     :param model:
     :return: Null
     """
-    filedir = "../models"
+    filedir = "models"
     now = datetime.datetime.now()
     ts = now.strftime("%d-%m-%Y_%H_%M")
     json_file = open(filedir + "/last_" + str(ts) + ".mse." + str(mse) + ".mae" + str(mae) + ".json", "w")
     json_file.write(model.to_json())
     json_file.close()
     model.save_weights(filedir + "/last_" + str(ts) + ".mse." + str(mse) + ".mae" + str(mae) + ".h5")
-    paradata_file = open(filedir + "/last_" + str(ts) + ".mse." + str(mse) + ".mae" + str(mae) + ".txt", "w")
-    paradata_file.write(str(data_mean) + "\n")
-    paradata_file.write(str(data_std) + "\n")
-    paradata_file.close()
     print("/last_" + str(ts) + ".mse." + str(mse) + ".mae" + str(mae))
 
