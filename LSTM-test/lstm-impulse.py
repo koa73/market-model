@@ -9,14 +9,15 @@ import matplotlib.pyplot as plt
 #filename = "../data/COMMON_SBER-USDCB_100101_181207.csv"
 #separator = ';'
 
-ticker = 'data/SBER'
+path = 'data/'
+ticker = 'SBER'
 market_identifier = 'TQBR'
 start_date = '2010-01-01'
 end_date = '2018-12-10'
 separator = ','
 
 
-#lstmdataman.loadfile(ticker, market_identifier, start_date, end_date)
+include.loadfile(path, ticker, market_identifier, start_date, end_date)
 main_ticker_data = include.loaddata(ticker, separator)
 
 train_vol = 0.9         # Сколько берем от объема для обучения

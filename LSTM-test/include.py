@@ -5,7 +5,7 @@ import os
 import datetime
 
 
-def loadfile(ticker, market_identifier, start_date, end_date, separator=","):
+def loadfile(path, ticker, market_identifier, start_date, end_date, separator=","):
     print("Load data from MOEX, ticker:", ticker)
     raw_data = pdr.DataReader(ticker, 'moex', start_date, end_date)
     # Выбираем нужный индекс (Идентификатор режима торгов)
@@ -13,7 +13,7 @@ def loadfile(ticker, market_identifier, start_date, end_date, separator=","):
     raw_data = raw_data.iloc[select_indices]
     raw_data = raw_data[['OPEN', 'LOW', 'HIGH', 'CLOSE', 'VALUE', 'VOLUME']]
     # Сохраняем файл
-    raw_data.to_csv(ticker + '.csv')
+    raw_data.to_csv(path + ticker + '.csv')
     print("Load data complete\n")
 
 
