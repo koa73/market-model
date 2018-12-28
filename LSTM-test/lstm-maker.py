@@ -1,34 +1,30 @@
 import tensorflow as tf
 import numpy as np
-import pandas as pd
-import pandas_datareader.data as pdr
 import lstmdataman
 import matplotlib.pyplot as plt
 
-#filename = '../data/USDRUB.csv'
-#filename = "../data/COMMON_SBER-USDCB_100101_181207.csv"
-#separator = ';'
 
-ticker = 'data/SBER'
+path = 'data/'
+ticker = 'SBER'
 market_identifier = 'TQBR'
 start_date = '2010-01-01'
 end_date = '2018-12-10'
 separator = ','
 
 
-#lstmdataman.loadfile(ticker, market_identifier, start_date, end_date)
-main_ticker_data = lstmdataman.loaddata(ticker, separator)
+#lstmdataman.loadfile(path, ticker, market_identifier, start_date, end_date)
+main_ticker_data = lstmdataman.loaddata(path, ticker, separator)
 
 train_vol = 0.9         # Сколько берем от объема для обучения
-train_seq = 1           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
+train_seq = 4           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
 batch_size = 1
-epochs = 5
+epochs = 10
 
 X_train, y_train, X_test, y_test, data_mean, data_std = lstmdataman.prepadedata(main_ticker_data, train_seq, train_vol)
 
 print("data_mean: ", data_mean)
 print("data_std: ", data_std)
-#exit(0)
+
 
 """
 model = tf.keras.Sequential()
@@ -40,10 +36,12 @@ model.add(tf.keras.layers.Dense(3))
 """
 model = tf.keras.Sequential()
 model.add(tf.keras.layers.LSTM(512, input_shape=(X_train.shape[1], X_train.shape[2]), return_sequences=True))
+model.add(tf.keras.layers.LSTM(512, activation='relu', return_sequences=True))
+model.add(tf.keras.layers.LSTM(256, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(256, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(128, activation='relu', return_sequences=True))
+model.add(tf.keras.layers.LSTM(128, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(64, activation='relu'))
-#model.add(tf.keras.layers.Dense(3))
 model.add(tf.keras.layers.Dense(1))
 
 
@@ -51,8 +49,10 @@ model.add(tf.keras.layers.Dense(1))
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 
 print("\n====== Train ======\n")
+checkpointer = tf.keras.callbacks.ModelCheckpoint(monitor='loss', filepath="models\weights.h5", verbose=1, save_best_only=True)
+reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='loss', factor=0.9, patience=10, min_lr=0.000001, verbose=1)
 #model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, validation_split=0.01, verbose=1)      #Тренировка сети
-model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1)      #Тренировка сети
+model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1, callbacks=[checkpointer, reduce_lr])      #Тренировка сети
 
 print("\n====== Test ======\n")
 mse, mae = model.evaluate(X_test, y_test) #Проверка на тестовых данных, определяем величину ошибок
@@ -82,7 +82,7 @@ pred_test_plot = np.array(p_input_test)
 y_test_plot = np.array(y_output_test)
 
 # Сохраняем сеть
-#lstmdataman.save(model, mse, mae, data_mean, data_std)
+lstmdataman.save(model, mse, mae, data_mean, data_std)
 
 # Отображение данных
 plt.ion()
