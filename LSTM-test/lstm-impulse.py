@@ -17,13 +17,13 @@ end_date = '2018-12-10'
 separator = ','
 
 
-include.loadfile(path, ticker, market_identifier, start_date, end_date)
-main_ticker_data = include.loaddata(ticker, separator)
+#include.loadfile(path, ticker, market_identifier, start_date, end_date)
+main_ticker_data = include.loaddata(path, ticker, separator)
 
 train_vol = 0.9         # Сколько берем от объема для обучения
 train_seq = 1           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
-batch_size = 10
-epochs = 5
+batch_size = 1
+epochs = 10
 
 X_train, y_train, X_test, y_test = include.prepadedata(main_ticker_data, train_seq, train_vol)
 
@@ -39,12 +39,12 @@ model.add(tf.keras.layers.Dense(3))
 """
 model = tf.keras.Sequential()
 model.add(tf.keras.layers.LSTM(512, input_shape=(X_train.shape[1], X_train.shape[2]), return_sequences=True))
-model.add(tf.keras.layers.LSTM(512, activation='tanh', return_sequences=True))
-model.add(tf.keras.layers.LSTM(256, activation='tanh', return_sequences=True))
-model.add(tf.keras.layers.LSTM(256, activation='tanh', return_sequences=True))
-model.add(tf.keras.layers.LSTM(128, activation='tanh', return_sequences=True))
-model.add(tf.keras.layers.LSTM(128, activation='tanh', return_sequences=True))
-model.add(tf.keras.layers.LSTM(64, activation='tanh'))
+model.add(tf.keras.layers.LSTM(512, activation='relu', return_sequences=True))
+model.add(tf.keras.layers.LSTM(256, activation='relu', return_sequences=True))
+model.add(tf.keras.layers.LSTM(256, activation='relu', return_sequences=True))
+model.add(tf.keras.layers.LSTM(128, activation='relu', return_sequences=True))
+model.add(tf.keras.layers.LSTM(128, activation='relu', return_sequences=True))
+model.add(tf.keras.layers.LSTM(64, activation='relu'))
 #model.add(tf.keras.layers.Dense(3))
 model.add(tf.keras.layers.Dense(1))
 

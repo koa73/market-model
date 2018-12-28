@@ -17,9 +17,9 @@ def loadfile(path, ticker, market_identifier, start_date, end_date, separator=",
     print("Load data complete\n")
 
 
-def loaddata(ticker, separator):
+def loaddata(path, ticker, separator):
     # Читаем файл
-    main_ticker_data = pd.read_csv(ticker + '.csv', sep=separator)
+    main_ticker_data = pd.read_csv(path + ticker + '.csv', sep=separator)
     # Берем только нужные поля
     #main_ticker_data = main_ticker_data[['<OPEN>', '<HIGH>', '<LOW>', '<CLOSE>', '<VOL>']]
     #main_ticker_data = main_ticker_data[['<OPEN_TAR>', '<HIGH_TAR>', '<LOW_TAR>', '<CLOSE_TAR>', '<VOL_TAR>', '<OPEN_DEP1>', '<HIGH_DEP1>', '<LOW_DEP1>', '<CLOSE_DEP1>']]
