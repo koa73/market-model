@@ -28,14 +28,6 @@ def loaddata(ticker, separator):
     return main_ticker_data.values
 
 
-def loadbatchdata(ticker, separator):
-    # Читаем файл
-    main_ticker_data = pd.read_csv(ticker + '.csv', sep=separator)
-    # Берем только нужные поля
-    main_ticker_data = main_ticker_data[['OPEN', 'LOW', 'HIGH', 'CLOSE', 'VALUE', 'VOLUME']]
-    return main_ticker_data.values
-
-
 def prepadedata(main_ticker_data, train_seq, train_vol):
     # --- Разделяем данные на учебный и проверочный наборы
     input_train = []
@@ -43,11 +35,11 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     input_test = []
     output_test = []
 
+    # --- Нормализация
+    main_ticker_data = norma(main_ticker_data)
+
     # Получаем размерность массива
     data_row = main_ticker_data.shape[0]
-
-    # --- Нормализация
-    main_ticker_data, data_mean, data_std = normax(main_ticker_data)
 
     print("main_ticker_data.shape: ", main_ticker_data.shape)
     # Тренировочные данные начинаются с 0 элемента массива
@@ -99,32 +91,34 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     print("============")
 
     # --- Вывод
-    return X_train, y_train, X_test, y_test, data_mean, data_std
-    #return X_train, y_train
+    return X_train, y_train, X_test, y_test
 
 
-def normax(data):
+def norma(main_ticker_data):
     """
     :param data: Массив данных
     :return: Нормализованный массив data_return, среднее по столбцу data_mean, стандартное отклонение по столбцу data_std
     """
-    data_return = data.astype(np.float64)  # Приведение типов
-    data_mean = data.mean(axis=0)  # Вычисляем среднее по каждому столбцу
-    data_std = data.std(axis=0)  # Определяем стандартное отклонение по каждому столбцу
-    data_return -= data_mean  # Вычитаем среднее
-    data_return /= data_std  # Делим на отклонение
-    return data_return, data_mean, data_std
+    main_ticker_data = main_ticker_data.astype(np.float64)  # Приведение типов
+    result_arr = []
+    tmp_arr = np.empty((0, 6), np.float64)
 
+    for i in range(1, main_ticker_data.shape[0]):
+        # OPEN,LOW,HIGH,CLOSE,VALUE,VOLUME
+        #  [0] [1] [2]   [3]   [4]   [5]
+        tmp_arr = [[main_ticker_data[i][0] / main_ticker_data[i - 1][0]],
+                   [main_ticker_data[i][1] / main_ticker_data[i - 1][1]],
+                   [main_ticker_data[i][2] / main_ticker_data[i - 1][2]],
+                   [main_ticker_data[i][3] / main_ticker_data[i - 1][3]],
+                   [main_ticker_data[i][4] / main_ticker_data[i - 1][4]],
+                   [main_ticker_data[i][5] / main_ticker_data[i - 1][5]]]
+        # print(tmp_arr)
+        result_arr.append(tmp_arr)
 
-def normay(data, data_mean, data_std):
-    """
-    :param data: Массив данных
-    :return: Нормализованный массив data_return, среднее по столбцу data_mean, стандартное отклонение по столбцу data_std
-    """
-    data_return = data.astype(np.float64)  # Приведение типов
-    data_return -= data_mean  # Вычитаем среднее
-    data_return /= data_std  # Делим на отклонение
-    return data_return
+    result_arr = np.array(result_arr)
+    result_arr = np.reshape(result_arr, (result_arr.shape[0], result_arr.shape[1]))
+    print("result_arr.shape: ", result_arr.shape)
+    return result_arr
 
 
 def denorma(data, std, mean):
