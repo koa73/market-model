@@ -16,9 +16,9 @@ separator = ','
 main_ticker_data = lstmdataman.loaddata(path, ticker, separator)
 
 train_vol = 0.9         # Сколько берем от объема для обучения
-train_seq = 1           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
+train_seq = 4           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
 batch_size = 1
-epochs = 5
+epochs = 10
 
 X_train, y_train, X_test, y_test, data_mean, data_std = lstmdataman.prepadedata(main_ticker_data, train_seq, train_vol)
 
