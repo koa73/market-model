@@ -17,7 +17,7 @@ end_date = '2018-12-10'
 separator = ','
 
 
-include.loadfile(path, ticker, market_identifier, start_date, end_date)
+#include.loadfile(path, ticker, market_identifier, start_date, end_date)
 main_ticker_data = include.loaddata(path, ticker, separator)
 
 train_vol = 0.9         # Сколько берем от объема для обучения
@@ -53,7 +53,7 @@ model.add(tf.keras.layers.Dense(1))
 model.compile(loss='mse', optimizer='adam', metrics=['mae'])
 
 print("\n====== Train ======\n")
-checkpointer = tf.keras.callbacks.ModelCheckpoint(filepath="models\weights.h5", verbose=1, save_best_only=True)
+checkpointer = tf.keras.callbacks.ModelCheckpoint(monitor='loss', filepath="models\weights.h5", verbose=1, save_best_only=True)
 reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='loss', factor=0.9, patience=10, min_lr=0.000001, verbose=1)
 #model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, validation_split=0.01, verbose=1)      #Тренировка сети
 model.fit(X_train, y_train, epochs=epochs, batch_size=batch_size, verbose=1, callbacks=[checkpointer, reduce_lr])      #Тренировка сети
