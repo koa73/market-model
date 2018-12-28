@@ -6,7 +6,7 @@ import datetime
 
 
 def loadfile(ticker, market_identifier, start_date, end_date, separator=","):
-    print("Load data from MOEX\n")
+    print("Load data from MOEX, ticker:", ticker)
     raw_data = pdr.DataReader(ticker, 'moex', start_date, end_date)
     # Выбираем нужный индекс (Идентификатор режима торгов)
     select_indices = list(np.where(raw_data['BOARDID'] == market_identifier)[0])
@@ -23,9 +23,17 @@ def loaddata(ticker, separator):
     # Берем только нужные поля
     #main_ticker_data = main_ticker_data[['<OPEN>', '<HIGH>', '<LOW>', '<CLOSE>', '<VOL>']]
     #main_ticker_data = main_ticker_data[['<OPEN_TAR>', '<HIGH_TAR>', '<LOW_TAR>', '<CLOSE_TAR>', '<VOL_TAR>', '<OPEN_DEP1>', '<HIGH_DEP1>', '<LOW_DEP1>', '<CLOSE_DEP1>']]
-    #main_ticker_data = main_ticker_data[['OPEN', 'LOW', 'HIGH', 'CLOSE', 'VALUE', 'VOLUME']]
-    main_ticker_data = main_ticker_data[['OPEN', 'LOW', 'HIGH', 'CLOSE']]
-    return main_ticker_data
+    main_ticker_data = main_ticker_data[['OPEN', 'LOW', 'HIGH', 'CLOSE', 'VALUE', 'VOLUME']]
+    # Переводим из формата pandas.DataFrame в np.array
+    return main_ticker_data.values
+
+
+def loadbatchdata(ticker, separator):
+    # Читаем файл
+    main_ticker_data = pd.read_csv(ticker + '.csv', sep=separator)
+    # Берем только нужные поля
+    main_ticker_data = main_ticker_data[['OPEN', 'LOW', 'HIGH', 'CLOSE', 'VALUE', 'VOLUME']]
+    return main_ticker_data.values
 
 
 def prepadedata(main_ticker_data, train_seq, train_vol):
@@ -37,8 +45,6 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
 
     # Получаем размерность массива
     data_row = main_ticker_data.shape[0]
-    # Переводим в формат np.array
-    main_ticker_data = main_ticker_data.values
 
     # --- Нормализация
     main_ticker_data, data_mean, data_std = normax(main_ticker_data)
@@ -76,15 +82,15 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     # exit(0)
 
     # --- Подготовка тестового набора
-    for i in range(0, train_seq):
-        z = 1
-        while z < (data_test.shape[0] - (2 * train_seq)):
-            xt = np.array(data_test[i + z: i + z + train_seq])
-            # y = np.array(data_test[i + z + train_seq, 1:4])  #Close, High, Low
-            yt = np.array(data_test[i + z + train_seq, 3])  # Close
-            z = z + train_seq
-            input_test.append(xt)
-            output_test.append(yt)
+    #for i in range(0, train_seq):
+    z = 1
+    while z < (data_test.shape[0] - (2 * train_seq)):
+        xt = np.array(data_test[i + z: i + z + train_seq])
+        # y = np.array(data_test[i + z + train_seq, 1:4])  #Close, High, Low
+        yt = np.array(data_test[i + z + train_seq, 3])  # Close
+        z = z + train_seq
+        input_test.append(xt)
+        output_test.append(yt)
     X_test = np.array(input_test)
     y_test = np.array(output_test)
     print("============")

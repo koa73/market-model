@@ -9,10 +9,10 @@ import matplotlib.pyplot as plt
 #filename = "../data/COMMON_SBER-USDCB_100101_181207.csv"
 #separator = ';'
 
-ticker = 'SBER'
+ticker = 'data/SBER'
 market_identifier = 'TQBR'
 start_date = '2010-01-01'
-end_date = '2018-12-19'
+end_date = '2018-12-10'
 separator = ','
 
 
@@ -40,11 +40,7 @@ model.add(tf.keras.layers.Dense(3))
 """
 model = tf.keras.Sequential()
 model.add(tf.keras.layers.LSTM(512, input_shape=(X_train.shape[1], X_train.shape[2]), return_sequences=True))
-model.add(tf.keras.layers.LSTM(512, activation='relu', return_sequences=True))
-model.add(tf.keras.layers.LSTM(512, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(256, activation='relu', return_sequences=True))
-model.add(tf.keras.layers.LSTM(256, activation='relu', return_sequences=True))
-model.add(tf.keras.layers.LSTM(128, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(128, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(64, activation='relu'))
 #model.add(tf.keras.layers.Dense(3))
@@ -86,7 +82,7 @@ pred_test_plot = np.array(p_input_test)
 y_test_plot = np.array(y_output_test)
 
 # Сохраняем сеть
-lstmdataman.save(model, mse, mae, data_mean, data_std)
+#lstmdataman.save(model, mse, mae, data_mean, data_std)
 
 # Отображение данных
 plt.ion()
