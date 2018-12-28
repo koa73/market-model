@@ -17,7 +17,7 @@ end_date = '2018-12-10'
 separator = ','
 
 
-include.loadfile(path, ticker, market_identifier, start_date, end_date)
+#include.loadfile(path, ticker, market_identifier, start_date, end_date)
 main_ticker_data = include.loaddata(path, ticker, separator)
 
 train_vol = 0.9         # Сколько берем от объема для обучения
