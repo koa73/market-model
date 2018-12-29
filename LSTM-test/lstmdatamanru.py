@@ -135,7 +135,7 @@ def save(model, mse, mae, data_mean, data_std):
     :param model:
     :return: Null
     """
-    filedir = "../models"
+    filedir = "models"
     now = datetime.datetime.now()
     ts = now.strftime("%d-%m-%Y_%H_%M")
     json_file = open(filedir + "/last_" + str(ts) + ".mse." + str(mse) + ".mae" + str(mae) + ".json", "w")

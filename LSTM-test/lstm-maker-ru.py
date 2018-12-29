@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-import lstmdataman
+import lstmdatamanru
 import matplotlib.pyplot as plt
 
 
@@ -13,14 +13,14 @@ separator = ','
 
 
 #lstmdataman.loadfile(path, ticker, market_identifier, start_date, end_date)
-main_ticker_data = lstmdataman.loaddata(path, ticker, separator)
+main_ticker_data = lstmdatamanru.loaddata(path, ticker, separator)
 
 train_vol = 0.9         # Сколько берем от объема для обучения
-train_seq = 4           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
-batch_size = 1
-epochs = 10
+train_seq = 1           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
+batch_size = 5
+epochs = 5
 
-X_train, y_train, X_test, y_test, data_mean, data_std = lstmdataman.prepadedata(main_ticker_data, train_seq, train_vol)
+X_train, y_train, X_test, y_test, data_mean, data_std = lstmdatamanru.prepadedata(main_ticker_data, train_seq, train_vol)
 
 print("data_mean: ", data_mean)
 print("data_std: ", data_std)
@@ -36,7 +36,7 @@ model.add(tf.keras.layers.Dense(3))
 """
 model = tf.keras.Sequential()
 model.add(tf.keras.layers.LSTM(512, input_shape=(X_train.shape[1], X_train.shape[2]), return_sequences=True))
-model.add(tf.keras.layers.LSTM(512, activation='relu', return_sequences=True))
+model.add(tf.keras.layers.LSTM(512, activation='relu', dropout=0.1, return_sequences=True))
 model.add(tf.keras.layers.LSTM(256, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(256, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(128, activation='relu', return_sequences=True))
@@ -82,7 +82,7 @@ pred_test_plot = np.array(p_input_test)
 y_test_plot = np.array(y_output_test)
 
 # Сохраняем сеть
-lstmdataman.save(model, mse, mae, data_mean, data_std)
+lstmdatamanru.save(model, mse, mae, data_mean, data_std)
 
 # Отображение данных
 plt.ion()

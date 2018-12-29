@@ -1,33 +1,29 @@
 import tensorflow as tf
 import numpy as np
-import pandas as pd
-import pandas_datareader.data as pdr
-import include
+import lstmdatamanen
 import matplotlib.pyplot as plt
 
-#filename = '../data/USDRUB.csv'
-#filename = "../data/COMMON_SBER-USDCB_100101_181207.csv"
-#separator = ';'
 
 path = 'data/'
-ticker = 'SBER'
-market_identifier = 'TQBR'
+ticker = 'AAPL'
 start_date = '2010-01-01'
 end_date = '2018-12-10'
 separator = ','
 
 
-include.loadfile(path, ticker, market_identifier, start_date, end_date)
-main_ticker_data = include.loaddata(path, ticker, separator)
+lstmdatamanen.loadfileen(path, ticker, start_date, end_date)
+main_ticker_data = lstmdatamanen.loaddataen(path, ticker, separator)
 
 train_vol = 0.9         # Сколько берем от объема для обучения
 train_seq = 1           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
-batch_size = 10
+batch_size = 5
 epochs = 5
 
-X_train, y_train, X_test, y_test = include.prepadedata(main_ticker_data, train_seq, train_vol)
+X_train, y_train, X_test, y_test, data_mean, data_std = lstmdatamanen.prepadedata(main_ticker_data, train_seq, train_vol)
 
-#exit(0)
+print("data_mean: ", data_mean)
+print("data_std: ", data_std)
+
 
 """
 model = tf.keras.Sequential()
@@ -39,13 +35,12 @@ model.add(tf.keras.layers.Dense(3))
 """
 model = tf.keras.Sequential()
 model.add(tf.keras.layers.LSTM(512, input_shape=(X_train.shape[1], X_train.shape[2]), return_sequences=True))
-model.add(tf.keras.layers.LSTM(512, activation='relu', return_sequences=True))
+model.add(tf.keras.layers.LSTM(512, activation='relu', dropout=0.1, return_sequences=True))
 model.add(tf.keras.layers.LSTM(256, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(256, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(128, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(128, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(64, activation='relu'))
-#model.add(tf.keras.layers.Dense(3))
 model.add(tf.keras.layers.Dense(1))
 
 
@@ -68,20 +63,25 @@ pred = model.predict(X_test)    # Предсказания
 p_input_test = []
 y_output_test = []
 
-# Отображение
+#Денормализация
 for i in range(0, len(y_test) - 1):
     last_pred = pred[i]
     last_y = y_test[i]
+    last_pred *= data_std[3]          #Умножаем на стандартное отклонение для 0 столбца
+    last_pred += data_mean[3]         #Прибавляем среднее для 0 столбца
+    last_y *= data_std[3]
+    last_y += data_mean[3]
     # Вывод результатов прогона по тестовому массиву - первый, середина и последний
     print(last_pred, last_y, (last_pred - last_y))
     p_input_test.append(last_pred)
     y_output_test.append(last_y)
 
+
 pred_test_plot = np.array(p_input_test)
 y_test_plot = np.array(y_output_test)
 
 # Сохраняем сеть
-include.save(model, mse, mae)
+lstmdatamanen.save(model, mse, mae, data_mean, data_std)
 
 # Отображение данных
 plt.ion()
@@ -103,6 +103,8 @@ line2, = ax1.plot(pred_test_plot[np.arange(0, len(y_test) - 1)], label="Prd_Clo"
 #line6, = ax1.plot(pred_test_plot[np.arange(0, len(y_test) - 1), 2], label="Prd_Clo")  # Предсказания по колонке 1
 
 ax1.legend()
+
+
 plt.show()
 plt.waitforbuttonpress()
 
