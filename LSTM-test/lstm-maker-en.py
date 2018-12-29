@@ -6,18 +6,18 @@ import matplotlib.pyplot as plt
 
 path = 'data/'
 ticker = 'AAPL'
-start_date = '2010-01-01'
+start_date = '2000-01-01'
 end_date = '2018-12-10'
 separator = ','
 
 
-lstmdatamanen.loadfileen(path, ticker, start_date, end_date)
+#lstmdatamanen.loadfileen(path, ticker, start_date, end_date)
 main_ticker_data = lstmdatamanen.loaddataen(path, ticker, separator)
 
 train_vol = 0.9         # Сколько берем от объема для обучения
 train_seq = 1           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
-batch_size = 5
-epochs = 5
+batch_size = 10
+epochs = 10
 
 X_train, y_train, X_test, y_test, data_mean, data_std = lstmdatamanen.prepadedata(main_ticker_data, train_seq, train_vol)
 
@@ -37,8 +37,6 @@ model = tf.keras.Sequential()
 model.add(tf.keras.layers.LSTM(512, input_shape=(X_train.shape[1], X_train.shape[2]), return_sequences=True))
 model.add(tf.keras.layers.LSTM(512, activation='relu', dropout=0.1, return_sequences=True))
 model.add(tf.keras.layers.LSTM(256, activation='relu', return_sequences=True))
-model.add(tf.keras.layers.LSTM(256, activation='relu', return_sequences=True))
-model.add(tf.keras.layers.LSTM(128, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(128, activation='relu', return_sequences=True))
 model.add(tf.keras.layers.LSTM(64, activation='relu'))
 model.add(tf.keras.layers.Dense(1))
