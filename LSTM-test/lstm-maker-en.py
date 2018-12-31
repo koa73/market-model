@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 
 
 path = 'data/'
+filedir = 'models'
 ticker = 'AAPL'
 start_date = '2000-01-01'
 end_date = '2018-12-10'
@@ -17,13 +18,15 @@ main_ticker_data = lstmdatamanen.loaddataen(path, ticker, separator)
 train_vol = 0.9         # Сколько берем от объема для обучения
 train_seq = 1           # Непрерывная последовательность, для которой будем искать предсказание: Х дня -> 1 ответ
 batch_size = 10
-epochs = 10
+epochs = 1
 
 X_train, y_train, X_test, y_test, data_mean, data_std = lstmdatamanen.prepadedata(main_ticker_data, train_seq, train_vol)
 
 print("data_mean: ", data_mean)
 print("data_std: ", data_std)
 
+#print(X_test)
+#exit(0)
 
 """
 model = tf.keras.Sequential()
@@ -79,7 +82,7 @@ pred_test_plot = np.array(p_input_test)
 y_test_plot = np.array(y_output_test)
 
 # Сохраняем сеть
-lstmdatamanen.save(model, mse, mae, data_mean, data_std)
+lstmdatamanen.save(model, filedir, mse, mae, data_mean, data_std)
 
 # Отображение данных
 plt.ion()

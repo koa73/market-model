@@ -77,9 +77,9 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     #for i in range(0, train_seq):
     z = 1
     while z < (data_test.shape[0] - (2 * train_seq)):
-        xt = np.array(data_test[i + z: i + z + train_seq])
-        # y = np.array(data_test[i + z + train_seq, 1:4])  #Close, High, Low
-        yt = np.array(data_test[i + z + train_seq, 3])  # Close
+        xt = np.array(data_test[z: z + train_seq])
+        # y = np.array(data_test[z + train_seq, 1:4])  #Close, High, Low
+        yt = np.array(data_test[z + train_seq, 3])  # Close
         z = z + train_seq
         input_test.append(xt)
         output_test.append(yt)

@@ -4,6 +4,7 @@ import pandas_datareader.data as pdr
 import os
 import datetime
 import fix_yahoo_finance as fix
+import shutil
 
 fix.pdr_override()
 
@@ -99,9 +100,9 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
     #for i in range(0, train_seq):
     z = 1
     while z < (data_test.shape[0] - (2 * train_seq)):
-        xt = np.array(data_test[i + z: i + z + train_seq])
+        xt = np.array(data_test[z: z + train_seq])
         # y = np.array(data_test[i + z + train_seq, 1:4])  #Close, High, Low
-        yt = np.array(data_test[i + z + train_seq, 3])  # Close
+        yt = np.array(data_test[z + train_seq, 3])  # Close
         z = z + train_seq
         input_test.append(xt)
         output_test.append(yt)
@@ -114,6 +115,44 @@ def prepadedata(main_ticker_data, train_seq, train_vol):
 
     # --- Вывод
     return X_train, y_train, X_test, y_test, data_mean, data_std
+
+
+def preparetestdata(test_ticker_data, train_seq):
+    # --- Все загруженные данные используются для теста
+    input_test = []
+    output_test = []
+
+    # --- Нормализация
+    test_ticker_data, data_mean, data_std = normax(test_ticker_data)
+
+    print("test_ticker_data.shape: ", test_ticker_data.shape)
+
+    # Тестовые данные
+    test_start = 0
+    test_end = test_ticker_data.shape[0]
+    data_test = test_ticker_data[np.arange(test_start, test_end), :]
+    #
+    print("data_test.shape: ", data_test.shape)
+
+    # --- Подготовка тестового набора
+    #for i in range(0, train_seq):
+    z = 1
+    while z < (data_test.shape[0] - (2 * train_seq)):
+        xt = np.array(data_test[z: z + train_seq])
+        # y = np.array(data_test[z + train_seq, 1:4])  #Close, High, Low
+        yt = np.array(data_test[z + train_seq, 3])  # Close
+        z = z + train_seq
+        input_test.append(xt)
+        output_test.append(yt)
+    X_test = np.array(input_test)
+    y_test = np.array(output_test)
+    print("============")
+    print("X_test.shape:", X_test.shape)
+    print("y_test.shape:", y_test.shape)
+    print("============")
+
+    # --- Вывод
+    return X_test, y_test, data_mean, data_std
 
 
 def normax(data):
@@ -152,21 +191,23 @@ def denorma(data, std, mean):
     return data
 
 
-def save(model, mse, mae, data_mean, data_std):
+def save(model, filedir, mse, mae, data_mean, data_std):
     """
     :param model:
     :return: Null
     """
-    filedir = "models"
     now = datetime.datetime.now()
     ts = now.strftime("%d-%m-%Y_%H_%M")
     json_file = open(filedir + "/last_" + str(ts) + ".mse." + str(mse) + ".mae" + str(mae) + ".json", "w")
     json_file.write(model.to_json())
     json_file.close()
-    model.save_weights(filedir + "/last_" + str(ts) + ".mse." + str(mse) + ".mae" + str(mae) + ".h5")
+    # Для сохранения весов используем лучшие значения, вызываемые checkpointer
+    #model.save_weights(filedir + "/last_" + str(ts) + ".mse." + str(mse) + ".mae" + str(mae) + ".h5")
+    shutil.copy(filedir + "/weights.h5", filedir + "/last_" + str(ts) + ".mse." + str(mse) + ".mae" + str(mae) + ".h5")
     paradata_file = open(filedir + "/last_" + str(ts) + ".mse." + str(mse) + ".mae" + str(mae) + ".txt", "w")
     paradata_file.write(str(data_mean) + "\n")
     paradata_file.write(str(data_std) + "\n")
     paradata_file.close()
     print("/last_" + str(ts) + ".mse." + str(mse) + ".mae" + str(mae))
+
 
