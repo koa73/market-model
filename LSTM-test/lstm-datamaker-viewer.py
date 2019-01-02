@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 path = 'data/test_'
 filedir = 'models'
-modelname = 'last_31-12-2018_11_38.mse.0.34912893385970944.mae0.424999559278468'
+modelname = 'last_02-01-2019_14_02.mse.0.005543208225293362.mae0.056940726618817515'
 ticker = 'AAPL'
 start_date = '2018-12-01'
 end_date = '2018-12-20'
