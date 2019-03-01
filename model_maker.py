@@ -11,6 +11,7 @@ data = D.DataManager("USDRUB_TOM", 5, 1)
 X_train, y_train_c = data.get_edu_data()
 y_train = data.reshapy_y_by_coll(y_train_c, 1)      # Get only high
 
+print(X_train)
 
 # This returns a tensor
 inputs = Input(shape=(20,) )
