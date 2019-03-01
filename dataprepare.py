@@ -124,16 +124,14 @@ class DataPrepare:
         Возвращает массивы данных для обучения сети
         :return:
         """
-        x_array = []
 
-        data_len = self.__data_len - self.__batch_size * 1
-        #X, Y = self.__get_data_(0, data_len)
+        x_i =[]
 
-        #for i in range(0, self.__batch_size - self.__control_size - 2):
-           #x_array.append(X[i:])
+        data_len = self.__data_len - self.__batch_size * 0
+        x, y = self.__get_data_(0, data_len)
+        x_i.append(x)
 
-        return self.__get_data_(0, self.__data_len)
+        for i in range(self.__data_col, (self.__batch_size-self.__control_size-1)*self.__data_col, self.__data_col):
+            x_i.append(np.delete(x, np.s_[:i:], 1))
 
-
-
-
+        return x_i, y
