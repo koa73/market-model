@@ -124,7 +124,6 @@ class DataPrepare:
         Возвращает массивы данных для обучения сети
         :return:
         """
-
         x_i =[]
 
         data_len = self.__data_len - self.__batch_size * 0
