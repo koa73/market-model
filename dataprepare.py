@@ -7,7 +7,7 @@ class DataPrepare:
 
     __tiker = ""
     __fileDir = os.path.dirname(os.path.abspath(__file__))
-    # размер пакета случайной выборки из массива  >=4
+    # размер пакета случайной выборки из массива
     __batch_size = 0
     # количество строк проверочных данных в выборке, должно быть меньше или равно min-3 значения batch_size_range
     __control_size = 1
