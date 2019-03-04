@@ -72,7 +72,7 @@ class DataPrepare:
 
         return np.array(x_array), np.array(y_array)
 
-    def __get_data_(self, start, end, x_shape_3d=False):
+    def __get_data_(self, start, end):
         x_array = []
         y_array = []
 
@@ -88,17 +88,14 @@ class DataPrepare:
                 np.concatenate((np.delete(n_array_slice[end:], np.s_[0, 3, 4], 1)),
                                axis=None))
 
-        if (x_shape_3d):
-            return self.__reshape_x_array(np.array(x_array,  dtype="float64")), np.array(y_array,  dtype="float64")
-        else:
-            return np.array(x_array,  dtype="float64"),  np.array(y_array,  dtype="float64")
+        return np.array(x_array,  dtype="float64"),  np.array(y_array,  dtype="float64")
 
     def __reshape_x_array(self, data):
         """
         Изменение формы массива X из 2D в 3D
         :return:
         """
-        return np.reshape(np.expand_dims(data, axis=1), (data.shape[0], self.__batch_size - self.__control_size,
+        return np.reshape(np.expand_dims(data, axis=1), (data.shape[0], int(data[0].shape[0]/self.__data_col),
                                                          self.__data_col))
 
     def __norma(self, data):
@@ -113,13 +110,14 @@ class DataPrepare:
         data_return /= data_std  # Делим на отклонение
         return data_return
 
+
+
     """
         ****************************************************************************************************************
 
         ****************************************************************************************************************
     """
-
-    def get_edu_data(self):
+    def get_edu_data(self, x_shape_3d=False):
         """
         Возвращает массивы данных для обучения сети
         :return:
@@ -128,9 +126,15 @@ class DataPrepare:
 
         data_len = self.__data_len - self.__batch_size * 0
         x, y = self.__get_data_(0, data_len)
-        x_i.append(x)
+        if (x_shape_3d):
+            x_i.append(self.__reshape_x_array(x))
+        else:
+            x_i.append(x)
 
         for i in range(self.__data_col, (self.__batch_size-self.__control_size-1)*self.__data_col, self.__data_col):
-            x_i.append(np.delete(x, np.s_[:i:], 1))
+            if (x_shape_3d):
+                x_i.append(self.__reshape_x_array(np.delete(x, np.s_[:i:], 1)))
+            else:
+                x_i.append(np.delete(x, np.s_[:i:], 1))
 
         return x_i, y
