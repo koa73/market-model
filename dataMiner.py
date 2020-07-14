@@ -24,6 +24,42 @@ class DataMiner:
         return float(D((float(next) - float(current))/float(current)*100).quantize(D('0.001'), rounding=ROUND_DOWN))
 
 
+    def __calculate_values(self, raw_data):
+
+        n_array = (np.delete(np.array(raw_data), (0, 1), axis=1)).astype(np.float64)
+        data_len = n_array.shape[0]
+
+        X_array = []
+        Y_array = []
+        Dict = {}
+
+        for i in range(0, data_len - 2 * self.__batch_size + 1):
+            end = i + self.__batch_size
+
+            # Find max & min in feature slice period
+            f_max = np.max(n_array[i + self.__batch_size:end + self.__batch_size], axis=0)[1]
+            f_min = np.min(n_array[i + self.__batch_size:end + self.__batch_size], axis=0)[0]
+
+            # Find Low & High change in feature slice period
+            f_ch_percent_low = self.__change_percent(str(n_array[i:end][-1][0]), f_min)
+            f_ch_percent_high = self.__change_percent(str(n_array[i:end][-1][1]), f_max)
+
+            # Remove abs values from array
+            X_row = np.delete(n_array[i:end], np.s_[0, 1], 1)
+            Y_row = np.array([f_ch_percent_low,f_ch_percent_high])
+
+            X_array.append(X_row)
+            Y_array.append(Y_row)
+
+        print(np.array(X_array))
+
+        return np.array(X_array), np.array(Y_array)
+
+
+    def _dict_check(self, X_row):
+        # .flatten()
+        return ""
+
     def __read_data(self):
 
         try:
@@ -53,28 +89,8 @@ class DataMiner:
                             break
 
                 f.close()
-                #print (raw_data)
-
-                n_array = (np.delete(np.array(raw_data), (0,1), axis=1)).astype(np.float64)
-                data_len = n_array.shape[0]
-
-                for i in range(0, data_len - 2*self.__batch_size + 1):
-                    end = i + self.__batch_size
-                    print(n_array[i:end])
-                    # Find max & min in feature slice period
-                    f_max = np.max(n_array[i+self.__batch_size:end+self.__batch_size], axis=0)[1]
-                    f_min = np.min(n_array[i + self.__batch_size:end + self.__batch_size], axis=0)[0]
-
-                    print("Future Min: "+str(f_min)+" Future Max: "+str(f_max))
-                    print("Current Min: " + str(n_array[i:end][-1][0]) + " Current Max: " + str(n_array[i:end][-1][1]))
-
-                    f_ch_percent_low = self.__change_percent(str(n_array[i:end][-1][0]), f_min )
-                    f_ch_percent_high = self.__change_percent(str(n_array[i:end][-1][1]), f_max)
-
-                    print("Change Min: " + str(f_ch_percent_low) + " Change Max: " + str(f_ch_percent_high ))
-                    input("Press any key ...")
-
-                #input("Press any key ...")
+                self.__calculate_values(raw_data)
+                input("Press any key ...")
 
         except FileNotFoundError:
             print('Error: File "' + __ticker + '.csv" not found')
