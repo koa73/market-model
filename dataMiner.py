@@ -14,11 +14,86 @@ class DataMiner:
 
         self.__tiker = tiker
         self.__batch_size = batch_size
-        self.__read_data()
+        self.__read_data_new()
 
 
     def __get_tickers(self):
         return [re.findall(r'.*_(\w+)\.\w{3}', f.name)[0] for f in os.scandir(self.__fileDir+ '/data/stock/') if f.is_file()]
+
+
+    def __read_data_new(self):
+
+        try:
+
+            raw_data = []
+
+            for __ticker in self.__get_tickers():
+
+                self.__init_output_file(__ticker)
+
+                with open(self.__fileDir + '/data/stock/train_' + __ticker + '.csv', newline='') as f:
+
+                    next(f)
+                    rows = csv.reader(f, delimiter=',', quotechar='|')
+                    row = next(rows)
+                    print("---- " + __ticker + " ----------")
+
+                    while True:
+                        try:
+
+                            next_row = next(rows)
+
+                            # Find carrier as a change of open in percentages
+                            carrier = self.__change_percent(row[1], next_row[1])
+                            row = next_row
+
+                            # Find day of year
+                            day_of_year = self.__day_of_year(row[0])
+                            row.append(day_of_year)
+                            row.append(carrier)
+
+                            low_ = self.__change_percent(row[1], row[2])
+                            row.append(low_)
+
+                            high_ = self.__change_percent(row[1], row[3])
+                            row.append(high_)
+
+                            close_current_ = self.__change_percent(row[1], row[4])
+                            row.append(close_current_)
+
+                            raw_data.append(row)
+
+                        except StopIteration:
+                            break
+
+                f.close()
+                input("Press any key ... ")
+                self.__append_to_file(__ticker, raw_data)
+
+        except FileNotFoundError:
+
+            print('Error: File "' + __ticker + '.csv" not found')
+
+
+    # Write data to output csv file
+    def __append_to_file(self, name, data):
+
+        with open(self.__fileDir + '/data/output/train_'+ name +'.csv', 'a', newline = '') as csv_out_file:
+            output = csv.writer(csv_out_file, delimiter=';')
+            for line in data:
+                output.writerow(line)
+        csv_out_file.close()
+
+    def __init_output_file(self, name):
+
+        filename = self.__fileDir + '/data/output/train_' + name + '.csv'
+        if os.path.isfile(filename):
+            os.remove(filename)
+            with open(self.__fileDir + '/data/output/train_' + name + '.csv', 'w', newline='') as csv_out_file:
+                output = csv.writer(csv_out_file, delimiter=';')
+                output.writerow(['Date','Open','Low','High','Close','Adj' 'Close','Volume',
+                                                     'DAY', 'Carrier', "Low'", "High'", "Close/Current'"])
+            csv_out_file.close()
 
 
     def __change_percent(self, current, next):
@@ -59,10 +134,7 @@ class DataMiner:
         return datetime.strptime(date_str, '%Y-%m-%d').date().timetuple().tm_yday
 
 
-
-
-
-
+    # Old reader
     def __read_data(self):
 
         try:
