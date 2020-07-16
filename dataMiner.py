@@ -26,7 +26,7 @@ class DataMiner:
         return float(D((float(next) - float(current))/float(current)*100).quantize(D('0.001'), rounding=ROUND_DOWN))
 
 
-    def __calculate_values(self, raw_data):
+    def __calculate_col_values(self, raw_data):
 
         n_array = (np.delete(np.array(raw_data), (0, 1, 7), axis=1)).astype(np.float64)
         data_len = n_array.shape[0]
@@ -52,9 +52,6 @@ class DataMiner:
             X_array.append(X_row)
             Y_array.append(Y_row)
 
-            print(X_row)
-            input("Press any key ...")
-
         return np.array(X_array), np.array(Y_array)
 
 
@@ -62,13 +59,21 @@ class DataMiner:
         return datetime.strptime(date_str, '%Y-%m-%d').date().timetuple().tm_yday
 
 
+
+
+
+
     def __read_data(self):
 
         try:
 
+            X_array = []
+            Y_array = []
             for __ticker in self.__get_tickers():
 
                 raw_data = []
+                x_array = []
+                y_array = []
 
                 print ("------------------------ "+__ticker +" --------------------\n")
 
@@ -93,9 +98,16 @@ class DataMiner:
                         except StopIteration:
                             break
 
+
+                x_array, y_array = self.__calculate_col_values(raw_data)
+
+                X_array.append(x_array)
+                Y_array.append(y_array)
+
+
                 f.close()
-                self.__calculate_values(raw_data)
-                input("Press any key ...")
+                self.__calculate_col_values(raw_data)
+
 
         except FileNotFoundError:
             print('Error: File "' + __ticker + '.csv" not found')
