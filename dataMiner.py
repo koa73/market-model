@@ -15,23 +15,22 @@ class DataMiner:
         self.__tiker = tiker
         self.__batch_size = batch_size
         self.__read_data_new()
+        self.check_dictionary('/data/output/')
 
 
-    def __get_tickers(self):
-        return [re.findall(r'.*_(\w+)\.\w{3}', f.name)[0] for f in os.scandir(self.__fileDir+ '/data/stock/') if f.is_file()]
-
+    def __get_tickers(self, subdir):
+        return [re.findall(r'.*_(\w+)\.\w{3}', f.name)[0] for f in os.scandir(self.__fileDir+ subdir) if f.is_file()]
 
     def __read_data_new(self):
 
+        __ticker = 'Unknown file'
+        dirOutput = '/data/stock/'
         try:
 
-            raw_data = []
+            for __ticker in self.__get_tickers(dirOutput):
 
-            for __ticker in self.__get_tickers():
-
-                self.__init_output_file(__ticker)
-
-                with open(self.__fileDir + '/data/stock/train_' + __ticker + '.csv', newline='') as f:
+                raw_data = []
+                with open(self.__fileDir + dirOutput + 'train_' + __ticker + '.csv', newline='') as f:
 
                     next(f)
                     rows = csv.reader(f, delimiter=',', quotechar='|')
@@ -67,119 +66,122 @@ class DataMiner:
                             break
 
                 f.close()
-                input("Press any key ... ")
+
+                X_array_ticker, Y_array_tiker = self.__calculate_col_values(3, raw_data)
                 self.__append_to_file(__ticker, raw_data)
 
         except FileNotFoundError:
 
             print('Error: File "' + __ticker + '.csv" not found')
 
+    # Check dictionary
+    def check_dictionary(self, dirname):
+
+        __ticker = 'Unknown file'
+        __d = {}
+        count = 0
+
+        print("-------- Dictionary check  ---->> " )
+        try:
+            for __ticker in self.__get_tickers(dirname):
+
+                raw_data = []
+                with open(self.__fileDir + dirname + 'train_' + __ticker + '.csv', newline='') as f:
+
+                    print("---->> " + str(__ticker))
+
+                    next(f)
+                    rows = csv.reader(f, delimiter=';', quotechar='|')
+
+                    for row in rows:
+                        raw_data.append(row)
+
+                    X_array, Y_array = self.__calculate_col_values(3, raw_data)
+
+                    count += X_array.shape[0]
+                    for i in range (0, X_array.shape[0]):
+
+                        key = ";".join(np.array(X_array[i]).flatten().astype(str))
+
+                        if key in __d:
+                            __d[key] = __d[key] + 1
+                        else:
+                            __d[key] = 1
+                    print( "Current count :"+str(count))
+
+                f.close()
+
+            print("Common rows : " + str(count) + " dictionary size : " + str(len(__d)))
+
+            i = 0
+            if (len(__d) < count):
+
+                for key, value in sorted(__d.items(), key=lambda x: x[1]):
+
+                    if (value > 1):
+                        i +=1
+                        print("Key :" + str(key) + ", value :" + str(value))
+
+            print("There is dubled " + str(i))
+
+        except FileNotFoundError:
+            print('Error: File "' + __ticker + '.csv" not found')
+
+
 
     # Write data to output csv file
     def __append_to_file(self, name, data):
 
-        with open(self.__fileDir + '/data/output/train_'+ name +'.csv', 'a', newline = '') as csv_out_file:
-            output = csv.writer(csv_out_file, delimiter=';')
-            for line in data:
-                output.writerow(line)
-        csv_out_file.close()
-
-    def __init_output_file(self, name):
-
         filename = self.__fileDir + '/data/output/train_' + name + '.csv'
         if os.path.isfile(filename):
             os.remove(filename)
-            with open(self.__fileDir + '/data/output/train_' + name + '.csv', 'w', newline='') as csv_out_file:
-                output = csv.writer(csv_out_file, delimiter=';')
-                output.writerow(['Date','Open','Low','High','Close','Adj' 'Close','Volume',
-                                                     'DAY', 'Carrier', "Low'", "High'", "Close/Current'"])
-            csv_out_file.close()
+
+        with open(self.__fileDir + '/data/output/train_'+ name +'.csv', 'a', newline = '') as csv_out_file:
+            output = csv.writer(csv_out_file, delimiter=';')
+
+            output.writerow(['Date', 'Open', 'Low', 'High', 'Close', 'Adj' 'Close', 'Volume',
+                            'DAY', 'Carrier', "Low'", "High'", "Close/Current'"])
+
+            for line in data:
+                output.writerow(line)
+
+        csv_out_file.close()
 
 
     def __change_percent(self, current, next):
 
-        return float(D((float(next) - float(current))/float(current)*100).quantize(D('0.001'), rounding=ROUND_DOWN))
+        return float(D((float(next) - float(current))/float(current)*100).quantize(D('0.01'), rounding=ROUND_DOWN))
 
+    def __calculate_col_values(self, range_size, raw_data):
 
-    def __calculate_col_values(self, raw_data):
-
-        n_array = (np.delete(np.array(raw_data), (0, 1, 7), axis=1)).astype(np.float64)
+        n_array = (np.delete(np.array(raw_data), (0, 1, 5, 6, 7), axis=1)).astype(np.float64)
         data_len = n_array.shape[0]
 
-        X_array = []
         Y_array = []
+        X_array = []
 
-        for i in range(0, data_len - 2 * self.__batch_size + 1):
-            end = i + self.__batch_size
+        for i in range(0, data_len - 2 * range_size + 1):
+            end = i + range_size
 
             # Find max & min in feature slice period
-            f_max = np.max(n_array[i + self.__batch_size:end + self.__batch_size], axis=0)[1]
-            f_min = np.min(n_array[i + self.__batch_size:end + self.__batch_size], axis=0)[0]
+            f_max = np.max(n_array[i + range_size:end + range_size], axis=0)[1]
+            f_min = np.min(n_array[i + range_size:end + range_size], axis=0)[0]
+
 
             # Find Low & High change in feature slice period
-            f_ch_percent_low = self.__change_percent(str(n_array[i:end][-1][0]), f_min)
-            f_ch_percent_high = self.__change_percent(str(n_array[i:end][-1][1]), f_max)
+            f_ch_percent_low = self.__change_percent(str(n_array[i:end][-1][2]), f_min)
+            f_ch_percent_high = self.__change_percent(str(n_array[i:end][-1][2]), f_max)
 
             # Remove abs values from array
-            X_row = np.delete(n_array[i:end], np.s_[0, 1], 1)
+            X_row = np.delete(n_array[i:end], np.s_[0, 1, 2], 1)
             Y_row = np.array([f_ch_percent_low,f_ch_percent_high])
 
-            X_array.append(X_row)
             Y_array.append(Y_row)
+            X_array.append(X_row)
 
         return np.array(X_array), np.array(Y_array)
 
 
+    # Convert date to day of year
     def __day_of_year(self, date_str):
         return datetime.strptime(date_str, '%Y-%m-%d').date().timetuple().tm_yday
-
-
-    # Old reader
-    def __read_data(self):
-
-        try:
-
-            X_array = []
-            Y_array = []
-            for __ticker in self.__get_tickers():
-
-                raw_data = []
-                x_array = []
-                y_array = []
-
-                print ("------------------------ "+__ticker +" --------------------\n")
-
-                with open(self.__fileDir + '/data/stock/train_' + __ticker+'.csv', newline='') as f:
-
-                    next(f)
-                    rows = csv.reader(f, delimiter=',', quotechar='|')
-                    row = next(rows)
-
-                    while True:
-                        try:
-                            next_row = next(rows)
-
-                            change_low = self.__change_percent(row[2], next_row[2])
-                            change_high = self.__change_percent(row[3], next_row[3])
-                            change_close = self.__change_percent(next_row[1], next_row[4])
-                            row = next_row
-                            raw_data.append([__ticker, row[0], float(row[2]), float(row[3]),
-                                             change_low, change_high, change_close, self.__day_of_year(row[0])])
-
-
-                        except StopIteration:
-                            break
-
-
-                x_array, y_array = self.__calculate_col_values(raw_data)
-
-                X_array.append(x_array)
-                Y_array.append(y_array)
-
-
-                f.close()
-                self.__calculate_col_values(raw_data)
-
-
-        except FileNotFoundError:
-            print('Error: File "' + __ticker + '.csv" not found')
