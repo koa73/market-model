@@ -1,5 +1,4 @@
 import os
-import pandas as pd
 import pandas_datareader as pdr
 import yfinance as fix
 
