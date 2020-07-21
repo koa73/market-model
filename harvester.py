@@ -2,6 +2,7 @@
 import os
 import pandas_datareader as pdr
 import yfinance as fix
+# Nts
 
 err_arrsy = []
 
