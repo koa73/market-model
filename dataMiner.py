@@ -13,7 +13,7 @@ class DataMiner:
     def __init__(self, batch_size, accuracy):
 
         self.__batch_size = batch_size
-        self.__accuracy = accuracy
+        self.__accuracy =  '0.001'
         #self.__list_tickers()
         #self.__read_data_new()
         #self.check_dictionary('/data/output/')
