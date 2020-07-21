@@ -2,7 +2,7 @@
 import dataMiner as d
 
 
-data = d.DataMiner(3)
+data = d.DataMiner(3, '0.1')
 data.prepare_data()
 
 
