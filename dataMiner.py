@@ -48,7 +48,7 @@ class DataMiner:
                 for row in rows:
                     raw_data.append(row)
 
-                X_array_ticker, Y_array_tiker = self.__calculate_col_values(self.__batch_size, raw_data)
+                X_array_ticker, Y_array_ticker = self.__calculate_col_values(self.__batch_size, raw_data)
                 print(X_array_ticker)
             f.close()
 
@@ -190,7 +190,7 @@ class DataMiner:
 
     def __calculate_col_values(self, range_size, raw_data):
 
-        n_array = (np.delete(np.array(raw_data), (0, 1, 5, 6, 7), axis=1)).astype(np.float64)
+        n_array = (np.delete(np.array(raw_data), (0, 5, 6, 7), axis=1)).astype(np.float64)
         data_len = n_array.shape[0]
 
         Y_array = []
@@ -200,16 +200,15 @@ class DataMiner:
             end = i + range_size
 
             # Find max & min in feature slice period
-            f_max = np.max(n_array[i + range_size:end + range_size], axis=0)[1]
-            f_min = np.min(n_array[i + range_size:end + range_size], axis=0)[0]
-
+            f_max = np.max(n_array[i + range_size:end + range_size], axis=0)[0]
+            f_min = np.min(n_array[i + range_size:end + range_size], axis=0)[1]
 
             # Find Low & High change in feature slice period
-            f_ch_percent_low = self.__change_percent(str(n_array[i:end][-1][2]), f_min)
-            f_ch_percent_high = self.__change_percent(str(n_array[i:end][-1][2]), f_max)
+            f_ch_percent_low = self.__change_percent(str(n_array[i:end][-1][3]), f_min)
+            f_ch_percent_high = self.__change_percent(str(n_array[i:end][-1][3]), f_max)
 
             # Remove abs values from array
-            X_row = np.delete(n_array[i:end], np.s_[0, 1, 2], 1)
+            X_row = np.delete(n_array[i:end], np.s_[0, 1, 2, 3], 1)
             Y_row = np.array([f_ch_percent_low,f_ch_percent_high])
 
             Y_array.append(Y_row)
