@@ -14,22 +14,19 @@ class DataMiner:
 
         self.__tiker = tiker
         self.__batch_size = batch_size
-        self.__list_tikers()
+        self.__list_tickers()
         #self.__read_data_new()
         #self.check_dictionary('/data/output/')
 
-
     def __get_tickers(self, subdir):
-        return [re.findall(r'.*_(\w+)\.\w{3}', f.name)[0] for f in os.scandir(self.__fileDir+ subdir) if f.is_file()]
 
-    def __get_tickers_new(self, subdir):
-        return [re.findall(r'(.*)\.us\.txt', f.name)[0] for f in os.scandir(self.__fileDir + subdir) if f.is_file()]
+        return [re.findall(r'.*_(.*)\.\w{3}', f.name)[0] for f in os.scandir(self.__fileDir+ subdir) if f.is_file()]
 
-    def __list_tikers(self):
+    def __list_tickers(self):
 
-        dirOutput = '/data/Stocks/'
+        dirOutput = '/data/stocks/'
         array = []
-        for __ticker in self.__get_tickers_new(dirOutput):
+        for __ticker in self.__get_tickers(dirOutput):
             array.append(__ticker)
 
         print(array)
