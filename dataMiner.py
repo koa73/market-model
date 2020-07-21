@@ -13,7 +13,7 @@ class DataMiner:
     def __init__(self, batch_size):
 
         self.__batch_size = batch_size
-        self.__accuracy =  '0.001'
+        self.__accuracy =  '0.01'
         #self.__list_tickers()
         #self.__read_data_new()
         #self.check_dictionary('/data/output/')
@@ -416,11 +416,11 @@ class DataMiner:
         dirOutput = '/data/stocks/'
 
         #
-        __tickers_array = ['AAL']
+        #__tickers_array = ['AAL']
         try:
 
             #for __ticker in self.__get_tickers(dirOutput):
-            for __ticker in __tickers_array:
+            for __ticker in self.__tickers_array:
 
                 raw_data = []
                 with open(self.__fileDir + dirOutput + 'train_' + __ticker + '.csv', newline='') as f:
