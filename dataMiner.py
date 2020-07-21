@@ -10,7 +10,7 @@ class DataMiner:
     __fileDir = os.path.dirname(os.path.abspath(__file__))
     __tikets =[]
 
-    def __init__(self, batch_size, accuracy):
+    def __init__(self, batch_size):
 
         self.__batch_size = batch_size
         self.__accuracy =  '0.001'
