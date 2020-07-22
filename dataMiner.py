@@ -4,6 +4,8 @@ import re
 from decimal import Decimal as D, ROUND_DOWN
 from datetime import datetime
 import numpy as np
+import datetime,time
+
 
 class DataMiner:
 
@@ -355,11 +357,10 @@ class DataMiner:
               'LBTYA', 'HPQ', 'DXC', 'CAG','MAS', 'SPXC', 'BAM', 'TGNA', 'VAR', 'SNN']
 
 
-
-    def get_tickers(self, i):
-        if(i == 1):
+    def get_tickers(self, list_number):
+        if(list_number == 1):
             return self.__tickers_array
-        elif (i == 2):
+        elif (list_number == 2):
             return self.__tickers_array_short
 
     def __get_tickers(self, subdir):
@@ -377,15 +378,14 @@ class DataMiner:
 
     #
     # Prepare X & Y edu arrays
-    def make_edu_data(self):
+    def make_edu_data(self, list_number):
 
         print("---  Make EDU Data -----")
-        #__tickers_array = ['AAL', 'AAL']
 
         X_array = np.empty([0,self.__batch_size,4])
         Y_array = np.empty([0,2])
 
-        for __ticker in self.__tickers_array:
+        for __ticker in self.get_tickers(list_number):
 
             filename = self.__fileDir + '/data/rawdata/train_' + __ticker + '.csv'
 
@@ -415,8 +415,8 @@ class DataMiner:
     # Save arrat to file
     def __save_numpy_array(self, name, data):
 
-        filename = self.__fileDir + '/data/' + name + '.npy'
-
+        index = str(datetime.datetime.now().timestamp()).replace('.','_')
+        filename = self.__fileDir + '/data/' + name + '_' + str(index)+'.npy'
         if os.path.isfile(filename):
             os.remove(filename)
 
@@ -434,7 +434,7 @@ class DataMiner:
 
     #
     # Prepare data from stock rates
-    def prepare_data(self):
+    def prepare_data(self, list_number):
 
         __ticker = 'Unknown file'
         dirOutput = '/data/stocks/'
@@ -444,7 +444,7 @@ class DataMiner:
         try:
 
             #for __ticker in self.__get_tickers(dirOutput):
-            for __ticker in self.__tickers_array:
+            for __ticker in self.get_tickers(list_number):
 
                 raw_data = []
                 with open(self.__fileDir + dirOutput + 'train_' + __ticker + '.csv', newline='') as f:
@@ -484,7 +484,6 @@ class DataMiner:
 
                 f.close()
 
-                #X_array_ticker, Y_array_tiker = self.__calculate_col_values(3, raw_data)
                 self.__append_to_file(__ticker, raw_data)
 
         except FileNotFoundError:

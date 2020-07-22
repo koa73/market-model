@@ -3,6 +3,8 @@ import dataMiner as d
 
 
 data = d.DataMiner(3)
-data.make_edu_data()
+# 1- long list
+# 2 - short list
+data.make_edu_data(2)
 
 

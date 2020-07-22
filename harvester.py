@@ -51,11 +51,10 @@ def __write_to_file(ticker, data):
 print ("Harvester started ....")
 
 data = D.DataMiner(3)
-__tickers_array = data.get_tickers(1)
-__tickers_array_short = data.get_tickers(2)
 
-
-for __ticker in __tickers_array:
+# 1- long list
+# 2 - short list
+for __ticker in data.get_tickers(2):
 
     loadfile('en', __ticker, "", "2000-01-01", "2019-12-31")
     #input("Press any key ...")
