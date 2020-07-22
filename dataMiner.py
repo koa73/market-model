@@ -132,7 +132,7 @@ class DataMiner:
                            'EXP', 'EXPE', 'EXPO', 'EXR', 'EXTN', 'EXTR', 'EYEG', 'EYES', 'EZPW', 'EZT', 'F', 'FAF',
                            'FANG', 'FANH', 'FARM', 'FARO', 'FAST', 'FATE', 'FAX', 'FB', 'FBIO', 'FBIZ', 'FBK', 'FBMS',
                            'FBNC', 'FBR', 'FBSS', 'FC', 'FCAP', 'FCAU', 'FCBC', 'FCCY', 'FCE-A', 'FCEL', 'FCFS', 'FCN',
-                           'FCNCA', 'FCO', 'FCVT', 'FDBC', 'FDEU', 'FDS', 'FDUS', 'FDX', 'FEIM', 'FELE', 'FEN', 'FENG',
+                           'FCNCA', 'FCO', 'FCVT', 'FDBC', 'FDEU', 'FDS', 'FDUS', 'FEIM', 'FELE', 'FEN', 'FENG',
                            'FET', 'FF', 'FFBC', 'FFC', 'FFIC', 'FFIN', 'FFIV', 'FFKT', 'FFNW', 'FFTY', 'FFWM', 'FHB',
                            'FHN', 'FI', 'FIBK', 'FIBR', 'FICO', 'FII', 'FINL', 'FIS', 'FISK', 'FISV', 'FIT', 'FITB',
                            'FITBI', 'FIVE', 'FIVN', 'FIX', 'FIZZ', 'FL', 'FLC', 'FLDM', 'FLEX', 'FLIC', 'FLL', 'FLO',
@@ -337,6 +337,30 @@ class DataMiner:
                            'XRAY', 'XRM', 'XTLB', 'XXII', 'XYL', 'Y', 'YELP', 'YLD', 'YNDX', 'YORW', 'YRCW', 'YRD',
                            'YTEN', 'YUM', 'YY', 'Z', 'ZAIS', 'ZAYO', 'ZBH', 'ZBIO', 'ZBK', 'ZBRA', 'ZEN', 'ZGNX',
                            'ZION', 'ZIOP', 'ZIXI', 'ZN', 'ZNH', 'ZOES', 'ZSAN', 'ZTR', 'ZTS', 'ZYNE']
+
+        self.__tickers_array_short = tickerlist = ['MSFT', 'AAPL', 'AMZN', 'FB', 'GOOGL', 'TSLA',
+              'INTC', 'NVDA', 'NFLX', 'ADBE', 'PYPL', 'CSCO', 'PEP', 'AROW',
+              'CMCSA', 'AMGN', 'COST', 'TMUS', 'AVGO', 'TXN', 'CHTR', 'ABEV',
+              'QCOM', 'GILD', 'SBUX', 'INTU', 'VRTX', 'MDLZ', 'BKNG',
+              'ISRG', 'FISV', 'REGN', 'ADP', 'AMD', 'ATVI', 'JD', 'AMAT',
+              'ILMN', 'MU', 'CSX', 'ADSK', 'MELI', 'LRCX', 'ADI', 'DOV',
+              'BIIB', 'EBAY', 'DXCM', 'KHC', 'EA', 'LULU', 'MNST', 'WBA',
+              'EXC', 'BIDU', 'XEL', 'WDAY', 'NTES', 'NXPI', 'VFC', 'FMC',
+              'KLAC', 'ORLY', 'SPLK', 'ROST', 'SGEN', 'CTSH', 'SNPS', 'HSIC',
+              'ASML', 'IDXX', 'MAR', 'CSGP', 'CTAS', 'VRSK', 'CDNS', 'GFI',
+              'PAYX', 'PCAR', 'MCHP', 'ANSS', 'SIRI', 'FAST', 'ALXN', 'CBSH',
+              'VRSN', 'XLNX', 'INCY', 'BMRN', 'SWKS', 'ALGN', 'DLTR', 'RYN', 'MDC',
+              'CPRT', 'CTXS', 'TTWO', 'CHKP', 'MXIM', 'CDW','TCOM', 'NAT', 'CERN',
+              'WDC', 'EXPE', 'ULTA', 'NTAP', 'LBTYK', 'ASH', 'EQT', 'TSM', 'APD',
+              'LBTYA', 'HPQ', 'DXC', 'CAG','MAS', 'SPXC', 'BAM', 'TGNA', 'VAR', 'SNN']
+
+
+
+    def get_tickers(self, i):
+        if(i == 1):
+            return self.__tickers_array
+        elif (i == 2):
+            return self.__tickers_array_short
 
     def __get_tickers(self, subdir):
 
