@@ -4,7 +4,6 @@ import re
 from decimal import Decimal as D, ROUND_DOWN
 from datetime import datetime
 import numpy as np
-import datetime,time
 
 
 class DataMiner:
@@ -341,13 +340,13 @@ class DataMiner:
                            'ZION', 'ZIOP', 'ZIXI', 'ZN', 'ZNH', 'ZOES', 'ZSAN', 'ZTR', 'ZTS', 'ZYNE']
 
         self.__tickers_array_short = tickerlist = ['MSFT', 'AAPL', 'AMZN', 'FB', 'GOOGL', 'TSLA',
-              'INTC', 'NVDA', 'NFLX', 'ADBE', 'PYPL', 'CSCO', 'PEP', 'AROW',
-              'CMCSA', 'AMGN', 'COST', 'TMUS', 'AVGO', 'TXN', 'CHTR', 'ABEV',
-              'QCOM', 'GILD', 'SBUX', 'INTU', 'VRTX', 'MDLZ', 'BKNG',
-              'ISRG', 'FISV', 'REGN', 'ADP', 'AMD', 'ATVI', 'JD', 'AMAT',
-              'ILMN', 'MU', 'CSX', 'ADSK', 'MELI', 'LRCX', 'ADI', 'DOV',
-              'BIIB', 'EBAY', 'DXCM', 'KHC', 'EA', 'LULU', 'MNST', 'WBA',
-              'EXC', 'BIDU', 'XEL', 'WDAY', 'NTES', 'NXPI', 'VFC', 'FMC',
+              'INTC', 'NVDA', 'NFLX', 'ADBE', 'PYPL', 'CSCO', 'PEP', 'AROW', 'KBAL', 'RF', 'DB',
+              'CMCSA', 'AMGN', 'COST', 'TMUS', 'AVGO', 'TXN', 'CHTR', 'ABEV', 'VEON', 'UGI', 'RIG',
+              'QCOM', 'GILD', 'SBUX', 'INTU', 'VRTX', 'MDLZ', 'BKNG', 'BAP', 'GGB', 'NVS',
+              'ISRG', 'FISV', 'REGN', 'ADP', 'AMD', 'ATVI', 'JD', 'AMAT', 'BBVA', 'IBN', 'CAR',
+              'ILMN', 'MU', 'CSX', 'ADSK', 'MELI', 'LRCX', 'ADI', 'DOV', 'PEBO', 'CRESY', 'WRI',
+              'BIIB', 'EBAY', 'DXCM', 'KHC', 'EA', 'LULU', 'MNST', 'WBA', 'FNB',
+              'EXC', 'BIDU', 'XEL', 'WDAY', 'NTES', 'NXPI', 'VFC', 'FMC', 'UFPI',
               'KLAC', 'ORLY', 'SPLK', 'ROST', 'SGEN', 'CTSH', 'SNPS', 'HSIC',
               'ASML', 'IDXX', 'MAR', 'CSGP', 'CTAS', 'VRSK', 'CDNS', 'GFI',
               'PAYX', 'PCAR', 'MCHP', 'ANSS', 'SIRI', 'FAST', 'ALXN', 'CBSH',
@@ -415,8 +414,7 @@ class DataMiner:
     # Save arrat to file
     def __save_numpy_array(self, name, data):
 
-        index = str(datetime.datetime.now().timestamp()).replace('.','_')
-        filename = self.__fileDir + '/data/' + name + '_' + str(index)+'.npy'
+        filename = self.__fileDir + '/data/' + name + '_last.npy'
         if os.path.isfile(filename):
             os.remove(filename)
 
@@ -428,7 +426,7 @@ class DataMiner:
     # Read array from file
     def __read_numpy_array(self, name):
 
-         filename = self.__fileDir + '/data/' + name + '.npy'
+         filename = self.__fileDir + '/data/' + name + '_last.npy'
          with open(filename, 'rb') as f:
              return np.load(f)
 
