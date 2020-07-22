@@ -403,10 +403,10 @@ class DataMiner:
             X_array = np.concatenate((X_array, X_array_ticker), axis=0)
             print("->> "+__ticker)
 
-        self.__save_numpy_array("Y_edu", Y_array)
+        self.__save_numpy_array("y_edu", Y_array)
         self.__save_numpy_array("X_edu", X_array)
 
-        print(self.__read_numpy_array('Y_edu').shape)
+        print(self.__read_numpy_array('y_edu').shape)
         print(self.__read_numpy_array('X_edu').shape)
 
 
