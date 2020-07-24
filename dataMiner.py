@@ -109,7 +109,7 @@ class DataMiner:
     # Read array from file
     def __read_numpy_array(self, name):
 
-         filename = self.__fileDir + '/data/' + name + '_last.npy'
+         filename = self.__fileDir + '/data/' + name + '.npy'
          with open(filename, 'rb') as f:
              return np.load(f)
 
