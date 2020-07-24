@@ -59,7 +59,6 @@ for __ticker in data.get_tickers(3):
 
     loadfile('en', __ticker, "", "2020-01-01", "2020-06-30")
     #loadfile('en', __ticker, "", "2000-01-01", "2019-12-31")
-    #input("Press any key ...")
 
 if (len(err_arrsy)>0):
     print (str(len(err_arrsy)) + "- tickets wasn't received : ")
