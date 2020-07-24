@@ -50,12 +50,12 @@ class DataMiner:
         print(">>>>>  Make TEST Data <<<<")
 
         day_from = datetime.strptime(from_day, '%d.%m.%Y')
-
-        X_array = np.empty([0, self.__batch_size, 4])
-        y_array = np.empty([0, 2])
         output = 'test/cases/'
 
         for __ticker in tikers:
+
+            X_array = np.empty([0, self.__batch_size, 4])
+            y_array = np.empty([0, 2])
             filename = self.__fileDir + '/data/test/rawdata/train_' + __ticker + '.csv'
             raw_data = []
 
