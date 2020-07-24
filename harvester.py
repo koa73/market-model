@@ -39,6 +39,7 @@ def __write_to_file(ticker, data):
 
     __fileDir = os.path.dirname(os.path.abspath(__file__))
     __filename = __fileDir + '/data/test/train_' + str(ticker).upper() + '.csv'
+    #__filename = __fileDir + '/data/stocks/train_' + str(ticker).upper() + '.csv'
 
     if os.path.isfile(__filename):
         os.remove(__filename)
@@ -57,6 +58,7 @@ data = D.DataMiner(3)
 for __ticker in data.get_tickers(3):
 
     loadfile('en', __ticker, "", "2020-01-01", "2020-06-30")
+    #loadfile('en', __ticker, "", "2000-01-01", "2019-12-31")
     #input("Press any key ...")
 
 if (len(err_arrsy)>0):
