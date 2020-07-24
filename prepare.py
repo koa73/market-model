@@ -5,7 +5,8 @@ import dataMiner as d
 data = d.DataMiner(3)
 # 1- long list
 # 2 - short list
-data.prepare_data(2)
+#data.prepare_data(2)
+data.list_tickers()
 
 
 
