@@ -111,7 +111,7 @@ class DataMiner:
                     raw_data.append(row)
 
                 counter = counter + len(raw_data)
-                print( "Common counter : " + counter + ' , ticker counter : '+len(raw_data))
+                print( "Common counter : " + str(counter) + ' , ticker counter : '+ str(len(raw_data)))
                 X_array_ticker, y_array_ticker = self.__calculate_col_values(self.__batch_size, raw_data)
             f.close()
 
