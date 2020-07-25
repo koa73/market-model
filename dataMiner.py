@@ -99,6 +99,7 @@ class DataMiner:
         X_array = np.empty([0,self.__batch_size,4])
         y_array = np.empty([0,2])
         counter = 0
+        list_array = []
 
         for __ticker in self.get_tickers(list_number):
 
@@ -111,18 +112,22 @@ class DataMiner:
                 for row in rows:
                     raw_data.append(row)
 
+                if (len(raw_data) < 5030):
+                    continue
                 counter = counter + len(raw_data)
-                print( "Common counter : " + str(counter) + ' , ticker counter : '+ str(len(raw_data)))
+                print("Common counter : " + str(counter) + ' , ticker counter : '+ str(len(raw_data)))
                 X_array_ticker, y_array_ticker = self.__calculate_col_values(self.__batch_size, raw_data)
             f.close()
 
             y_array = np.concatenate((y_array, y_array_ticker), axis=0)
             X_array = np.concatenate((X_array, X_array_ticker), axis=0)
+            list_array.append(__ticker)
             print("->> "+__ticker)
 
         self.__save_numpy_array("y_edu", y_array, prefix)
         self.__save_numpy_array("X_edu", X_array, prefix)
 
+        print(list_array)
         print(self.__read_numpy_array('y_edu', prefix).shape)
         print(self.__read_numpy_array('X_edu', prefix).shape)
 
