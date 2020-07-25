@@ -97,6 +97,7 @@ class DataMiner:
 
         X_array = np.empty([0,self.__batch_size,4])
         y_array = np.empty([0,2])
+        counter = 0
 
         for __ticker in self.get_tickers(list_number):
 
@@ -109,6 +110,8 @@ class DataMiner:
                 for row in rows:
                     raw_data.append(row)
 
+                counter = counter + len(raw_data)
+                print( "Common counter : " + counter + ' , ticker counter : '+len(raw_data))
                 X_array_ticker, y_array_ticker = self.__calculate_col_values(self.__batch_size, raw_data)
             f.close()
 
@@ -219,7 +222,6 @@ class DataMiner:
 
         csv_out_file.close()
 
-
     def __change_percent(self, current, next):
 
         return float(D((float(next) - float(current))/float(current)).quantize(D(self.__accuracy), rounding=ROUND_DOWN))
@@ -304,7 +306,6 @@ class DataMiner:
 
         except FileNotFoundError:
             print('Error: File "' + __ticker + '.csv" not found')
-
 
     # Convert date to day of year
     def __day_of_year(self, date_str):
