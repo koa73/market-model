@@ -333,15 +333,15 @@ class DataMiner:
 
             elif (shape == 1):
 
-                if (y_value >= self.__max_border):
+                if (y_value ==1):
                     y_array_0.append(y_row)
                     X_array_0.append(X_row)
 
-                elif ((y_value > self.__min_border) and (y_value < self.__max_border)):
+                elif (y_value == 0.5):
                     y_array_1.append(y_row)
                     X_array_1.append(X_row)
 
-                elif (y_value <= self.__min_border):
+                elif (y_value == -1):
                     y_array_2.append(y_row)
                     X_array_2.append(X_row)
 
