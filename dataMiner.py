@@ -62,13 +62,13 @@ class DataMiner:
         output = 'test/cases/binary/'
 
         X_array_UP = np.empty([0, self.__batch_size, 4])
-        y_array_UP = np.empty([0, 1])
+        y_array_UP = np.empty([0, 3])
 
         X_array_NONE = np.empty([0, self.__batch_size, 4])
-        y_array_NONE = np.empty([0, 1])
+        y_array_NONE = np.empty([0, 3])
 
         X_array_DOWN = np.empty([0, self.__batch_size, 4])
-        y_array_DOWN = np.empty([0, 1])
+        y_array_DOWN = np.empty([0, 3])
 
         for __ticker in tickers:
 
@@ -162,7 +162,7 @@ class DataMiner:
 
         X_array = np.empty([0,self.__batch_size,4])
         #y_array = np.empty([0,2])
-        y_array = np.empty([0, 1])
+        y_array = np.empty([0, 3])
         counter = 0
         list_array = []
 
