@@ -56,7 +56,7 @@ class DataMiner:
         return tikers
 
     # Prepare binary test cases
-    def male_test_data_binary(self, tickers):
+    def male_test_data_binary(self, tickers, prefix):
 
         print(">>>>>  Make BINARY TEST Data <<<<")
         output = 'test/cases/binary/'
@@ -95,19 +95,19 @@ class DataMiner:
 
             print("->> " + __ticker)
 
-        self.__save_numpy_array(output + "y_test_UP", y_array_UP , '')
-        self.__save_numpy_array(output + "X_test_UP", X_array_UP, '')
-        self.__save_numpy_array(output + "y_test_NONE", y_array_NONE, '')
-        self.__save_numpy_array(output + "X_test_NONE", X_array_NONE, '')
-        self.__save_numpy_array(output + "y_test_DOWN", y_array_DOWN, '')
-        self.__save_numpy_array(output + "X_test_DOWN", X_array_DOWN, '')
+        self.__save_numpy_array(output + "y_test_UP", y_array_UP , prefix)
+        self.__save_numpy_array(output + "X_test_UP", X_array_UP, prefix)
+        self.__save_numpy_array(output + "y_test_NONE", y_array_NONE, prefix)
+        self.__save_numpy_array(output + "X_test_NONE", X_array_NONE, prefix)
+        self.__save_numpy_array(output + "y_test_DOWN", y_array_DOWN, prefix)
+        self.__save_numpy_array(output + "X_test_DOWN", X_array_DOWN, prefix)
 
-        print(self.__read_numpy_array(output + "y_test_UP",'').shape)
-        print(self.__read_numpy_array(output + "X_test_UP", '').shape)
-        print(self.__read_numpy_array(output + "y_test_NONE", '').shape)
-        print(self.__read_numpy_array(output + "X_test_NONE", '').shape)
-        print(self.__read_numpy_array(output + "y_test_DOWN", '').shape)
-        print(self.__read_numpy_array(output + "X_test_DOWN", '').shape)
+        print(self.__read_numpy_array(output + "y_test_UP",prefix).shape)
+        print(self.__read_numpy_array(output + "X_test_UP", prefix).shape)
+        print(self.__read_numpy_array(output + "y_test_NONE", prefix).shape)
+        print(self.__read_numpy_array(output + "X_test_NONE", prefix).shape)
+        print(self.__read_numpy_array(output + "y_test_DOWN", prefix).shape)
+        print(self.__read_numpy_array(output + "X_test_DOWN", prefix).shape)
 
 
     def make_test_data(self, tickers, from_day, days):
