@@ -324,7 +324,7 @@ class DataMiner:
             X_row = np.delete(n_array[i:end], np.s_[0, 1, 2, 3], 1)
             y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
             #y_row = np.array([f_ch_percent_low,f_ch_percent_high])
-            self.__check_added_array(y_row, X_row)
+            #self.__check_added_array(y_row, X_row)
 
             if (shape == 0):
                 y_array_0.append(y_row)
