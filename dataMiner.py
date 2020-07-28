@@ -333,7 +333,7 @@ class DataMiner:
 
             elif (shape == 1):
 
-                if (y_value ==1):
+                if (y_value == 1):
                     y_array_0.append(y_row)
                     X_array_0.append(X_row)
 
@@ -359,7 +359,7 @@ class DataMiner:
         elif ((y > self.__min_border) and (y < self.__max_border)):
             return 0.5
         elif (y <= self.__min_border):
-            return -1
+            return 0
 
     # Check dictionary
     def check_dictionary(self, dirname):
