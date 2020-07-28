@@ -322,10 +322,9 @@ class DataMiner:
 
             # Remove abs values from array
             X_row = np.delete(n_array[i:end], np.s_[0, 1, 2, 3], 1)
-            y_value = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
-            y_row = np.array([y_value])
+            y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
             #y_row = np.array([f_ch_percent_low,f_ch_percent_high])
-            #self.__check_added_array(y_row, X_row)
+            self.__check_added_array(y_row, X_row)
 
             if (shape == 0):
                 y_array_0.append(y_row)
@@ -355,11 +354,11 @@ class DataMiner:
     def __calc_y_valee(self, low, high):
         y = low + high
         if (y >= self.__max_border):
-            return 0.1
+            return 0.1, np.array([1,0,0])
         elif ((y > self.__min_border) and (y < self.__max_border)):
-            return 0.05
+            return 0.05, np.array([0,1,0])
         elif (y <= self.__min_border):
-            return 0
+            return 0, np.array([0,0,1])
 
     # Check dictionary
     def check_dictionary(self, dirname):
