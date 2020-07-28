@@ -333,11 +333,11 @@ class DataMiner:
 
             elif (shape == 1):
 
-                if (y_value == 1):
+                if (y_value == 0.1):
                     y_array_0.append(y_row)
                     X_array_0.append(X_row)
 
-                elif (y_value == 0.5):
+                elif (y_value == 0.05):
                     y_array_1.append(y_row)
                     X_array_1.append(X_row)
 
@@ -355,9 +355,9 @@ class DataMiner:
     def __calc_y_valee(self, low, high):
         y = low + high
         if (y >= self.__max_border):
-            return 1
+            return 0.1
         elif ((y > self.__min_border) and (y < self.__max_border)):
-            return 0.5
+            return 0.05
         elif (y <= self.__min_border):
             return 0
 
