@@ -357,7 +357,7 @@ class DataMiner:
         if (y >= self.__max_border):
             return 1
         elif ((y > self.__min_border) and (y < self.__max_border)):
-            return 0
+            return 0.5
         elif (y <= self.__min_border):
             return -1
 
