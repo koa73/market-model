@@ -14,7 +14,7 @@ class DataMiner:
     def __init__(self, batch_size):
 
         self.__batch_size = batch_size
-        self.__accuracy = '0.000001'
+        self.__accuracy = '0.0001'
         self.__max_border = 0.02
         self.__min_border = -0.02
 
@@ -312,6 +312,9 @@ class DataMiner:
 
         X_array_1 = []
         y_array_1 = []
+
+        X_array_10 = []
+        y_array_10 = []
 
         X_array_2 = []
         y_array_2 = []
