@@ -205,6 +205,10 @@ class DataMiner:
         print(self.__read_numpy_array('y_edu', prefix).shape)
         print(self.__read_numpy_array('X_edu', prefix).shape)
 
+    # Read edu array
+    def get_edu(self, name, prefix):
+        return self.__read_numpy_array(name, prefix)
+
     #
     # Save arrat to file
     def __save_numpy_array(self, name, data, prefix):
@@ -465,3 +469,6 @@ class DataMiner:
         print(x_row)
         print(y_row)
         input("Press any key")
+
+    def get_current_dir(self):
+        return self.__fileDir
