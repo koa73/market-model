@@ -48,7 +48,6 @@ def __write_to_file(ticker, data):
         data.to_csv(f)
     f.close()
 
-
 print ("Harvester started ....")
 
 data = D.DataMiner(3)
