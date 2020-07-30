@@ -168,7 +168,7 @@ class DataMiner:
         X_array = np.empty([0,self.__batch_size,4])
         #y_array = np.empty([0,2])
         #y_array = np.empty([0, 3])
-        y_array = np.empty([0, 4])
+        y_array = np.empty([0, 3])
         counter = 0
         list_array = []
 
@@ -189,7 +189,6 @@ class DataMiner:
                 print("Common counter : " + str(counter) + ' , ticker counter : '+ str(len(raw_data)))
                 print("UP : " + str(self.__count_up))
                 print("NONE : " + str(self.__count_none))
-                print("NONE_ : " + str(self.__count_none_))
                 print("DOWN : " + str(self.__count_down))
                 X_array_ticker, y_array_ticker = self.__calculate_col_values(self.__batch_size, raw_data)
             f.close()
@@ -321,9 +320,6 @@ class DataMiner:
         X_array_1 = []
         y_array_1 = []
 
-        X_array_10 = []
-        y_array_10 = []
-
         X_array_2 = []
         y_array_2 = []
 
@@ -360,10 +356,6 @@ class DataMiner:
                     y_array_1.append(y_row)
                     X_array_1.append(X_row)
 
-                elif (y_value == 0.04):
-                    y_array_10.append(y_row)
-                    X_array_10.append(X_row)
-
                 elif (y_value == 0):
                     y_array_2.append(y_row)
                     X_array_2.append(X_row)
@@ -372,7 +364,7 @@ class DataMiner:
             return np.array(X_array_0), np.array(y_array_0)
         elif (shape == 1):
             return np.array(X_array_0), np.array(y_array_0), np.array(X_array_1), np.array(y_array_1), \
-                   np.array(X_array_10), np.array(y_array_10), np.array(X_array_2), np.array(y_array_2)
+                np.array(X_array_2), np.array(y_array_2)
 
 
 
@@ -381,17 +373,13 @@ class DataMiner:
         y = low + high
         if (y >= self.__max_border):
             self.__count_up +=1
-            return 0.1, np.array([1,0,0,0])
+            return 0.1, np.array([1,0,0])
         elif ((y > self.__min_border) and (y < self.__max_border)):
-            if ( y >=0):
-                self.__count_none += 1
-                return 0.05, np.array([0,1,0,0])
-            else:
-                self.__count_none_ += 1
-                return 0.04, np.array([0, 0, 1, 0])
+            self.__count_none += 1
+            return 0.05, np.array([0, 1, 0])
         elif (y <= self.__min_border):
             self.__count_down += 1
-            return 0, np.array([0,0,0,1])
+            return 0, np.array([0,0,1])
 
     # Check dictionary
     def check_dictionary(self, dirname):
