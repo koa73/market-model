@@ -306,8 +306,8 @@ class DataMiner:
 
     def __change_percent(self, current, next):
 
-        return (float(next) - float(current))/float(current)
-        #return float(D((float(next) - float(current))/float(current)).quantize(D(self.__accuracy), rounding=ROUND_DOWN))
+        #return (float(next) - float(current))/float(current)
+        return float(D((float(next) - float(current))/float(current)).quantize(D(self.__accuracy), rounding=ROUND_DOWN))
 
     def __calculate_col_values(self, range_size, raw_data, shape=0):
 
