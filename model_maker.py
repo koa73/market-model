@@ -24,8 +24,11 @@ inputs = Input(shape=(12,) )
 # a layer instance is callable on a tensor, and returns a tensor
 x = LayerNormalization(axis=1)(inputs)
 x = Dense(60, activation='tanh')(x)
+x = LayerNormalization(axis=1) (x)
 x = Dense(60, activation='tanh')(x)
+x = LayerNormalization(axis=1) (x)
 x = Dense(60, activation='tanh')(x)
+x = LayerNormalization(axis=1) (x)
 x = Dense(60, activation='tanh')(x)
 predictions = Dense(3,  activation='softmax', name="output")(x)
 
