@@ -3,7 +3,6 @@
 from keras.layers import Input, Dense, Dropout, Concatenate
 from keras.callbacks import ModelCheckpoint
 from keras.models import Model
-from keras import regularizers
 import dataMiner as D
 
 data = D.DataMiner(3)
