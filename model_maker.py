@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from keras.layers import Input, Dense, Dropout, Concatenate
+from keras.layers import Input, Dense, Dropout, Concatenate, Layer
 from keras.callbacks import ModelCheckpoint
 from keras.models import Model
 import dataMiner as D
@@ -22,7 +22,8 @@ print(X_train[0])
 inputs = Input(shape=(12,) )
 
 # a layer instance is callable on a tensor, and returns a tensor
-x = Dense(60, activation='tanh')(inputs)
+x = Layer.LayerNormalization(axis=1)(inputs)
+x = Dense(60, activation='tanh')(x)
 x = Dense(60, activation='tanh')(x)
 x = Dense(60, activation='tanh')(x)
 x = Dense(60, activation='tanh')(x)
