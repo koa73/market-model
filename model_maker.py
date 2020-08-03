@@ -9,9 +9,9 @@ data = D.DataMiner(3)
 
 print("Start model making ....")
 
-X_train = data.get_edu('X_edu', '_last_b3')
+X_train = data.get_edu('X_edu', '_last_b7')
 X_train = X_train.reshape(X_train.shape[0],-1)
-y_train =  data.get_edu('y_edu', '_last_b3')
+y_train =  data.get_edu('y_edu', '_last_b7')
 
 print("X_edu : " + str(X_train.shape))
 print("y_edu : " + str(y_train.shape))
