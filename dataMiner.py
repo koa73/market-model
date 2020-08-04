@@ -327,10 +327,8 @@ class DataMiner:
             end = i + range_size
 
             # Find max & min in feature slice period
-            #f_max = np.max(n_array[i + range_size:end + range_size], axis=0)[0]
-            #f_min = np.min(n_array[i + range_size:end + range_size], axis=0)[1]
-            f_max = np.max(n_array[i + range_size:end + 1], axis=0)[0]
-            f_min = np.min(n_array[i + range_size:end + 1], axis=0)[1]
+            f_max = np.max(n_array[i + range_size:end + range_size], axis=0)[0]
+            f_min = np.min(n_array[i + range_size:end + range_size], axis=0)[1]
 
             # Find Low & High change in feature slice period
             f_ch_percent_low = self.__change_percent(str(n_array[i:end][-1][3]), f_min)
@@ -338,11 +336,12 @@ class DataMiner:
 
             # Remove abs values from array
             X_row = np.delete(n_array[i:end], np.s_[0, 1, 2, 3], 1)
-            y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
-            #y_row = np.array([f_ch_percent_low,f_ch_percent_high])
+            #y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
+            y_row = np.array([f_ch_percent_low,f_ch_percent_high])
+            y_value = 1
 
-            #if (i == 0):
-                #self.__check_added_array(y_row, X_row)
+            if (i == 0):
+                self.__check_added_array(y_row, X_row)
 
             if (shape == 0):
                 y_array_0.append(y_row)
