@@ -380,16 +380,16 @@ class DataMiner:
     def __calc_y_valee(self, low, high):
         y = low + high
         if (y >= self.__max_border):
-            print("Y : "+str(y)+" Low/High :"+str(low)+" \ "+str(high))
+            #print("Y : "+str(y)+" Low/High :"+str(low)+" \ "+str(high))
             self.__count_up +=1
             return 0.1, np.array([1,0,0])
         elif ((y > self.__min_border) and (y < self.__max_border)):
             self.__count_none += 1
-            print("Y : " + str(y) + " Low/High :" + str(low) + " \ " + str(high))
+            #print("Y : " + str(y) + " Low/High :" + str(low) + " \ " + str(high))
             return 0.05, np.array([0, 1, 0])
         elif (y <= self.__min_border):
             self.__count_down += 1
-            print("Y : " + str(y) + " Low/High :" + str(low) + " \ " + str(high))
+            #print("Y : " + str(y) + " Low/High :" + str(low) + " \ " + str(high))
             return 0, np.array([0,0,1])
 
     # Check dictionary
