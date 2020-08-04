@@ -27,7 +27,7 @@ x = Dense(24, activation='tanh')(x)
 x = Dense(48, activation='tanh')(x)
 x = Dense(24, activation='tanh')(x)
 x = Dense(12, activation='tanh')(x)
-predictions = Dense(2,  activation='tanh', name="output")(x)
+predictions = Dense(3,  activation='softmax', name="output")(x)
 
 # This creates a model that includes
 # the Input layer and three Dense layers
