@@ -23,13 +23,10 @@ inputs = Input(shape=(12,) )
 
 # a layer instance is callable on a tensor, and returns a tensor
 x = LayerNormalization(axis=1)(inputs)
-x = Dense(60, activation='tanh')(x)
-x = LayerNormalization(axis=1) (x)
-x = Dense(60, activation='tanh')(x)
-x = LayerNormalization(axis=1) (x)
-x = Dense(60, activation='tanh')(x)
-x = LayerNormalization(axis=1) (x)
-x = Dense(60, activation='tanh')(x)
+x = Dense(24, activation='tanh')(x)
+x = Dense(48, activation='tanh')(x)
+x = Dense(24, activation='tanh')(x)
+x = Dense(12, activation='tanh')(x)
 predictions = Dense(3,  activation='softmax', name="output")(x)
 
 # This creates a model that includes
@@ -43,5 +40,5 @@ model.compile(optimizer='adam',
 '''
 saves the model weights after each epoch if the validation loss decreased
 '''
-checkpointer = ModelCheckpoint(filepath=data.get_current_dir()+ "\data\model_test\weights.h5", verbose=1, save_best_only=True)
+checkpointer = ModelCheckpoint(filepath = data.get_current_dir()+ "\data\model_test\weights.h5", verbose=1, save_best_only=True)
 model.fit(X_train, y_train, epochs=100, batch_size=1, validation_split=0.05, verbose=1 , callbacks=[checkpointer])  # starts training
