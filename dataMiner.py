@@ -327,8 +327,10 @@ class DataMiner:
             end = i + range_size
 
             # Find max & min in feature slice period
-            f_max = np.max(n_array[i + range_size:end + range_size], axis=0)[0]
-            f_min = np.min(n_array[i + range_size:end + range_size], axis=0)[1]
+            #f_max = np.max(n_array[i + range_size:end + range_size], axis=0)[0]
+            #f_min = np.min(n_array[i + range_size:end + range_size], axis=0)[1]
+            f_max = np.max(n_array[i + range_size:end + 1], axis=0)[0]
+            f_min = np.min(n_array[i + range_size:end + 1], axis=0)[1]
 
             # Find Low & High change in feature slice period
             f_ch_percent_low = self.__change_percent(str(n_array[i:end][-1][3]), f_min)
