@@ -61,7 +61,7 @@ class DataMiner:
         return tikers
 
     # Prepare binary test cases
-    def male_test_data_binary(self, tickers, prefix):
+    def make_test_data_binary(self, tickers, prefix):
 
         print(">>>>>  Make BINARY TEST Data <<<<")
         output = 'test/cases/binary/'
@@ -336,9 +336,9 @@ class DataMiner:
 
             # Remove abs values from array
             X_row = np.delete(n_array[i:end], np.s_[0, 1, 2, 3], 1)
-            #y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
-            y_row = np.array([f_ch_percent_low,f_ch_percent_high])
-            y_value = 1
+            y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
+            #y_row = np.array([f_ch_percent_low,f_ch_percent_high])
+            #y_value = 1
 
             if (i == 0):
                 self.__check_added_array(y_row, X_row)
