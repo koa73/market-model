@@ -335,9 +335,9 @@ class DataMiner:
 
             # Find Low & High change in feature slice period
             base_point = n_array[i:end][-1][3]
-            print(str(base_point))
-            print(f_max)
-            print(f_min)
+            #print(str(base_point))
+            #print(f_max)
+            #print(f_min)
             f_ch_percent_low = self.__change_percent(base_point, f_min)
             f_ch_percent_high = self.__change_percent(base_point, f_max)
 
