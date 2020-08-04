@@ -330,12 +330,14 @@ class DataMiner:
             #f_max = np.max(n_array[i + range_size:end + range_size], axis=0)[0]
             #f_min = np.min(n_array[i + range_size:end + range_size], axis=0)[1]
 
-            f_max = np.max(n_array[i + 1:i+ 2], axis=0)[0]
-            f_min = np.min(n_array[i + 1:i + 2], axis=0)[1]
-
+            f_max = np.max(n_array[i + range_size:end + 1], axis=0)[0]
+            f_min = np.min(n_array[i + range_size:end + 1], axis=0)[1]
 
             # Find Low & High change in feature slice period
-            base_point =  n_array[i][3]
+            base_point = n_array[i:end][-1][3]
+            print(str(base_point))
+            print(f_max)
+            print(f_min)
             f_ch_percent_low = self.__change_percent(base_point, f_min)
             f_ch_percent_high = self.__change_percent(base_point, f_max)
 
@@ -343,10 +345,10 @@ class DataMiner:
             X_row = np.delete(n_array[i:end], np.s_[0, 1, 2, 3], 1)
             y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
             #y_row = np.array([f_ch_percent_low,f_ch_percent_high])
-            #y_value = 1
 
-            #if (i == 0):
-                #self.__check_added_array(y_row, X_row)
+            if (i == 0):
+                self.__check_added_array(y_row, X_row)
+
 
             if (shape == 0):
                 y_array_0.append(y_row)
@@ -357,9 +359,6 @@ class DataMiner:
                 if (y_value == 0.1):
                     y_array_0.append(y_row)
                     X_array_0.append(X_row)
-                    print(raw_data[i])
-                    print("----> "+str(f_min)+" / "+str(f_max))
-                    print("=====>>> "+str(base_point))
 
                 elif (y_value == 0.05):
                     y_array_1.append(y_row)
@@ -386,9 +385,11 @@ class DataMiner:
             return 0.1, np.array([1,0,0])
         elif ((y > self.__min_border) and (y < self.__max_border)):
             self.__count_none += 1
+            print("Y : " + str(y) + " Low/High :" + str(low) + " \ " + str(high))
             return 0.05, np.array([0, 1, 0])
         elif (y <= self.__min_border):
             self.__count_down += 1
+            print("Y : " + str(y) + " Low/High :" + str(low) + " \ " + str(high))
             return 0, np.array([0,0,1])
 
     # Check dictionary
