@@ -15,8 +15,8 @@ class DataMiner:
 
         self.__batch_size = batch_size
         self.__accuracy = '0.00001'
-        self.__max_border = 0.02
-        self.__min_border = -0.02
+        self.__max_border = 0.05
+        self.__min_border = -0.05
 
         self.__count_up = 0
         self.__count_down = 0
@@ -327,12 +327,17 @@ class DataMiner:
             end = i + range_size
 
             # Find max & min in feature slice period
-            f_max = np.max(n_array[i + range_size:end + range_size], axis=0)[0]
-            f_min = np.min(n_array[i + range_size:end + range_size], axis=0)[1]
+            #f_max = np.max(n_array[i + range_size:end + range_size], axis=0)[0]
+            #f_min = np.min(n_array[i + range_size:end + range_size], axis=0)[1]
+
+            f_max = np.max(n_array[i + 1:i+ 2], axis=0)[0]
+            f_min = np.min(n_array[i + 1:i + 2], axis=0)[1]
+
 
             # Find Low & High change in feature slice period
-            f_ch_percent_low = self.__change_percent(str(n_array[i:end][-1][3]), f_min)
-            f_ch_percent_high = self.__change_percent(str(n_array[i:end][-1][3]), f_max)
+            base_point =  n_array[i][3]
+            f_ch_percent_low = self.__change_percent(base_point, f_min)
+            f_ch_percent_high = self.__change_percent(base_point, f_max)
 
             # Remove abs values from array
             X_row = np.delete(n_array[i:end], np.s_[0, 1, 2, 3], 1)
@@ -340,8 +345,8 @@ class DataMiner:
             #y_row = np.array([f_ch_percent_low,f_ch_percent_high])
             #y_value = 1
 
-            #if (i == 0):
-            #    self.__check_added_array(y_row, X_row)
+            if (i == 0):
+                self.__check_added_array(y_row, X_row)
 
             if (shape == 0):
                 y_array_0.append(y_row)
@@ -352,6 +357,9 @@ class DataMiner:
                 if (y_value == 0.1):
                     y_array_0.append(y_row)
                     X_array_0.append(X_row)
+                    print(raw_data[i])
+                    print("----> "+str(f_min)+" / "+str(f_max))
+                    print("=====>>> "+str(base_point))
 
                 elif (y_value == 0.05):
                     y_array_1.append(y_row)
@@ -373,6 +381,7 @@ class DataMiner:
     def __calc_y_valee(self, low, high):
         y = low + high
         if (y >= self.__max_border):
+            print("Y : "+str(y)+" Low/High :"+str(low)+" \ "+str(high))
             self.__count_up +=1
             return 0.1, np.array([1,0,0])
         elif ((y > self.__min_border) and (y < self.__max_border)):
