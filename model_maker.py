@@ -40,5 +40,5 @@ model.compile(optimizer='adam',
 '''
 saves the model weights after each epoch if the validation loss decreased
 '''
-checkpointer = ModelCheckpoint(filepath = data.get_current_dir()+ "\data\model_test\weights.h5", verbose=1, save_best_only=True)
+checkpointer = ModelCheckpoint(filepath = data.get_current_dir()+ "/data/model_test/weights.h5", verbose=1, save_best_only=True)
 model.fit(X_train, y_train, epochs=100, batch_size=1, validation_split=0.05, verbose=1 , callbacks=[checkpointer])  # starts training
