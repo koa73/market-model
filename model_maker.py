@@ -10,6 +10,10 @@ data = D.DataMiner(3)
 
 print("Start model making ....")
 
+if (len(sys.argv) < 2):
+    print("Argument not found ")
+    exit(0)
+
 X_train = data.get_edu('X_edu', '_last_'+sys.argv[1])
 X_train = X_train.reshape(X_train.shape[0],-1)
 y_train =  data.get_edu('y_edu', '_last_'+sys.argv[1])

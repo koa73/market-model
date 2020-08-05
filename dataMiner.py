@@ -478,6 +478,6 @@ class DataMiner:
         :param model:
         :return: Null
         """
-        json_file = open(self.__fileDir + "/model_test/weights_"+prefix+".json", "w")
+        json_file = open(self.__fileDir + "/data/model_test/weights_"+prefix+".json", "w")
         json_file.write(model.to_json())
         json_file.close()
