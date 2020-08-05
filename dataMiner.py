@@ -243,8 +243,9 @@ class DataMiner:
     # Prepare data from stock rates
     def __prepare_data(self, tikers,  inpDir, outDir):
 
-        try:
-            for __ticker in  tikers:
+        for __ticker in tikers:
+
+            try:
 
                 raw_data = []
                 with open(self.__fileDir + '/data/' + inpDir + 'train_' + __ticker + '.csv', newline='') as f:
@@ -253,7 +254,6 @@ class DataMiner:
                     rows = csv.reader(f, delimiter=',', quotechar='|')
                     row = next(rows)
                     zero_value = 0
-
 
                     while True:
                         try:
@@ -291,15 +291,14 @@ class DataMiner:
                             zero_value = 1
                             break
 
-
                 f.close()
                 if (zero_value == 0):
                     print("---- " + __ticker + " ----------")
                     self.__append_to_file(__ticker, raw_data, outDir)
 
-        except FileNotFoundError:
-
-            print('Error: File "' + __ticker + '.csv" not found')
+            except FileNotFoundError:
+                print('Error: File "' + __ticker + '.csv" not found')
+                continue
 
     # Write data to output csv file
     def __append_to_file(self, name, data, subdir):
