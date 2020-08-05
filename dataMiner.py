@@ -35,7 +35,7 @@ class DataMiner:
               'QCOM',  'SBUX', 'INTU',  'MDLZ', 'BKNG',   'NVS',
               'ISRG', 'FISV', 'REGN', 'ADP',  'ATVI', 'JD', 'AMAT', 'BBVA', 'CAR',
               'ILMN', 'MU', 'CSX', 'ADSK', 'MELI', 'LRCX', 'ADI', 'DOV',  'WRI',
-              'EBAY', 'KHC', 'EA', 'LULU', 'MNST', 'WBA', 'FNB',
+              'EBAY', 'KHC', 'EA', 'LULU',  'WBA', 'FNB',
               'EXC', 'BIDU', 'XEL', 'WDAY', 'NTES', 'NXPI', 'VFC', 'FMC', 'UFPI',
               'KLAC', 'ORLY', 'SPLK', 'ROST', 'SGEN', 'CTSH', 'SNPS', 'HSIC',
               'ASML', 'IDXX', 'MAR', 'CSGP', 'CTAS', 'VRSK', 'CDNS', 'GFI',
