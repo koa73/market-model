@@ -167,7 +167,6 @@ class DataMiner:
 
         X_array = np.empty([0,self.__batch_size,4])
         #y_array = np.empty([0,2])
-        #y_array = np.empty([0, 3])
         y_array = np.empty([0, 3])
         counter = 0
         list_array = []
@@ -256,13 +255,14 @@ class DataMiner:
                             next_row = next(rows)
 
                             # Find carrier as a change of open in percentages
-                            carrier = self.__change_percent(row[3], next_row[3])
+                            carrier_0 = self.__change_percent(row[3], next_row[3])
+                            carrier_1 = self.__change_percent(row[3], next_row[3])
                             row = next_row
 
                             # Find day of year
                             day_of_year = self.__day_of_year(row[0])
                             row.append(day_of_year)
-                            row.append(carrier)
+                            row.append(carrier_1)
 
                             low_ = self.__change_percent(row[3], row[2])
                             row.append(low_)
@@ -473,11 +473,11 @@ class DataMiner:
     def get_current_dir(self):
         return self.__fileDir
 
-    def save_conf(self, model):
+    def save_conf(self, model, prefix):
         """
         :param model:
         :return: Null
         """
-        json_file = open(self.__fileDir + "\model_test\weights.json", "w")
+        json_file = open(self.__fileDir + "/model_test/weights_"+prefix+".json", "w")
         json_file.write(model.to_json())
         json_file.close()

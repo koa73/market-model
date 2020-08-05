@@ -3,15 +3,16 @@
 from keras.layers import Input, Dense, Dropout, Concatenate
 from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 from keras.models import Model
+import sys
 import dataMiner as D
 
 data = D.DataMiner(3)
 
 print("Start model making ....")
 
-X_train = data.get_edu('X_edu', '_last_b11')
+X_train = data.get_edu('X_edu', '_last_'+sys.argv[0])
 X_train = X_train.reshape(X_train.shape[0],-1)
-y_train =  data.get_edu('y_edu', '_last_b11')
+y_train =  data.get_edu('y_edu', '_last_'+sys.argv[0])
 
 print("X_edu : " + str(X_train.shape))
 print("y_edu : " + str(y_train.shape))
@@ -32,7 +33,7 @@ predictions = Dense(3,  activation='softmax', name="output")(x)
 # This creates a model that includes
 # the Input layer and three Dense layers
 model = Model(inputs=inputs, outputs=predictions)
-data.save_conf(model)                                                  # Запись конфигурации скти для прерывания расчета
+data.save_conf(model, sys.argv[0])                                                  # Запись конфигурации скти для прерывания расчета
 model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['acc'])
@@ -40,7 +41,7 @@ model.compile(optimizer='adam',
 '''
 saves the model weights after each epoch if the validation loss decreased
 '''
-checkpointer = ModelCheckpoint(filepath = data.get_current_dir()+ "/data/model_test/weights.h5", verbose=1, save_best_only=True)
+checkpointer = ModelCheckpoint(filepath = data.get_current_dir()+ "/data/model_test/weights_"+sys.argv[0]+".h5", verbose=1, save_best_only=True)
 
 '''
 уменьшать значение шага градиентного спуска
