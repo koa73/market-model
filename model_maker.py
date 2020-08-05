@@ -24,11 +24,10 @@ print("y_edu : " + str(y_train.shape))
 print(X_train[0])
 #input("Wait any key ....")
 # This returns a tensor
-inputs = Input(shape=(12,) )
+inputs = Input(shape=(18,) )
 
 # a layer instance is callable on a tensor, and returns a tensor
-x = Dense(18, activation='tanh')(inputs)
-x = Dense(36, activation='tanh')(x)
+x = Dense(36, activation='tanh')(inputs)
 x = Dense(54, activation='tanh')(x)
 x = Dense(24, activation='tanh')(x)
 x = Dense(6, activation='tanh')(x)
