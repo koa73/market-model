@@ -252,8 +252,8 @@ class DataMiner:
                     next(f)
                     rows = csv.reader(f, delimiter=',', quotechar='|')
                     row = next(rows)
+                    zero_value = 0
 
-                    print("---- " + __ticker + " ----------")
 
                     while True:
                         try:
@@ -288,12 +288,14 @@ class DataMiner:
                         except StopIteration:
                             break
                         except ZeroDivisionError:
-                            print(row)
-                            exit(0)
+                            zero_value = 1
+                            break
+
 
                 f.close()
-
-                self.__append_to_file(__ticker, raw_data, outDir)
+                if (zero_value == 0):
+                    print("---- " + __ticker + " ----------")
+                    self.__append_to_file(__ticker, raw_data, outDir)
 
         except FileNotFoundError:
 
