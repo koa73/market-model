@@ -390,8 +390,6 @@ class DataMiner:
             return np.array(X_array_0), np.array(y_array_0), np.array(X_array_1), np.array(y_array_1), \
                 np.array(X_array_2), np.array(y_array_2)
 
-
-
     # Find binary value
     def __calc_y_valee(self, low, high):
         y = low + high
