@@ -354,8 +354,8 @@ class DataMiner:
             y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
             #y_row = np.array([f_ch_percent_low,f_ch_percent_high])
 
-            #if (i == 0):
-            #    self.__check_added_array(y_row, X_row)
+            if (i == 0):
+                self.__check_added_array(y_row, X_row)
 
 
             if (shape == 0):
