@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from keras.layers import Input, Dense, Dropout, Concatenate
-from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
+from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau, EarlyStopping
 from keras.models import Model
 import sys
 import dataMiner as D
@@ -51,4 +51,9 @@ checkpointer = ModelCheckpoint(filepath = data.get_current_dir()+ "/data/model_t
 уменьшать значение шага градиентного спуска
 '''
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.9, patience=10, min_lr=0.000001, verbose=1)
-model.fit(X_train, y_train, epochs=100, batch_size=10, validation_split=0.05, verbose=1, callbacks=[checkpointer,reduce_lr])  # starts training
+
+early_stopping = EarlyStopping(monitor='val_accuracy', min_delta=0, patience=5, verbose=1, mode='auto')
+
+model.fit(X_train, y_train, epochs=100, batch_size=10, validation_split=0.05, verbose=1, callbacks=[checkpointer,
+                                                                                                    reduce_lr,
+                                                                                                    early_stopping])  # starts training
