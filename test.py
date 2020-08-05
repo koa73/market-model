@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-import tensorflow as tf
-import keras
-print(tf.__version__)
-print(keras.__version__)
+import dataMiner as d
+
+data = d.DataMiner(3)
+data.list_tickers()
