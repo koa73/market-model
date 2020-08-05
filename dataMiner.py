@@ -11,6 +11,7 @@ class DataMiner:
     __fileDir = os.path.dirname(os.path.abspath(__file__))
     __tikets =[]
     __stop_counter = 0
+    __break = 54000
 
     def __init__(self, batch_size):
 
@@ -352,7 +353,7 @@ class DataMiner:
 
             # Remove abs values from array
             y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
-            if ((y_value == 5) and ( self.__stop_counter > 54000)):
+            if ((y_value == 5) and ( self.__stop_counter > self.__break)):
                 continue
             X_row = np.delete(n_array[i:end], np.s_[0, 1, 2, 3], 1)
             #y_row = np.array([f_ch_percent_low,f_ch_percent_high])
@@ -396,7 +397,7 @@ class DataMiner:
             return 0.1, np.array([1,0,0])
         elif ((y > self.__min_border) and (y < self.__max_border)):
             self.__stop_counter +=1
-            if self.__stop_counter < 35000:
+            if self.__stop_counter < self.__break:
                 self.__count_none += 1
                 return 0.05, np.array([0, 1, 0])
             else:
