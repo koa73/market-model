@@ -183,8 +183,8 @@ class DataMiner:
                 for row in rows:
                     raw_data.append(row)
 
-                if (len(raw_data) < 5030):
-                    continue
+                #if (len(raw_data) < 5030):
+                #    continue
                 counter = counter + len(raw_data)
                 print("Common counter : " + str(counter) + ' , ticker counter : '+ str(len(raw_data)))
                 print("UP : " + str(self.__count_up))
