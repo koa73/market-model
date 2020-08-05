@@ -10,7 +10,10 @@ class DataMiner:
 
     __fileDir = os.path.dirname(os.path.abspath(__file__))
     __tikets =[]
-    __stop_counter = 0
+    __stop_counter_up = 0
+    __stop_counter_none = 0
+    __stop_counter_down = 0
+
     __break = 54000
 
     def __init__(self, batch_size):
@@ -353,7 +356,7 @@ class DataMiner:
 
             # Remove abs values from array
             y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
-            if ((y_value == 5) and ( self.__stop_counter > self.__break)):
+            if (y_value == 5):
                 continue
             X_row = np.delete(n_array[i:end], np.s_[0, 1, 2, 3], 1)
             #y_row = np.array([f_ch_percent_low,f_ch_percent_high])
@@ -392,20 +395,27 @@ class DataMiner:
     def __calc_y_valee(self, low, high):
         y = low + high
         if (y >= self.__max_border):
-            #print("Y : "+str(y)+" Low/High :"+str(low)+" \ "+str(high))
-            self.__count_up +=1
-            return 0.1, np.array([1,0,0])
+            self.__stop_counter_up += 1
+            if self.__stop_counter_up < self.__break:
+                self.__count_up +=1
+                return 0.1, np.array([1,0,0])
+            else:
+                return 5, np.array([1,0,0])
         elif ((y > self.__min_border) and (y < self.__max_border)):
-            self.__stop_counter +=1
-            if self.__stop_counter < self.__break:
+            self.__stop_counter_none +=1
+            if self.__stop_counter_none < self.__break:
                 self.__count_none += 1
                 return 0.05, np.array([0, 1, 0])
             else:
                 return 5, np.array([0, 1, 0])
 
         elif (y <= self.__min_border):
-            self.__count_down += 1
-            return 0, np.array([0,0,1])
+            self.__stop_counter_down += 1
+            if self.__stop_counter_down < self.__break:
+                self.__count_down += 1
+                return 0, np.array([0, 0, 1])
+            else:
+                return 5, np.array([0, 0, 1])
 
     # Check dictionary
     def check_dictionary(self, dirname):
