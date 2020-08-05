@@ -46,5 +46,4 @@ checkpointer = ModelCheckpoint(filepath = data.get_current_dir()+ "/data/model_t
 уменьшать значение шага градиентного спуска
 '''
 reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.9, patience=10, min_lr=0.000001, verbose=1)
-model.fit(X_train, y_train, epochs=100, batch_size=10, validation_split=0.05, verbose=1, callbacks=[checkpointer,
-
+model.fit(X_train, y_train, epochs=100, batch_size=10, validation_split=0.05, verbose=1, callbacks=[checkpointer,reduce_lr])  # starts training
