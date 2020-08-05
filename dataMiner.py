@@ -43,7 +43,7 @@ class DataMiner:
               'VRSN', 'XLNX', 'INCY',  'SWKS', 'ALGN', 'DLTR', 'RYN', 'MDC',
               'CPRT', 'CTXS',  'CHKP', 'MXIM', 'CDW','TCOM',  'CERN',
               'WDC', 'EXPE', 'ULTA', 'NTAP', 'LBTYK', 'ASH', 'EQT', 'TSM', 'APD',
-              'LBTYA', 'HPQ', 'DXC', 'CAG','MAS', 'SPXC', 'BAM', 'TGNA', 'VAR', 'SNN']
+              'LBTYA', 'HPQ', 'DXC', 'CAG','MAS', 'SPXC',  'TGNA', 'VAR', 'SNN']
 
     def make_test_case_prepare(self, inpDir, outDir, tiker):
 
