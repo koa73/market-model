@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 from keras.layers import Input, Dense, Dropout, Concatenate
-from keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint, ReduceLROnPlateau
 from keras.models import Model
 import dataMiner as D
 
@@ -32,7 +32,7 @@ predictions = Dense(3,  activation='softmax', name="output")(x)
 # This creates a model that includes
 # the Input layer and three Dense layers
 model = Model(inputs=inputs, outputs=predictions)
-#data.save_conf(model)                                                  # Запись конфигурации скти для прерывания расчета
+data.save_conf(model)                                                  # Запись конфигурации скти для прерывания расчета
 model.compile(optimizer='adam',
               loss='categorical_crossentropy',
               metrics=['acc'])
@@ -41,4 +41,10 @@ model.compile(optimizer='adam',
 saves the model weights after each epoch if the validation loss decreased
 '''
 checkpointer = ModelCheckpoint(filepath = data.get_current_dir()+ "/data/model_test/weights.h5", verbose=1, save_best_only=True)
-model.fit(X_train, y_train, epochs=100, batch_size=10, validation_split=0.05, verbose=1 , callbacks=[checkpointer])  # starts training
+
+'''
+уменьшать значение шага градиентного спуска
+'''
+reduce_lr = ReduceLROnPlateau(monitor='val_loss', factor=0.9, patience=10, min_lr=0.000001, verbose=1)
+model.fit(X_train, y_train, epochs=100, batch_size=10, validation_split=0.05, verbose=1, callbacks=[checkpointer,
+
