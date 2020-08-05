@@ -27,9 +27,9 @@ print(X_train[0])
 inputs = Input(shape=(12,) )
 
 # a layer instance is callable on a tensor, and returns a tensor
-x = Dense(12, activation='tanh')(inputs)
-x = Dense(24, activation='tanh')(x)
-x = Dense(48, activation='tanh')(x)
+x = Dense(18, activation='tanh')(inputs)
+x = Dense(36, activation='tanh')(x)
+x = Dense(54, activation='tanh')(x)
 x = Dense(24, activation='tanh')(x)
 x = Dense(6, activation='tanh')(x)
 predictions = Dense(3,  activation='softmax', name="output")(x)
