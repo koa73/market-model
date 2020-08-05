@@ -38,7 +38,7 @@ class DataMiner:
               'EBAY', 'KHC', 'EA', 'LULU',  'WBA', 'FNB',
               'EXC', 'BIDU',  'WDAY',  'NXPI', 'VFC', 'FMC', 'UFPI',
               'KLAC', 'ORLY', 'SPLK', 'ROST',  'CTSH', 'SNPS', 'HSIC',
-              'ASML', 'IDXX', 'MAR', 'CSGP', 'CTAS', 'VRSK', 'CDNS', 'GFI',
+              'ASML', 'IDXX', 'MAR', 'CSGP', 'CTAS', 'VRSK', 'CDNS',
               'PAYX', 'PCAR', 'MCHP', 'ANSS', 'SIRI', 'FAST', 'ALXN', 'CBSH',
               'VRSN', 'XLNX', 'INCY', 'BMRN', 'SWKS', 'ALGN', 'DLTR', 'RYN', 'MDC',
               'CPRT', 'CTXS', 'TTWO', 'CHKP', 'MXIM', 'CDW','TCOM', 'NAT', 'CERN',
