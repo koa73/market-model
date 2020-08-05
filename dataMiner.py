@@ -165,7 +165,8 @@ class DataMiner:
 
         print(">>>>  Make EDU Data <<<<<")
 
-        X_array = np.empty([0,self.__batch_size,4])
+        #X_array = np.empty([0,self.__batch_size,4])
+        X_array = np.empty([0, self.__batch_size, 6])
         #y_array = np.empty([0,2])
         y_array = np.empty([0, 3])
         counter = 0
@@ -182,8 +183,8 @@ class DataMiner:
                 for row in rows:
                     raw_data.append(row)
 
-                #if (len(raw_data) < 5030):
-                #    continue
+                if (len(raw_data) < 5030):
+                    continue
                 counter = counter + len(raw_data)
                 print("Common counter : " + str(counter) + ' , ticker counter : '+ str(len(raw_data)))
                 print("UP : " + str(self.__count_up))
@@ -349,7 +350,7 @@ class DataMiner:
             f_ch_percent_high = self.__change_percent(base_point, f_max)
 
             # Remove abs values from array
-            X_row = np.delete(n_array[i:end], np.s_[0, 1, 2, 3, 8, 9], 1)
+            X_row = np.delete(n_array[i:end], np.s_[0, 1, 2, 3], 1)
             y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
             #y_row = np.array([f_ch_percent_low,f_ch_percent_high])
 
