@@ -10,6 +10,6 @@ if (len(sys.argv) < 2):
 data = d.DataMiner(3)
 # 1- long list
 # 2 - short list
-data.make_edu_data(2, '_last_'+sys.argv[1])
+data.make_edu_data(1, '_last_'+sys.argv[1])
 
 
