@@ -352,7 +352,7 @@ class DataMiner:
 
             # Remove abs values from array
             y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
-            if ((y_value == 5) and ( self.__stop_counter > 35000)):
+            if ((y_value == 5) and ( self.__stop_counter > 54000)):
                 continue
             X_row = np.delete(n_array[i:end], np.s_[0, 1, 2, 3], 1)
             #y_row = np.array([f_ch_percent_low,f_ch_percent_high])
