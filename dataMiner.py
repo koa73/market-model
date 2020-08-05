@@ -33,7 +33,7 @@ class DataMiner:
               'INTC', 'NVDA', 'NFLX', 'ADBE', 'PYPL', 'CSCO', 'PEP',  'KBAL', 'RF',
               'CMCSA', 'AMGN', 'COST', 'TMUS', 'AVGO', 'TXN',   'VEON', 'UGI', 'RIG',
               'QCOM',  'SBUX', 'INTU',  'MDLZ', 'BKNG',   'NVS',
-              'ISRG', 'FISV', 'REGN', 'ADP',  'ATVI', 'JD', 'AMAT', 'BBVA', 'IBN', 'CAR',
+              'ISRG', 'FISV', 'REGN', 'ADP',  'ATVI', 'JD', 'AMAT', 'BBVA', 'CAR',
               'ILMN', 'MU', 'CSX', 'ADSK', 'MELI', 'LRCX', 'ADI', 'DOV', 'PEBO', 'CRESY', 'WRI',
               'BIIB', 'EBAY', 'DXCM', 'KHC', 'EA', 'LULU', 'MNST', 'WBA', 'FNB',
               'EXC', 'BIDU', 'XEL', 'WDAY', 'NTES', 'NXPI', 'VFC', 'FMC', 'UFPI',
