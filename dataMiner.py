@@ -32,7 +32,7 @@ class DataMiner:
         self.__tickers_array_short = ['AAL', 'MSFT', 'AAPL', 'AMZN', 'FB', 'GOOGL', 'TSLA',
               'INTC', 'NVDA', 'NFLX', 'ADBE', 'PYPL', 'CSCO', 'PEP',  'KBAL', 'RF',
               'CMCSA', 'AMGN', 'COST', 'TMUS', 'AVGO', 'TXN',   'VEON', 'UGI', 'RIG',
-              'QCOM',  'SBUX', 'INTU', 'VRTX', 'MDLZ', 'BKNG', 'BAP', 'GGB', 'NVS',
+              'QCOM',  'SBUX', 'INTU',  'MDLZ', 'BKNG', 'BAP', 'GGB', 'NVS',
               'ISRG', 'FISV', 'REGN', 'ADP', 'AMD', 'ATVI', 'JD', 'AMAT', 'BBVA', 'IBN', 'CAR',
               'ILMN', 'MU', 'CSX', 'ADSK', 'MELI', 'LRCX', 'ADI', 'DOV', 'PEBO', 'CRESY', 'WRI',
               'BIIB', 'EBAY', 'DXCM', 'KHC', 'EA', 'LULU', 'MNST', 'WBA', 'FNB',
