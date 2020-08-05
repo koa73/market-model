@@ -472,3 +472,12 @@ class DataMiner:
 
     def get_current_dir(self):
         return self.__fileDir
+
+    def save_conf(self, model):
+        """
+        :param model:
+        :return: Null
+        """
+        json_file = open(self.__fileDir + "\model_test\weights.json", "w")
+        json_file.write(model.to_json())
+        json_file.close()
