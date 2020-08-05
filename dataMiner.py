@@ -41,7 +41,7 @@ class DataMiner:
               'ASML', 'IDXX', 'MAR', 'CSGP', 'CTAS', 'VRSK', 'CDNS',
               'PAYX', 'PCAR', 'MCHP', 'ANSS', 'SIRI', 'FAST', 'ALXN', 'CBSH',
               'VRSN', 'XLNX', 'INCY',  'SWKS', 'ALGN', 'DLTR', 'RYN', 'MDC',
-              'CPRT', 'CTXS', 'TTWO', 'CHKP', 'MXIM', 'CDW','TCOM', 'NAT', 'CERN',
+              'CPRT', 'CTXS',  'CHKP', 'MXIM', 'CDW','TCOM', 'NAT', 'CERN',
               'WDC', 'EXPE', 'ULTA', 'NTAP', 'LBTYK', 'ASH', 'EQT', 'TSM', 'APD',
               'LBTYA', 'HPQ', 'DXC', 'CAG','MAS', 'SPXC', 'BAM', 'TGNA', 'VAR', 'SNN']
 
