@@ -281,6 +281,9 @@ class DataMiner:
 
                         except StopIteration:
                             break
+                        except ZeroDivisionError:
+                            print(row)
+                            exit(0)
 
                 f.close()
 
