@@ -10,6 +10,7 @@ class DataMiner:
 
     __fileDir = os.path.dirname(os.path.abspath(__file__))
     __tikets =[]
+    __stop_counter = 0
 
     def __init__(self, batch_size):
 
@@ -392,12 +393,15 @@ class DataMiner:
             self.__count_up +=1
             return 0.1, np.array([1,0,0])
         elif ((y > self.__min_border) and (y < self.__max_border)):
-            self.__count_none += 1
-            #print("Y : " + str(y) + " Low/High :" + str(low) + " \ " + str(high))
-            return 0.05, np.array([0, 1, 0])
+            self.__stop_counter +=1
+            if self.__stop_counter < 35000:
+                self.__count_none += 1
+                return 0.05, np.array([0, 1, 0])
+            else:
+                return 5, np.array([0, 1, 0])
+
         elif (y <= self.__min_border):
             self.__count_down += 1
-            #print("Y : " + str(y) + " Low/High :" + str(low) + " \ " + str(high))
             return 0, np.array([0,0,1])
 
     # Check dictionary
