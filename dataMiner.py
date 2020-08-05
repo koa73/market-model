@@ -66,13 +66,13 @@ class DataMiner:
         print(">>>>>  Make BINARY TEST Data <<<<")
         output = 'test/cases/binary/'
 
-        X_array_UP = np.empty([0, self.__batch_size, 4])
+        X_array_UP = np.empty([0, self.__batch_size, 6])
         y_array_UP = np.empty([0, 3])
 
-        X_array_NONE = np.empty([0, self.__batch_size, 4])
+        X_array_NONE = np.empty([0, self.__batch_size, 6])
         y_array_NONE = np.empty([0, 3])
 
-        X_array_DOWN = np.empty([0, self.__batch_size, 4])
+        X_array_DOWN = np.empty([0, self.__batch_size, 6])
         y_array_DOWN = np.empty([0, 3])
 
         for __ticker in tickers:
@@ -354,8 +354,8 @@ class DataMiner:
             y_value, y_row = self.__calc_y_valee(f_ch_percent_low, f_ch_percent_high)
             #y_row = np.array([f_ch_percent_low,f_ch_percent_high])
 
-            #if (i == 0):
-             #   self.__check_added_array(y_row, X_row)
+            if (i == 0):
+                self.__check_added_array(y_row, X_row)
 
 
             if (shape == 0):
