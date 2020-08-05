@@ -40,7 +40,7 @@ class DataMiner:
               'KLAC', 'ORLY', 'SPLK', 'ROST',  'CTSH', 'SNPS', 'HSIC',
               'ASML', 'IDXX', 'MAR', 'CSGP', 'CTAS', 'VRSK', 'CDNS',
               'PAYX', 'PCAR', 'MCHP', 'ANSS', 'SIRI', 'FAST', 'ALXN', 'CBSH',
-              'VRSN', 'XLNX', 'INCY', 'BMRN', 'SWKS', 'ALGN', 'DLTR', 'RYN', 'MDC',
+              'VRSN', 'XLNX', 'INCY',  'SWKS', 'ALGN', 'DLTR', 'RYN', 'MDC',
               'CPRT', 'CTXS', 'TTWO', 'CHKP', 'MXIM', 'CDW','TCOM', 'NAT', 'CERN',
               'WDC', 'EXPE', 'ULTA', 'NTAP', 'LBTYK', 'ASH', 'EQT', 'TSM', 'APD',
               'LBTYA', 'HPQ', 'DXC', 'CAG','MAS', 'SPXC', 'BAM', 'TGNA', 'VAR', 'SNN']
