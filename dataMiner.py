@@ -255,7 +255,8 @@ class DataMiner:
                             next_row = next(rows)
 
                             # Find carrier as a change of open in percentages
-                            carrier_0 = self.__change_percent(row[3], next_row[3])
+                            carrier_0 = self.__change_percent(row[4], next_row[3])
+                            volume = self.__change_percent(row[5], next_row[5])
                             carrier_1 = self.__change_percent(row[3], next_row[3])
                             row = next_row
 
@@ -272,6 +273,9 @@ class DataMiner:
 
                             close_current_ = self.__change_percent(row[3], row[4])
                             row.append(close_current_)
+
+                            row.append(carrier_0)
+                            row.append(volume)
 
                             raw_data.append(row)
 
@@ -297,7 +301,7 @@ class DataMiner:
             output = csv.writer(csv_out_file, delimiter=';')
 
             output.writerow(['Date', 'Open', 'Low', 'High', 'Close', 'Adj' 'Close', 'Volume',
-                            'DAY', 'Carrier', "Low'", "High'", "Close/Current'"])
+                            'DAY', 'Carrier-1', "Low'", "High'", "Close/Current'", "Carrier-0", "Volume'"])
 
             for line in data:
                 output.writerow(line)
