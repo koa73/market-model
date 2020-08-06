@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 #
-import dataMiner as d
+import dataMaker as d
 
-data = d.DataMiner(3)
-data.list_tickers()
+data = d.DataMaker()
+data.prepare_data('edu')
+print("--------->")
+data.prepare_data('test', 2)
