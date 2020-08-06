@@ -24,7 +24,7 @@ class DataMaker:
 
         self.__batch_size = batch_size
         # Tickers array 0 - test, 1 - long list, 2 - short list
-        self.__tickers_array = [['AAL'],
+        self.__tickers_array = [['AAL', 'BIG'],
                                 ['A', 'AA', 'AAPL', 'AB', 'ABC', "ABCB", 'ABEO', 'ABEV', 'ABIO', 'ABM', 'ABMD', 'ABT',
                                 'ACGL', 'ACHC', 'ACHV', 'ACIW', 'ACNB', 'ACU', 'ACY', 'ADBE', 'ADC', 'ADI', 'ADM',
                                 'ADMP', 'ADP', 'ADSK', 'ADTN', 'ADX', 'AE', 'AEE', 'AEG', 'AEGN', 'AEHR', 'AEIS', 'AEM',
@@ -237,6 +237,46 @@ class DataMaker:
 
         self.__prepare_data(list_num, inputDir, outputDir)
 
+    # Создание массивов
+    def get_Xy_arrays(self, type, list_num, prefix):
+
+        inputDir = self.__fileDir + '/data'
+        outputDir = inputDir
+
+        if (type == 'edu'):
+
+            inputDir = inputDir + '/rawdata/'
+            outputDir = outputDir + '/'
+            print(" --- Prepare EDU data from " + 'Long tickers list' if (
+                    list_num == 1) else 'Short tickers list' + ' ----')
+
+        elif (type == 'test'):
+
+            inputDir = inputDir + '/test/rawdata/'
+            outputDir = outputDir + '/test/cases/binary/'
+            print(" --- Prepare TEST data from " + 'Long tickers list' if (
+                    list_num == 1) else 'Short tickers list' + ' ----')
+
+        tickers = self.__tickers_array[list_num]
+
+        for __ticker in tickers:
+
+            filename = inputDir + 'train_' + __ticker + '.csv'
+            raw_data = []
+            print("->> " + __ticker)
+            with open(filename, newline='') as f:
+                next(f)
+                rows = csv.reader(f, delimiter=',', quotechar='|')
+                i = 0
+                # Выборка данных под Х и y массивы
+                for row in rows:
+                    i +=1
+                    if (i >= self.__batch_size):
+                        y = re.findall(r'[(\d)]', list(row).pop(-1))
+                    raw_data.append(row[8:16])
+
+
+
 
     # Расчет относительных данных
     def __prepare_data(self, list_num, inputDir, outputDir):
@@ -361,42 +401,4 @@ class DataMaker:
         return np.amax(n_array) if (type == 'max') else np.amin(n_array)
 
 
-    # Создание массивов
-    def get_Xy_arrays(self, type, list_num, prefix):
 
-        inputDir = self.__fileDir + '/data'
-        outputDir = inputDir
-
-        if (type == 'edu'):
-
-            inputDir = inputDir + '/rawdata/'
-            outputDir = outputDir + '/'
-            print(" --- Prepare EDU data from " + 'Long tickers list' if (
-                        list_num == 1) else 'Short tickers list' + ' ----')
-
-        elif(type == 'test'):
-
-            inputDir = inputDir + '/test/rawdata/'
-            outputDir = outputDir + '/test/cases/binary/'
-            print(" --- Prepare TEST data from " + 'Long tickers list' if (
-                        list_num == 1) else 'Short tickers list' + ' ----')
-
-        tickers = self.__get_tickers(inputDir)
-
-        for __ticker in tickers:
-
-            filename = inputDir + 'train_' + __ticker + '.csv'
-            raw_data = []
-            print("->> " + __ticker)
-            with open(filename, newline='') as f:
-                next(f)
-                rows = csv.reader(f, delimiter=',', quotechar='|')
-                for i in range(len(rows)):
-                    print(i)
-                    print(rows[i:i+2])
-                    input("X")
-
-    # Сканирование каталога и поиск файлов
-    def __get_tickers(self, dirPath):
-        return [re.findall(r'.*_(\w+)\.\w{3}', f.name)[0] for f in os.scandir(dirPath) if
-                f.is_file()]
