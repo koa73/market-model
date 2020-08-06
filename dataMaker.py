@@ -287,6 +287,10 @@ class DataMaker:
             y_array = np.concatenate((y_array, y), axis=0)
             X_array = np.concatenate((X_array, X), axis=0)
 
+        self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
+        self.__save_numpy_array(outputDir, 'edu_X_' + prefix, X_array)
+
+
 
     # Подготовка Х массива
     def __prepare_Xy_array(self, raw_data):
