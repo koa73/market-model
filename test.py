@@ -3,4 +3,4 @@
 import dataMaker as d
 
 data = d.DataMaker()
-data.prepare_data('edu', 0)
+data.prepare_data('edu', 1)
