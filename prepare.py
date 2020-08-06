@@ -8,4 +8,5 @@ if (len(sys.argv) < 3):
     exit(0)
 
 data = d.DataMaker()
-data.prepare_data(sys.argv[1], sys.argv[2])
+print(sys.argv[1])
+data.prepare_data(str(sys.argv[1]), int(sys.argv[2]))
