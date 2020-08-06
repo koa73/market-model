@@ -23,6 +23,7 @@ class DataMaker:
     __up_counter = 0
     __down_counter = 0
     __none_counter = 0
+    __breake = 35000
 
 
     def __init__(self, batch_size=3):
@@ -264,64 +265,71 @@ class DataMaker:
 
         tickers = self.__tickers_array[list_num]
 
-        y_array = []
-        X_array = []
+        X_array = np.empty([0, self.__batch_size, 8])
+        y_array = np.empty([0, 3])
 
         for __ticker in tickers:
 
-            y_array_ticker = []
+            raw_data = []
 
             filename = inputDir + 'train_' + __ticker + '.csv'
-            raw_data = []
+
             print("->> " + __ticker)
+
             with open(filename, newline='') as f:
                 next(f)
                 rows = csv.reader(f, delimiter=',', quotechar='|')
-                i = 0
                 # Выборка данных под Х и y массивы
                 for row in rows:
-                    i +=1
-                    if (i > self.__batch_size):
-                        y = list(map(int, re.findall(r'[(\d)]', list(row).pop(-1))))
-                        y_array_ticker.append(y)
-
-                        self.__up_down_none_count(y, i)
-
-                    raw_data.append(row[8:16])
-            print ("Y array : "+str(np.array(y_array_ticker).shape))
-            print("UP : "+str(self.__up_counter)+", DOWN: "+ str(self.__down_counter)+", NONE: "+str(self.__none_counter))
-            print(self.__get_X_array(raw_data).shape)
-            print(self.__get_X_array(raw_data)[-1])
+                    raw_data.append(row[8:20])
+            f.close()
+            X, y, X_0, y_0, X_1, y_1, X_2, y_2 = self.__prepare_Xy_array(raw_data)
+            y_array = np.concatenate((y_array, y), axis=0)
+            X_array = np.concatenate((X_array, X), axis=0)
 
 
     # Подготовка Х массива
-    def __get_X_array(self, raw_data):
+    def __prepare_Xy_array(self, raw_data):
 
-        X_array = []
+        X_array = []    # Unsorted
+        y_array = []    # Unsorted
+        X_array_0 = []  # Up array
+        y_array_0 = []  # Up array
+        X_array_1 = []  # None array
+        y_array_1 = []  # None array
+        X_array_2 = []  # Down array
+        y_array_2 = []  # Down array
+
 
         for i in range(0, len(raw_data) - self.__batch_size):
             end = i + self.__batch_size
-            X_array.append(raw_data[i:end])
 
-        return np.array(X_array)
+            x = raw_data[i:end]
+            y = list(map(int, re.findall(r'[(\d)]', x[-1:][-1][-1])))
+            x[-1] = x[i:end][-1][0:8]
 
-
-    # Подсчет количества UP/DOWN/NONE
-    def __up_down_none_count(self, y, i):
-
-        try:
             if (y[1] == 1):
                 self.__none_counter += 1
+                if (self.__none_counter > self.__breake):
+                    continue
+                X_array_1.append(x)
+                y_array_1.append(y)
+
             elif (y[0] == 1):
                 self.__up_counter += 1
+                X_array_0.append(x)
+                y_array_0.append(y)
+
             elif (y[2] == 1):
                 self.__down_counter += 1
-        except IndexError:
-            print(" ---- Error str : "+ str(i))
-            print(y)
-            input("Press any key .....")
+                X_array_2.append(x)
+                y_array_2.append(y)
 
+            X_array.append(x)
+            y_array.append(y)
 
+        return np.array(X_array), np.array(y_array), np.array(X_array_0), np.array(y_array_0), np.array(X_array_1), \
+               np.array(y_array_1), np.array(X_array_2), np.array(y_array_2)
 
     # Расчет относительных данных
     def __prepare_data(self, list_num, inputDir, outputDir):
