@@ -20,11 +20,16 @@ class DataMaker:
     __max_border = 0.05
     __min_border = -0.05
 
+    __up_counter = 0
+    __down_counter = 0
+    __none_counter = 0
+
+
     def __init__(self, batch_size=3):
 
         self.__batch_size = batch_size
         # Tickers array 0 - test, 1 - long list, 2 - short list
-        self.__tickers_array = [['AAL', 'BIG'],
+        self.__tickers_array = [['AAL'],
                                 ['A', 'AA', 'AAPL', 'AB', 'ABC', "ABCB", 'ABEO', 'ABEV', 'ABIO', 'ABM', 'ABMD', 'ABT',
                                 'ACGL', 'ACHC', 'ACHV', 'ACIW', 'ACNB', 'ACU', 'ACY', 'ADBE', 'ADC', 'ADI', 'ADM',
                                 'ADMP', 'ADP', 'ADSK', 'ADTN', 'ADX', 'AE', 'AEE', 'AEG', 'AEGN', 'AEHR', 'AEIS', 'AEM',
@@ -259,7 +264,13 @@ class DataMaker:
 
         tickers = self.__tickers_array[list_num]
 
+        y_array = []
+        X_array = []
+
         for __ticker in tickers:
+
+            y_array_ticker = []
+            X_array_ticker = []
 
             filename = inputDir + 'train_' + __ticker + '.csv'
             raw_data = []
@@ -271,11 +282,27 @@ class DataMaker:
                 # Выборка данных под Х и y массивы
                 for row in rows:
                     i +=1
+
                     if (i >= self.__batch_size):
-                        y = re.findall(r'[(\d)]', list(row).pop(-1))
+                        y = list(map(int, re.findall(r'[(\d)]', list(row).pop(-1))))
+                        y_array_ticker.append(y)
+                        self.__up_down_none_count(y)
+
                     raw_data.append(row[8:16])
 
+            print("UP : "+str(self.__up_counter)+", DOWN: "+ str(self.__down_counter)+", NONE: "+str(self.__none_counter))
+            print(len(y_array_ticker))
 
+
+    # Подсчет количества UP/DOWN/NONE
+    def __up_down_none_count(self, y):
+
+        if(y[1] == 1):
+            self.__none_counter +=1
+        elif (y[0] == 1):
+            self.__up_counter +=1
+        elif (y[2] == 1):
+            self.__down_counter +=1
 
 
     # Расчет относительных данных
@@ -399,6 +426,19 @@ class DataMaker:
         n_array = (np.delete(np.array(data), [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], axis=1)).astype(np.float64)
 
         return np.amax(n_array) if (type == 'max') else np.amin(n_array)
+
+    #
+    # Save arrat to file
+    def __save_numpy_array(self, outputDir, name, data):
+
+        filename = outputDir + name + '.npy'
+        if os.path.isfile(filename):
+            os.remove(filename)
+
+        with open(filename, 'wb') as f:
+            np.save(f, data)
+        f.close()
+
 
 
 
