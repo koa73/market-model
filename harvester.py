@@ -34,6 +34,7 @@ def loadfile(ticker_type, ticker, datapath, startdate, enddate):
             print('Error load tickers: ', ticker, 'Exeption: ', exp)
             err_arrsy.append(ticker)
 
+
 # Write data to output csv file
 def __write_to_file(ticker, data):
 
