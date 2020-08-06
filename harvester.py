@@ -55,7 +55,7 @@ data = D.DataMiner(3)
 
 # 1- long list
 # 2 - short list
-for __ticker in data.get_tickers(2):
+for __ticker in data.get_tickers(1):
 
     #loadfile('en', __ticker, "", "2020-01-01", "2020-06-30")
     loadfile('en', __ticker, "", "2000-01-01", "2019-12-31")
