@@ -29,7 +29,7 @@ class DataMaker:
 
         self.__batch_size = batch_size
         # Tickers array 0 - test, 1 - long list, 2 - short list
-        self.__tickers_array = [['AAL'],
+        self.__tickers_array = [['AAL','NVS'],
                                 ['A', 'AA', 'AAPL', 'AB', 'ABC', "ABCB", 'ABEO', 'ABEV', 'ABIO', 'ABM', 'ABMD', 'ABT',
                                 'ACGL', 'ACHC', 'ACHV', 'ACIW', 'ACNB', 'ACU', 'ACY', 'ADBE', 'ADC', 'ADI', 'ADM',
                                 'ADMP', 'ADP', 'ADSK', 'ADTN', 'ADX', 'AE', 'AEE', 'AEG', 'AEGN', 'AEHR', 'AEIS', 'AEM',
@@ -282,16 +282,16 @@ class DataMaker:
                 # Выборка данных под Х и y массивы
                 for row in rows:
                     i +=1
-
-                    if (i >= self.__batch_size):
+                    if (i > self.__batch_size):
                         y = list(map(int, re.findall(r'[(\d)]', list(row).pop(-1))))
                         y_array_ticker.append(y)
+
                         self.__up_down_none_count(y, i)
 
                     raw_data.append(row[8:16])
-
+            print ("Tickers : "+str(len(y_array_ticker)))
             print("UP : "+str(self.__up_counter)+", DOWN: "+ str(self.__down_counter)+", NONE: "+str(self.__none_counter))
-            print(len(y_array_ticker))
+
 
 
     # Подсчет количества UP/DOWN/NONE
@@ -371,6 +371,7 @@ class DataMaker:
                 self.__append_to_file(__ticker, self.__calculate_Y_values(raw_data, self.__pred_offset), outputDir)
 
             except FileNotFoundError:
+                print(inputDir + 'train_' + __ticker + '.csv')
                 error_tickers.append(__ticker)
                 continue
         if (len(error_tickers) > 0):

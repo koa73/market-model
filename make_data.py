@@ -8,4 +8,4 @@ if (len(sys.argv) < 2):
     #exit(0)
 
 data = d.DataMaker()
-data.get_Xy_arrays('edu', 2, '')
+data.get_Xy_arrays('edu', 0, '')

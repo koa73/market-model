@@ -8,5 +8,5 @@ if (len(sys.argv) < 3):
     exit(0)
 
 data = d.DataMaker()
-print(sys.argv[1])
+#data.prepare_data('edu', 0)
 data.prepare_data(str(sys.argv[1]), int(sys.argv[2]))
