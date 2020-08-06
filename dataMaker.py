@@ -270,7 +270,6 @@ class DataMaker:
         for __ticker in tickers:
 
             y_array_ticker = []
-            X_array_ticker = []
 
             filename = inputDir + 'train_' + __ticker + '.csv'
             raw_data = []
@@ -289,9 +288,22 @@ class DataMaker:
                         self.__up_down_none_count(y, i)
 
                     raw_data.append(row[8:16])
-            print ("Tickers : "+str(len(y_array_ticker)))
+            print ("Y array : "+str(np.array(y_array_ticker).shape))
             print("UP : "+str(self.__up_counter)+", DOWN: "+ str(self.__down_counter)+", NONE: "+str(self.__none_counter))
+            print(self.__get_X_array(raw_data).shape)
+            print(self.__get_X_array(raw_data)[-1])
 
+
+    # Подготовка Х массива
+    def __get_X_array(self, raw_data):
+
+        X_array = []
+
+        for i in range(0, len(raw_data) - self.__batch_size):
+            end = i + self.__batch_size
+            X_array.append(raw_data[i:end])
+
+        return np.array(X_array)
 
 
     # Подсчет количества UP/DOWN/NONE
@@ -385,12 +397,13 @@ class DataMaker:
     # Расчет значений Y
     def __calculate_Y_values(self, raw_data, offset):
 
-        for i in range(len(raw_data)):
-            if (i < self.__batch_size):
+        for i in range(len(raw_data)-offset):
+            __base = raw_data[i][4]
+            if (i < self.__batch_size -1):
                 continue
             else:
-                __base = raw_data[i-1][4]
-                __offset_array = raw_data[i:i+offset]
+                __offset_array = raw_data[i+1:i+offset+1]
+
                 __max = self.__find_ext('max', __offset_array)
                 __min = self.__find_ext('min', __offset_array)
                 __vector = self.__find_trend_vector(self.__change_percent(__base, __max),
