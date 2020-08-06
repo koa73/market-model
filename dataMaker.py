@@ -284,7 +284,7 @@ class DataMaker:
                     i +=1
 
                     if (i >= self.__batch_size):
-                        y = re.findall(r'[(\d)]', list(row).pop(-1))
+                        y = list(map(int, re.findall(r'[(\d)]', list(row).pop(-1))))
                         y_array_ticker.append(y)
                         self.__up_down_none_count(y, i)
 
@@ -298,11 +298,11 @@ class DataMaker:
     def __up_down_none_count(self, y, i):
 
         try:
-            if (int(y[1]) == 1):
+            if (y[1] == 1):
                 self.__none_counter += 1
-            elif (int(y[0]) == 1):
+            elif (y[0] == 1):
                 self.__up_counter += 1
-            elif (int(y[2]) == 1):
+            elif (y[2] == 1):
                 self.__down_counter += 1
         except IndexError:
             print(" ---- Error str : "+ str(i))
