@@ -242,58 +242,68 @@ class DataMaker:
     def __prepare_data(self, list_num, inputDir, outputDir):
 
         tikers = self.__tickers_array[list_num]
+        error_tickers = []
 
         for __ticker in tikers:
 
             raw_data = []
 
-            with open(inputDir + 'train_' + __ticker + '.csv', newline='') as f:
+            try:
+                with open(inputDir + 'train_' + __ticker + '.csv', newline='') as f:
 
-                rows = csv.DictReader(f, delimiter=',', quotechar='|')
-                row = next(rows)
+                    rows = csv.DictReader(f, delimiter=',', quotechar='|')
+                    row = next(rows)
 
-                while True:
+                    while True:
 
-                    try:
-                        next_row = next(rows)
+                        try:
+                            next_row = next(rows)
 
-                        # Find carrier as a change of open in percentages
-                        c0 = self.__change_percent(row['Close'], next_row['Open'])
-                        c1 = self.__change_percent(row['Open'], next_row['Open'])
-                        volume = self.__change_percent(row['Volume'], next_row['Volume'])
-                        low_0 = self.__change_percent(row['Close'], next_row['Low'])
-                        high_0 = self.__change_percent(row['Close'], next_row['High'])
+                            # Find carrier as a change of open in percentages
+                            c0 = self.__change_percent(row['Close'], next_row['Open'])
+                            c1 = self.__change_percent(row['Open'], next_row['Open'])
+                            volume = self.__change_percent(row['Volume'], next_row['Volume'])
+                            low_0 = self.__change_percent(row['Close'], next_row['Low'])
+                            high_0 = self.__change_percent(row['Close'], next_row['High'])
 
-                        row = next_row
+                            row = next_row
 
-                        # Find day of year
-                        day_of_year = self.__day_of_year(row['Date'])
+                            # Find day of year
+                            day_of_year = self.__day_of_year(row['Date'])
 
-                        low_1 = self.__change_percent(row['Open'], row['Low'])
-                        high_1 = self.__change_percent(row['Open'], row['High'])
-                        close_current_1 = self.__change_percent(row['Open'], row['Close'])
+                            low_1 = self.__change_percent(row['Open'], row['Low'])
+                            high_1 = self.__change_percent(row['Open'], row['High'])
+                            close_current_1 = self.__change_percent(row['Open'], row['Close'])
 
-                        __row = list(row.values())
-                        __row.append(day_of_year)
+                            __row = list(row.values())
+                            __row.append(day_of_year)
 
-                        __row.append(c0)
-                        __row.append(low_0)
-                        __row.append(high_0)
-                        __row.append(volume)
+                            __row.append(c0)
+                            __row.append(low_0)
+                            __row.append(high_0)
+                            __row.append(volume)
 
-                        __row.append(c1)
-                        __row.append(low_1)
-                        __row.append(high_1)
-                        __row.append(close_current_1)
+                            __row.append(c1)
+                            __row.append(low_1)
+                            __row.append(high_1)
+                            __row.append(close_current_1)
 
-                        raw_data.append(__row)
+                            raw_data.append(__row)
 
-                    except StopIteration:
-                        break
+                        except StopIteration:
+                            break
 
-            f.close()
-            print("---- " + __ticker + " ----------")
-            self.__append_to_file(__ticker, self.__calculate_Y_values(raw_data, self.__pred_offset), outputDir)
+                f.close()
+                print("---- " + __ticker + " ----------")
+                self.__append_to_file(__ticker, self.__calculate_Y_values(raw_data, self.__pred_offset), outputDir)
+
+            except FileNotFoundError:
+                error_tickers.append(__ticker)
+                continue
+        if (len(error_tickers) > 0):
+            print ("Tickers not found : "+ str(error_tickers))
+
+
 
     # Convert date to day of year
     def __day_of_year(self, date_str):
@@ -351,3 +361,5 @@ class DataMaker:
 
         return np.amax(n_array) if (type == 'max') else np.amin(n_array)
 
+
+    # Создание

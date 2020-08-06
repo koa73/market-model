@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
-import dataMiner as d
+#
+import dataMaker as d
+import sys
 
+if (len(sys.argv) < 3):
+    print("Argument not found. Set arguments : type and source list")
+    exit(0)
 
-data = d.DataMiner(3)
-# 1- long list
-# 2 - short list
-data.prepare_edu_data(1, 'stocks/', 'rawdata/')
+data = d.DataMaker()
+data.prepare_data(sys.argv[1], sys.argv[2])
