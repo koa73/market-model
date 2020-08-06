@@ -13,7 +13,7 @@ class DataMaker:
     __fileDir = os.path.dirname(os.path.abspath(__file__))
     __tikets = []
     # Смещение для предсказания в дня
-    __pred_offset = 1
+    __pred_offset = 3
     # Число знаков в расчетных значениях
     __accuracy = '0.00001'
     # Граничные значения зон UP/DOWN
@@ -299,8 +299,6 @@ class DataMaker:
     def __day_of_year(self, date_str):
         return datetime.strptime(date_str, '%Y-%m-%d').date().timetuple().tm_yday
 
-
-
     # Расчет значений Y
     def __calculate_Y_values(self, raw_data, offset):
 
@@ -308,18 +306,48 @@ class DataMaker:
             if (i < self.__batch_size):
                 continue
             else:
-                #raw_data[i].append(i)
-                print(raw_data[i:i+offset])
-                input("X")
+                __base = raw_data[i-1][4]
+                __offset_array = raw_data[i:i+offset]
+                __max = self.__find_ext('max', __offset_array)
+                __min = self.__find_ext('min', __offset_array)
+                __vector = self.__find_trend_vector(self.__change_percent(__base, __max),
+                                                    self.__change_percent(__base,__min))
+
+                raw_data[i].append(__max)
+                raw_data[i].append(__min)
+                raw_data[i].append(__vector)
+                raw_data[i].append(self.__make_binary_y_array(__vector))
 
         return raw_data
 
+    # Формирование бинарного массива y
+    def __make_binary_y_array(self, __vector):
+
+        if (__vector >= self.__max_border):
+            return np.array([1,0,0])
+
+        elif ((__vector > self.__min_border) and (__vector < self.__max_border)):
+            return np.array([0, 1, 0])
+
+        elif (__vector <= self.__min_border):
+            return np.array([0, 0, 1])
+
+    # Определение вектора тренда
+    def __find_trend_vector(self, max, min):
+
+        if (max > 0 and min >= 0):
+            return max
+
+        elif (max >= 0 and min < 0):
+            return max + min
+
+        else:
+            return min
 
     # Поиск максимума или миниммума за период
-    def __find_ext(self,  type, size):
+    def __find_ext(self, type, data):
 
-        if (type == 'max'):
-            print()
+        n_array = (np.delete(np.array(data), [0, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15], axis=1)).astype(np.float64)
 
-        elif (type == 'min'):
-            print()
+        return np.amax(n_array) if (type == 'max') else np.amin(n_array)
+
