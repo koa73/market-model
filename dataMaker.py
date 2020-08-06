@@ -201,9 +201,9 @@ class DataMaker:
             os.remove(filename)
 
         with open(filename, 'a', newline = '') as csv_out_file:
-            output = csv.writer(csv_out_file, delimiter=';')
+            output = csv.writer(csv_out_file, delimiter=',')
 
-            output.writerow(['Date', 'Open', 'Low', 'High', 'Close', 'Adj' 'Close', 'Volume',
+            output.writerow(['Date', 'High', 'Low', 'Open', 'Close', 'Volume', 'Adj Close',
                             'DAY', 'C0', "Low0", "High0", "Vol", 'C1', "Low1", "High1", "Current1",
                              "H1", "L1", "F1", "Y1"])
 
