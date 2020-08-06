@@ -13,7 +13,7 @@ class DataMaker:
     __fileDir = os.path.dirname(os.path.abspath(__file__))
     __tikets = []
     # Смещение для предсказания в дня
-    __pred_offset = 3
+    __pred_offset = 1
     # Число знаков в расчетных значениях
     __accuracy = '0.00001'
     # Граничные значения зон UP/DOWN
@@ -241,10 +241,10 @@ class DataMaker:
     # Расчет относительных данных
     def __prepare_data(self, list_num, inputDir, outputDir):
 
-        tikers = self.__tickers_array[list_num]
+        tickers = self.__tickers_array[list_num]
         error_tickers = []
 
-        for __ticker in tikers:
+        for __ticker in tickers:
 
             raw_data = []
 
@@ -304,7 +304,6 @@ class DataMaker:
             print ("Tickers not found : "+ str(error_tickers))
 
 
-
     # Convert date to day of year
     def __day_of_year(self, date_str):
         return datetime.strptime(date_str, '%Y-%m-%d').date().timetuple().tm_yday
@@ -362,4 +361,42 @@ class DataMaker:
         return np.amax(n_array) if (type == 'max') else np.amin(n_array)
 
 
-    # Создание
+    # Создание массивов
+    def get_Xy_arrays(self, type, list_num, prefix):
+
+        inputDir = self.__fileDir + '/data'
+        outputDir = inputDir
+
+        if (type == 'edu'):
+
+            inputDir = inputDir + '/rawdata/'
+            outputDir = outputDir + '/'
+            print(" --- Prepare EDU data from " + 'Long tickers list' if (
+                        list_num == 1) else 'Short tickers list' + ' ----')
+
+        elif(type == 'test'):
+
+            inputDir = inputDir + '/test/rawdata/'
+            outputDir = outputDir + '/test/cases/binary/'
+            print(" --- Prepare TEST data from " + 'Long tickers list' if (
+                        list_num == 1) else 'Short tickers list' + ' ----')
+
+        tickers = self.__get_tickers(inputDir)
+
+        for __ticker in tickers:
+
+            filename = inputDir + 'train_' + __ticker + '.csv'
+            raw_data = []
+            print("->> " + __ticker)
+            with open(filename, newline='') as f:
+                next(f)
+                rows = csv.reader(f, delimiter=',', quotechar='|')
+                for i in range(len(rows)):
+                    print(i)
+                    print(rows[i:i+2])
+                    input("X")
+
+    # Сканирование каталога и поиск файлов
+    def __get_tickers(self, dirPath):
+        return [re.findall(r'.*_(\w+)\.\w{3}', f.name)[0] for f in os.scandir(dirPath) if
+                f.is_file()]

@@ -5,7 +5,7 @@ import sys
 
 if (len(sys.argv) < 2):
     print("Argument not found.")
-    exit(0)
+    #exit(0)
 
 data = d.DataMaker()
-data.prepare_data()
+data.get_Xy_arrays('edu', 1, '')
