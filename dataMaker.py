@@ -12,7 +12,11 @@ class DataMaker:
 
     __fileDir = os.path.dirname(os.path.abspath(__file__))
     __tikets = []
+    # Смещение для предсказания в дня
+    __pred_offset = 1
+    # Число знаков в расчетных значениях
     __accuracy = '0.00001'
+    # Граничные значения зон UP/DOWN
     __max_border = 0.05
     __min_border = -0.05
 
@@ -20,7 +24,7 @@ class DataMaker:
 
         self.__batch_size = batch_size
         # Tickers array 0 - test, 1 - long list, 2 - short list
-        self.__tickers_array = [[],
+        self.__tickers_array = [['AAL'],
                                 ['A', 'AA', 'AAPL', 'AB', 'ABC', "ABCB", 'ABEO', 'ABEV', 'ABIO', 'ABM', 'ABMD', 'ABT',
                                 'ACGL', 'ACHC', 'ACHV', 'ACIW', 'ACNB', 'ACU', 'ACY', 'ADBE', 'ADC', 'ADI', 'ADM',
                                 'ADMP', 'ADP', 'ADSK', 'ADTN', 'ADX', 'AE', 'AEE', 'AEG', 'AEGN', 'AEHR', 'AEIS', 'AEM',
@@ -165,7 +169,7 @@ class DataMaker:
                                 'WWD', 'WWE', 'WWR', 'WWW', 'WY', 'WYY', 'X', 'XEL', 'XLNX', 'XOM', 'XOMA', 'XRAY', 'Y',
                                 'YORW', 'YRCW', 'YUM', 'ZBRA', 'ZION', 'ZIXI', 'ZNH', 'ZTR'],
 
-                                ['AAL', 'MSFT', 'AAPL', 'AMZN', 'FB', 'GOOGL', 'TSLA',
+                                ['MSFT', 'AAPL', 'AMZN', 'FB', 'GOOGL', 'TSLA',
                                 'INTC', 'NVDA', 'NFLX', 'ADBE', 'PYPL', 'CSCO', 'PEP', 'KBAL', 'RF',
                                 'CMCSA', 'AMGN', 'COST', 'TMUS', 'AVGO', 'TXN', 'VEON', 'UGI', 'RIG',
                                 'QCOM', 'SBUX', 'INTU', 'MDLZ', 'BKNG', 'NVS',
@@ -190,9 +194,9 @@ class DataMaker:
             return float(1)
 
     # Запись данных в СSV файл
-    def __append_to_file(self, ticker, data, subdir):
+    def __append_to_file(self, ticker, data, outputDir):
 
-        filename = self.__fileDir + '/data/' + subdir + 'train_' + ticker + '.csv'
+        filename = outputDir + 'train_' + ticker + '.csv'
         if os.path.isfile(filename):
             os.remove(filename)
 
@@ -200,7 +204,8 @@ class DataMaker:
             output = csv.writer(csv_out_file, delimiter=';')
 
             output.writerow(['Date', 'Open', 'Low', 'High', 'Close', 'Adj' 'Close', 'Volume',
-                            'DAY', 'C0', "Low0", "High0", "Vol", 'C1', "Low1", "High1", "Current1"])
+                            'DAY', 'C0', "Low0", "High0", "Vol", 'C1', "Low1", "High1", "Current1",
+                             "H1", "L1", "F1", "Y1"])
 
             for line in data:
                 output.writerow(line)
@@ -250,7 +255,6 @@ class DataMaker:
                 while True:
 
                     try:
-
                         next_row = next(rows)
 
                         # Find carrier as a change of open in percentages
@@ -263,33 +267,59 @@ class DataMaker:
                         row = next_row
 
                         # Find day of year
-                        day_of_year = self.__day_of_year(row[0])
+                        day_of_year = self.__day_of_year(row['Date'])
 
                         low_1 = self.__change_percent(row['Open'], row['Low'])
                         high_1 = self.__change_percent(row['Open'], row['High'])
                         close_current_1 = self.__change_percent(row['Open'], row['Close'])
 
-                        row.append(day_of_year)
+                        __row = list(row.values())
+                        __row.append(day_of_year)
 
-                        row.append(c0)
-                        row.append(low_0)
-                        row.append(high_0)
-                        row.append(volume)
+                        __row.append(c0)
+                        __row.append(low_0)
+                        __row.append(high_0)
+                        __row.append(volume)
 
-                        row.append(c1)
-                        row.append(low_1)
-                        row.append(high_1)
-                        row.append(close_current_1)
+                        __row.append(c1)
+                        __row.append(low_1)
+                        __row.append(high_1)
+                        __row.append(close_current_1)
 
-                        raw_data.append(row)
+                        raw_data.append(__row)
 
                     except StopIteration:
                         break
 
             f.close()
             print("---- " + __ticker + " ----------")
-            self.__append_to_file(__ticker, raw_data, outputDir)
+            self.__append_to_file(__ticker, self.__calculate_Y_values(raw_data, self.__pred_offset), outputDir)
 
     # Convert date to day of year
     def __day_of_year(self, date_str):
         return datetime.strptime(date_str, '%Y-%m-%d').date().timetuple().tm_yday
+
+
+
+    # Расчет значений Y
+    def __calculate_Y_values(self, raw_data, offset):
+
+        for i in range(len(raw_data)):
+            if (i < self.__batch_size):
+                continue
+            else:
+                #raw_data[i].append(i)
+                print(raw_data[i:i+offset])
+                input("X")
+
+        return raw_data
+
+
+    # Поиск максимума или миниммума за период
+    def __find_ext(self,  type, size):
+
+        if (type == 'max'):
+            print()
+
+        elif (type == 'min'):
+            print()

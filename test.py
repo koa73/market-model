@@ -3,6 +3,4 @@
 import dataMaker as d
 
 data = d.DataMaker()
-data.prepare_data('edu')
-print("--------->")
-data.prepare_data('test', 2)
+data.prepare_data('edu', 0)
