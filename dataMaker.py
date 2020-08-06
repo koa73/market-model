@@ -286,7 +286,7 @@ class DataMaker:
                     if (i >= self.__batch_size):
                         y = list(map(int, re.findall(r'[(\d)]', list(row).pop(-1))))
                         y_array_ticker.append(y)
-                        self.__up_down_none_count(y)
+                        self.__up_down_none_count(y, i)
 
                     raw_data.append(row[8:16])
 
@@ -295,14 +295,18 @@ class DataMaker:
 
 
     # Подсчет количества UP/DOWN/NONE
-    def __up_down_none_count(self, y):
+    def __up_down_none_count(self, y, i):
 
-        if(y[1] == 1):
-            self.__none_counter +=1
-        elif (y[0] == 1):
-            self.__up_counter +=1
-        elif (y[2] == 1):
-            self.__down_counter +=1
+        try:
+            if (y[1] == 1):
+                self.__none_counter += 1
+            elif (y[0] == 1):
+                self.__up_counter += 1
+            elif (y[2] == 1):
+                self.__down_counter += 1
+        except IndexError:
+            print(" ---- Error str : "+ str(i))
+
 
 
     # Расчет относительных данных
