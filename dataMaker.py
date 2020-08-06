@@ -306,6 +306,7 @@ class DataMaker:
                 self.__down_counter += 1
         except IndexError:
             print(" ---- Error str : "+ str(i))
+            input("Press any key .....")
 
 
 
