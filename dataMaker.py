@@ -295,7 +295,7 @@ class DataMaker:
                 for row in rows:
                     raw_data.append(row[8:20])
             f.close()
-            X, y, X_0, y_0, X_1, y_1, X_2, y_2, y_v, y_v0, y_v1, y_v2 = self.__prepare_Xy_array(raw_data)
+            X, y, X_0, y_0, X_1, y_1, X_2, y_2, y_v, y_v0, y_v1, y_v2 = self.__prepare_Xy_array(raw_data, factor)
 
             if (type == 'edu'):
                 y_array = np.concatenate((y_array, y), axis=0)
@@ -322,7 +322,7 @@ class DataMaker:
                 pass
 
             # выход если массив заполнен по всем показателям
-            if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 3):
+            if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 2 +self.__breake*factor):
                 print("Stop iteration ")
                 break
 
@@ -353,9 +353,8 @@ class DataMaker:
         print("UP : " + str(self.__up_counter) + " NONE : " + str(self.__none_counter) + " DOWN :" + str(
             self.__down_counter))
 
-
     # Подготовка Х массива
-    def __prepare_Xy_array(self, raw_data):
+    def __prepare_Xy_array(self, raw_data, factor):
 
         X_array = []    # Unsorted
         y_array = []    # Unsorted
@@ -381,7 +380,7 @@ class DataMaker:
             x = self.__resize_list(x,8)
 
             if (y[1] == 1):
-                if (self.__none_counter == self.__breake):
+                if (self.__none_counter == self.__breake * factor):
                     continue
                 self.__none_counter += 1
                 X_array_1.append(x)
