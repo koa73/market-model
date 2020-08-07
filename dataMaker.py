@@ -345,11 +345,11 @@ class DataMaker:
 
             x = raw_data[i:end]
             y = list(map(int, re.findall(r'[(\d)]', x[-1:][-1][-1])))
+            if (self.__none_counter >= self.__breake):
+                continue
             x = self.__resize_list(x,8)
 
             if (y[1] == 1):
-                if (self.__none_counter >= self.__breake):
-                    continue
                 self.__none_counter += 1
                 X_array_1.append(x)
                 y_array_1.append(y)
