@@ -231,15 +231,15 @@ class DataMaker:
 
             inputDir = inputDir + '/stocks/'
             outputDir = outputDir + '/rawdata/'
-            print(" --- Prepare EDU data from " + 'Long tickers list' if (
-                        list_num == 1) else 'Short tickers list' + ' ----')
+            print(" --- Prepare EDU data from Long tickers list" if (
+                        list_num == 1) else ' --- Prepare EDU data from Short tickers list' + ' ----')
 
         elif(type == 'test'):
 
             inputDir = inputDir + '/test/'
             outputDir = outputDir + '/test/rawdata/'
-            print(" --- Prepare TEST data from " + 'Long tickers list' if (
-                        list_num == 1) else 'Short tickers list' + ' ----')
+            print(" --- Prepare TEST data from Long tickers list" if (
+                        list_num == 1) else ' --- Prepare TEST data from Short tickers list' + ' ----')
 
         self.__prepare_data(list_num, inputDir, outputDir)
 
@@ -253,20 +253,26 @@ class DataMaker:
 
             inputDir = inputDir + '/rawdata/'
             outputDir = outputDir + '/'
-            print(" --- Prepare EDU data from " + 'Long tickers list' if (
-                    list_num == 1) else 'Short tickers list' + ' ----')
+            print(" --- Prepare EDU data from Long tickers list" if (
+                    list_num == 1) else ' --- Prepare EDU data from Short tickers list' + ' ----')
 
         elif (type == 'test'):
 
             inputDir = inputDir + '/test/rawdata/'
             outputDir = outputDir + '/test/cases/binary/'
-            print(" --- Prepare TEST data from " + 'Long tickers list' if (
-                    list_num == 1) else 'Short tickers list' + ' ----')
+            print(" --- Prepare TEST data from Long tickers list" if (
+                    list_num == 1) else '--- Prepare TEST data from Short tickers list' + ' ----')
 
         tickers = self.__tickers_array[list_num]
 
         X_array = np.empty([0, self.__batch_size, 8])
         y_array = np.empty([0, 3])
+        X_array_0 = np.empty([0, self.__batch_size, 8])
+        y_array_0 = np.empty([0, 3])
+        X_array_1 = np.empty([0, self.__batch_size, 8])
+        y_array_1 = np.empty([0, 3])
+        X_array_2 = np.empty([0, self.__batch_size, 8])
+        y_array_2 = np.empty([0, 3])
 
         for __ticker in tickers:
 
@@ -284,12 +290,34 @@ class DataMaker:
                     raw_data.append(row[8:20])
             f.close()
             X, y, X_0, y_0, X_1, y_1, X_2, y_2 = self.__prepare_Xy_array(raw_data)
-            y_array = np.concatenate((y_array, y), axis=0)
-            X_array = np.concatenate((X_array, X), axis=0)
 
-        self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
-        self.__save_numpy_array(outputDir, 'edu_X_' + prefix, X_array)
+            if (type == 'edu'):
+                y_array = np.concatenate((y_array, y), axis=0)
+                X_array = np.concatenate((X_array, X), axis=0)
 
+            if (type == 'test'):
+                y_array_0 = np.concatenate((y_array_0, y_0), axis=0)
+                X_array_0 = np.concatenate((X_array_0, X_0), axis=0)
+
+                y_array_1 = np.concatenate((y_array_1, y_1), axis=0)
+                X_array_1 = np.concatenate((X_array_1, X_1), axis=0)
+
+                y_array_2 = np.concatenate((y_array_2, y_2), axis=0)
+                X_array_2 = np.concatenate((X_array_2, X_2), axis=0)
+
+        if (type == 'edu'):
+            self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
+            self.__save_numpy_array(outputDir, 'edu_X_' + prefix, X_array)
+
+        elif (type == 'test'):
+            self.__save_numpy_array(outputDir, 'edu_y_UP_' + prefix, y_array_0)
+            self.__save_numpy_array(outputDir, 'edu_X_UP_' + prefix, X_array_0)
+
+            self.__save_numpy_array(outputDir, 'edu_y_NONE_' + prefix, y_array_1)
+            self.__save_numpy_array(outputDir, 'edu_X_NONE_' + prefix, X_array_1)
+
+            self.__save_numpy_array(outputDir, 'edu_y_DOWN_' + prefix, y_array_2)
+            self.__save_numpy_array(outputDir, 'edu_X_DOWN_' + prefix, X_array_2)
 
 
     # Подготовка Х массива
