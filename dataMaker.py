@@ -244,7 +244,7 @@ class DataMaker:
         self.__prepare_data(list_num, inputDir, outputDir)
 
     # Создание массивов
-    def get_Xy_arrays(self, type, list_num, prefix, __break = 35000):
+    def get_Xy_arrays(self, type, list_num, prefix, __break = 35000, factor = 1):
 
         self.__breake = int(__break)
 
@@ -339,17 +339,17 @@ class DataMaker:
 
             self.__save_numpy_array(outputDir, 'test_y_UP_' + prefix, y_array_0)
             self.__save_numpy_array(outputDir, 'test_X_UP_' + prefix, X_array_0)
-            np.savetxt(outputDir+'y_vector_UP.csv', y_array_v_0 , delimiter=',')
+            self.__save_numpy_array(outputDir, 'test_y_vector_UP' + prefix, y_array_v_0)
             print("X_UP : " + str(X_array_0.shape) + " y_UP :" + str(y_array_0.shape))
 
             self.__save_numpy_array(outputDir, 'test_y_NONE_' + prefix, y_array_1)
             self.__save_numpy_array(outputDir, 'test_X_NONE_' + prefix, X_array_1)
-            np.savetxt(outputDir + 'y_vector_None.csv', y_array_v_1, delimiter=',')
+            self.__save_numpy_array(outputDir, 'test_y_vector_BONE' + prefix, y_array_v_1)
             print("X_NONE : " + str(X_array_1.shape) + " y_NONE :" + str(y_array_1.shape))
 
             self.__save_numpy_array(outputDir, 'test_y_DOWN_' + prefix, y_array_2)
             self.__save_numpy_array(outputDir, 'test_X_DOWN_' + prefix, X_array_2)
-            np.savetxt(outputDir + 'y_vector_DOWN.csv', y_array_v_2, delimiter=',')
+            self.__save_numpy_array(outputDir, 'test_y_vector_DOWN' + prefix, y_array_v_2)
             print("X_DOWN : " + str(X_array_2.shape) + " y_DOWN :" + str(y_array_2.shape))
 
         print("UP : " + str(self.__up_counter) + " NONE : " + str(self.__none_counter) + " DOWN :" + str(
