@@ -170,6 +170,7 @@ class DataMiner:
 
         print(">>>>  Make EDU Data <<<<<")
 
+
         #X_array = np.empty([0,self.__batch_size,4])
         X_array = np.empty([0, self.__batch_size, 6])
         #y_array = np.empty([0,2])
