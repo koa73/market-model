@@ -292,10 +292,9 @@ class DataMaker:
             f.close()
             X, y, X_0, y_0, X_1, y_1, X_2, y_2 = self.__prepare_Xy_array(raw_data)
 
-            #if (type == 'edu'):
-
-                #y_array = np.concatenate((y_array, y), axis=0)
-                #X_array = np.concatenate((X_array, X), axis=0)
+            if (type == 'edu'):
+                y_array = np.concatenate((y_array, y), axis=0)
+                X_array = np.concatenate((X_array, X), axis=0)
 
             if (type == 'test'):
                 y_array_0 = np.concatenate((y_array_0, y_0), axis=0)
@@ -307,12 +306,12 @@ class DataMaker:
                 y_array_2 = np.concatenate((y_array_2, y_2), axis=0)
                 X_array_2 = np.concatenate((X_array_2, X_2), axis=0)
 
-        #if (type == 'edu'):
-        #    self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
-        #    self.__save_numpy_array(outputDir, 'edu_X_' + prefix, X_array)
-        #    print ("X : "+str(X_array.shape)+" y :"+str(y_array.shape))
+        if (type == 'edu'):
+            self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
+            self.__save_numpy_array(outputDir, 'edu_X_' + prefix, X_array)
+            print ("X : "+str(X_array.shape)+" y :"+str(y_array.shape))
 
-        if (type == 'test'):
+        elif (type == 'test'):
             self.__save_numpy_array(outputDir, 'test_y_UP_' + prefix, y_array_0)
             self.__save_numpy_array(outputDir, 'test_X_UP_' + prefix, X_array_0)
             print("X_UP : " + str(X_array_0.shape) + " y_UP :" + str(y_array_0.shape))
