@@ -14,9 +14,9 @@ if (len(sys.argv) < 2):
     print("Argument not found ")
     exit(0)
 
-X_train = data.get_edu('X_edu', '_last_'+sys.argv[1])
+X_train = data.get_edu('edu_X', sys.argv[1])
 X_train = X_train.reshape(X_train.shape[0],-1)
-y_train =  data.get_edu('y_edu', '_last_'+sys.argv[1])
+y_train =  data.get_edu('edu_y', sys.argv[1])
 
 print("X_edu : " + str(X_train.shape))
 print("y_edu : " + str(y_train.shape))
@@ -24,11 +24,11 @@ print("y_edu : " + str(y_train.shape))
 print(X_train[0])
 #input("Wait any key ....")
 # This returns a tensor
-inputs = Input(shape=(18,) )
+inputs = Input(shape=(24,) )
 
 # a layer instance is callable on a tensor, and returns a tensor
-x = Dense(36, activation='tanh')(inputs)
-x = Dense(54, activation='tanh')(x)
+x = Dense(48, activation='tanh')(inputs)
+x = Dense(96, activation='tanh')(x)
 x = Dense(24, activation='tanh')(x)
 x = Dense(6, activation='tanh')(x)
 predictions = Dense(3,  activation='softmax', name="output")(x)
