@@ -21,6 +21,7 @@ prefix = 'b34'
 
 with open(test_path + 'test_X_DOWN_'+prefix+'.npy', 'rb') as fin:
     X_down = np.load(fin)
+    X_down = X_down.reshape(X_down.shape[0], -1)
 
 with open(test_path + 'test_y_DOWN_'+prefix+'.npy', 'rb') as fin:
     y_down = np.load(fin)
@@ -30,6 +31,7 @@ print('y_down.shape: ', y_down.shape)
 
 with open(test_path + 'test_X_UP_'+prefix+'.npy', 'rb') as fin:
     X_up = np.load(fin)
+    X_up = X_up.reshape(X_up.shape[0], -1)
 
 with open(test_path + 'test_y_UP_'+prefix+'.npy', 'rb') as fin:
     y_up = np.load(fin)
@@ -39,6 +41,7 @@ print('y_up.shape: ', y_up.shape)
 
 with open(test_path + 'test_X_NONE_'+prefix+'.npy', 'rb') as fin:
     X_none = np.load(fin)
+    X_none = X_none.reshape(X_none.shape[0], -1)
 
 with open(test_path + 'test_y_NONE_'+prefix+'.npy', 'rb') as fin:
     y_none = np.load(fin)
