@@ -231,6 +231,9 @@ class DataMiner:
             np.save(f, data)
         f.close()
 
+    def  read_numpy_array(self, name, prefix):
+        return self.__read_numpy_array(name, prefix)
+
     #
     # Read array from file
     def __read_numpy_array(self, name, prefix):

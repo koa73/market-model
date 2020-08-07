@@ -308,9 +308,9 @@ class DataMaker:
                     X_array_2 = np.concatenate((X_array_2, X_2), axis=0)
 
                 # выход если массив заполнен по всем показателям
-                if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 3):
-                    print ("Stop iteration ")
-                    break
+                #if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 3):
+                #    print ("Stop iteration ")
+                #   break
 
             if (type == 'edu'):
                 self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
@@ -389,8 +389,10 @@ class DataMaker:
             y_array.append(y)
 
         print("*******")
-        return np.array(X_array), np.array(y_array), np.array(X_array_0), np.array(y_array_0), np.array(X_array_1), \
-               np.array(y_array_1), np.array(X_array_2), np.array(y_array_2)
+        return np.array(X_array).astype(np.float64), np.array(y_array).astype(np.float64), \
+               np.array(X_array_0).astype(np.float64), np.array(y_array_0).astype(np.float64), \
+               np.array(X_array_1).astype(np.float64), np.array(y_array_1).astype(np.float64), \
+               np.array(X_array_2).astype(np.float64), np.array(y_array_2).astype(np.float64)
 
     # Расчет относительных данных
     def __prepare_data(self, list_num, inputDir, outputDir):
