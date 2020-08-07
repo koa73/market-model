@@ -22,7 +22,7 @@ class DataMaker:
     __up_counter = 0
     __down_counter = 0
     __none_counter = 0
-    __breake = 500
+    __breake = 35000
 
 
     def __init__(self, batch_size=3):
@@ -243,7 +243,9 @@ class DataMaker:
         self.__prepare_data(list_num, inputDir, outputDir)
 
     # Создание массивов
-    def get_Xy_arrays(self, type, list_num, prefix):
+    def get_Xy_arrays(self, type, list_num, prefix, __break = 35000):
+
+        self.__breake = __break
 
         inputDir = self.__fileDir + '/data'
         outputDir = inputDir
