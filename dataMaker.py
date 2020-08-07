@@ -332,6 +332,7 @@ class DataMaker:
 
 
         except ValueError:
+            print(">>>>>> "+__ticker+"<<<<")
             print( " Error y array shape : "+str(y.shape))
             print(" Error X array : "+ str(X.shape))
 
