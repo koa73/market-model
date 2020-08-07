@@ -37,17 +37,18 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 print(model.summary())
 data.save_conf(model, sys.argv[1])                                                  # Запись конфигурации скти для прерывания расчета
 
-
-
 dirPath = data.get_current_dir()+ "/data/model_test/"
+
 # Сохранение модели с лучшими параметрами
-checkpointer = tf.keras.callbacks.ModelCheckpoint(filepath = dirPath + "weights_"+sys.argv[1]+".h5",verbose=1, save_best_only=True)
+checkpointer = tf.keras.callbacks.ModelCheckpoint(monitor='accuracy',
+                                                  filepath = dirPath + "weights_"+sys.argv[1]+".h5",
+                                                  verbose=1, save_best_only=True)
 # Уменьшение коэфф. обучения при отсутствии изменения ошибки в течении learn_count эпох
-reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.9, patience=10, min_lr=0.000001,
+reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='accuracy', factor=0.1, patience=10, min_lr=0.000001,
                                                  verbose=1)
 # Остановка при переобучении. patience - сколько эпох мы ждем прежде чем прерваться.
 early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0, patience=10, verbose=0, mode='auto')
 
 # Тренировка сети
-model.fit(X_train, y_train, validation_split=0.05, epochs=100, batch_size=10, verbose=1, shuffle=True,
-          callbacks=[checkpointer, reduce_lr, early_stopping])
+model.fit(X_train, y_train, validation_split=0.05, epochs=100,
+batch_size=10, verbose=1, shuffle=True,callbacks=[checkpointer, reduce_lr, early_stopping])
