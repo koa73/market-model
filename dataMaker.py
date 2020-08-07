@@ -306,6 +306,9 @@ class DataMaker:
                 y_array_2 = np.concatenate((y_array_2, y_2), axis=0)
                 X_array_2 = np.concatenate((X_array_2, X_2), axis=0)
 
+            # выход если массив заполнен по всем показателям
+            if (self.__none_counter+self.__up_counter+self.__down_counter == self.__breake *3 ):
+                break
         if (type == 'edu'):
             self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
             self.__save_numpy_array(outputDir, 'edu_X_' + prefix, X_array)
