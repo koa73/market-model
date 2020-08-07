@@ -195,8 +195,9 @@ class DataMaker:
 
         try:
             return float(D((float(curr) - float(base))/float(base)).quantize(D(self.__accuracy), rounding=ROUND_DOWN))
+
         except ZeroDivisionError:
-            return float(1)
+            return 1
 
     # Запись данных в СSV файл
     def __append_to_file(self, ticker, data, outputDir):
@@ -274,6 +275,10 @@ class DataMaker:
         y_array_1 = np.empty([0, 3])
         X_array_2 = np.empty([0, self.__batch_size, 8])
         y_array_2 = np.empty([0, 3])
+        y_array_v = np.empty([0])
+        y_array_v_0 = np.empty([0])
+        y_array_v_1 = np.empty([0])
+        y_array_v_2 = np.empty([0])
 
         for __ticker in tickers:
 
@@ -290,23 +295,30 @@ class DataMaker:
                 for row in rows:
                     raw_data.append(row[8:20])
             f.close()
-            X, y, X_0, y_0, X_1, y_1, X_2, y_2 = self.__prepare_Xy_array(raw_data)
+            X, y, X_0, y_0, X_1, y_1, X_2, y_2, y_v, y_v0, y_v1, y_v2 = self.__prepare_Xy_array(raw_data)
 
             if (type == 'edu'):
                 y_array = np.concatenate((y_array, y), axis=0)
                 X_array = np.concatenate((X_array, X), axis=0)
+                print(y.shape)
+                input(y_v.shape)
+
+                y_array_v = np.concatenate((y_array_v, y_v), axis=0)
 
             try:
 
                 if (type == 'test'):
                     y_array_0 = np.concatenate((y_array_0, y_0), axis=0)
                     X_array_0 = np.concatenate((X_array_0, X_0), axis=0)
+                    y_array_v_0 = np.concatenate((y_array_v_0, y_v0), axis=0)
 
                     y_array_1 = np.concatenate((y_array_1, y_1), axis=0)
                     X_array_1 = np.concatenate((X_array_1, X_1), axis=0)
+                    y_array_v_1 = np.concatenate((y_array_v_1, y_v1), axis=0)
 
                     y_array_2 = np.concatenate((y_array_2, y_2), axis=0)
                     X_array_2 = np.concatenate((X_array_2, X_2), axis=0)
+                    y_array_v_2 = np.concatenate((y_array_v_2, y_v2), axis=0)
 
             except ValueError:
                 pass
@@ -320,20 +332,24 @@ class DataMaker:
 
             self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
             self.__save_numpy_array(outputDir, 'edu_X_' + prefix, X_array)
+            self.__save_numpy_array(outputDir, 'edu_y_V_' + prefix, y_array_v)
             print("X : " + str(X_array.shape) + " y :" + str(y_array.shape))
 
         elif (type == 'test'):
 
             self.__save_numpy_array(outputDir, 'test_y_UP_' + prefix, y_array_0)
             self.__save_numpy_array(outputDir, 'test_X_UP_' + prefix, X_array_0)
+            np.savetxt(outputDir+'y_vector_UP.csv', y_array_v_0 , delimiter=',')
             print("X_UP : " + str(X_array_0.shape) + " y_UP :" + str(y_array_0.shape))
 
             self.__save_numpy_array(outputDir, 'test_y_NONE_' + prefix, y_array_1)
             self.__save_numpy_array(outputDir, 'test_X_NONE_' + prefix, X_array_1)
+            np.savetxt(outputDir + 'y_vector_None.csv', y_array_v_1, delimiter=',')
             print("X_NONE : " + str(X_array_1.shape) + " y_NONE :" + str(y_array_1.shape))
 
             self.__save_numpy_array(outputDir, 'test_y_DOWN_' + prefix, y_array_2)
             self.__save_numpy_array(outputDir, 'test_X_DOWN_' + prefix, X_array_2)
+            np.savetxt(outputDir + 'y_vector_DOWN.csv', y_array_v_2, delimiter=',')
             print("X_DOWN : " + str(X_array_2.shape) + " y_DOWN :" + str(y_array_2.shape))
 
         print("UP : " + str(self.__up_counter) + " NONE : " + str(self.__none_counter) + " DOWN :" + str(
@@ -351,6 +367,10 @@ class DataMaker:
         y_array_1 = []  # None array
         X_array_2 = []  # Down array
         y_array_2 = []  # Down array
+        y_array_v = []  # Vector array
+        y_array_v0 = []
+        y_array_v1 = []
+        y_array_v2 = []
 
 
         for i in range(0, len(raw_data) - self.__batch_size):
@@ -358,6 +378,7 @@ class DataMaker:
 
             x = raw_data[i:end]
             y = list(map(int, re.findall(r'[(\d)]', x[-1:][-1][-1])))
+            vector = float(x[-1][-2])
 
             x = self.__resize_list(x,8)
 
@@ -367,6 +388,7 @@ class DataMaker:
                 self.__none_counter += 1
                 X_array_1.append(x)
                 y_array_1.append(y)
+                y_array_v1.append(vector)
 
             elif (y[0] == 1):
                 if (self.__up_counter == self.__breake):
@@ -374,6 +396,7 @@ class DataMaker:
                 self.__up_counter += 1
                 X_array_0.append(x)
                 y_array_0.append(y)
+                y_array_v0.append(vector)
 
             elif (y[2] == 1):
                 if (self.__down_counter == self.__breake):
@@ -381,14 +404,18 @@ class DataMaker:
                 self.__down_counter += 1
                 X_array_2.append(x)
                 y_array_2.append(y)
+                y_array_v2.append(vector)
 
             X_array.append(x)
             y_array.append(y)
+            y_array_v.append(vector)
 
         return np.array(X_array).astype(np.float64), np.array(y_array).astype(np.float64), \
                np.array(X_array_0).astype(np.float64), np.array(y_array_0).astype(np.float64), \
                np.array(X_array_1).astype(np.float64), np.array(y_array_1).astype(np.float64), \
-               np.array(X_array_2).astype(np.float64), np.array(y_array_2).astype(np.float64)
+               np.array(X_array_2).astype(np.float64), np.array(y_array_2).astype(np.float64), \
+               np.array(y_array_v).astype(np.float64), np.array(y_array_v0).astype(np.float64), \
+               np.array(y_array_v1).astype(np.float64), np.array(y_array_v2).astype(np.float64)
 
     # Расчет относительных данных
     def __prepare_data(self, list_num, inputDir, outputDir):
@@ -502,7 +529,7 @@ class DataMaker:
             return max
 
         elif (max >= 0 and min < 0):
-            return max + min
+            return float(D(max + min).quantize(D(self.__accuracy), rounding=ROUND_DOWN))
 
         else:
             return min
