@@ -345,8 +345,15 @@ class DataMaker:
 
             x = raw_data[i:end]
             y = list(map(int, re.findall(r'[(\d)]', x[-1:][-1][-1])))
+
+            # Остановка наполнения массива по достижению контрольной точки
             if (self.__none_counter >= self.__breake):
                 continue
+            elif  (self.__up_counter >= self.__breake):
+                continue
+            elif (self.__down_counter >= self.__breake):
+                continue
+
             x = self.__resize_list(x,8)
 
             if (y[1] == 1):
