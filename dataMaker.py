@@ -22,7 +22,7 @@ class DataMaker:
     __up_counter = 0
     __down_counter = 0
     __none_counter = 0
-    __breake = 35000
+    __breake = 500
 
 
     def __init__(self, batch_size=3):
@@ -346,9 +346,9 @@ class DataMaker:
             x = self.__resize_list(x,8)
 
             if (y[1] == 1):
-                self.__none_counter += 1
-                if (self.__none_counter > self.__breake):
+                if (self.__none_counter >= self.__breake):
                     continue
+                self.__none_counter += 1
                 X_array_1.append(x)
                 y_array_1.append(y)
 
