@@ -300,8 +300,6 @@ class DataMaker:
             if (type == 'edu'):
                 y_array = np.concatenate((y_array, y), axis=0)
                 X_array = np.concatenate((X_array, X), axis=0)
-                print(y.shape)
-                input(y_v.shape)
 
                 y_array_v = np.concatenate((y_array_v, y_v), axis=0)
 
