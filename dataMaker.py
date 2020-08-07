@@ -310,7 +310,7 @@ class DataMaker:
 
             x = raw_data[i:end]
             y = list(map(int, re.findall(r'[(\d)]', x[-1:][-1][-1])))
-            x[-1] = x[i:end][-1][0:8]
+            x = self.__resize_list(x,8)
 
             if (y[1] == 1):
                 self.__none_counter += 1
@@ -470,6 +470,14 @@ class DataMaker:
         with open(filename, 'wb') as f:
             np.save(f, data)
         f.close()
+
+    # Resize 2D list
+    def __resize_list(self, array, size):
+        for i in range(len(array)):
+            array[i] = array[i][0:size]
+        return array
+
+
 
 
 
