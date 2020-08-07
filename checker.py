@@ -51,8 +51,8 @@ print('y_none.shape: ', y_none.shape)
 print("\n====== Load Model ======")
 
 # Load network
-print('Load JSON as: ', data_path +"/model_test/weights_"+ sys.argv[1] + ".json")
-json_file = open(data_path +"/model_test/weights_"+ sys.argv[1] + ".json", "r")
+print('Load JSON as: ', data_path +"model_test/weights_"+ sys.argv[1] + ".json")
+json_file = open(data_path +"model_test/weights_"+ sys.argv[1] + ".json", "r")
 model_json = json_file.read()
 json_file.close()
 
