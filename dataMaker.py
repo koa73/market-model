@@ -336,12 +336,12 @@ class DataMaker:
             print(">>>>>> "+__ticker+"<<<<")
             print( " Error y array shape : "+str(y.shape))
             print(" Error X array : "+ str(X.shape))
-            print(X_array_0.shape)
-            print(y_array_0.shape)
-            print(X_array_1.shape)
-            print(y_array_1.shape)
-            print(X_array_2.shape)
-            print(y_array_2.shape)
+            print(X_0.shape)
+            print(y_0.shape)
+            print(X_1.shape)
+            print(y_1.shape)
+            print(X_2.shape)
+            print(y_2.shape)
 
         print("UP : " + str(self.__up_counter) + " NONE : " + str(self.__none_counter) + " DOWN :" + str(
             self.__down_counter))
