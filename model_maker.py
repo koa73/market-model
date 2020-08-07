@@ -19,6 +19,8 @@ y_train =  data.get_edu('edu_y_', sys.argv[1])
 print("X_edu : " + str(X_train.shape))
 print("y_edu : " + str(y_train.shape))
 
+print(X_train.shape)
+
 input_layer_1 = tf.keras.layers.Input(shape=(X_train.shape[1], X_train.shape[2]))
 norma_layer = tf.keras.layers.LayerNormalization(axis=1)(input_layer_1)
 hidden_d2_dense = tf.keras.layers.Dense(48, activation='tanh')(norma_layer)
