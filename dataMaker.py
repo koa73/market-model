@@ -308,9 +308,9 @@ class DataMaker:
                     X_array_2 = np.concatenate((X_array_2, X_2), axis=0)
 
                 # выход если массив заполнен по всем показателям
-                #if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 3):
-                #    print ("Stop iteration ")
-                #   break
+                if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 3):
+                    print ("Stop iteration ")
+                    break
 
             if (type == 'edu'):
                 self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
@@ -358,37 +358,32 @@ class DataMaker:
             x = raw_data[i:end]
             y = list(map(int, re.findall(r'[(\d)]', x[-1:][-1][-1])))
 
-            # Остановка наполнения массива по достижению контрольной точки
-            if (self.__none_counter == self.__breake):
-                continue
-            if (self.__up_counter == self.__breake):
-                continue
-            if (self.__down_counter == self.__breake):
-                continue
-
             x = self.__resize_list(x,8)
 
             if (y[1] == 1):
+                if (self.__none_counter == self.__breake):
+                    continue
                 self.__none_counter += 1
                 X_array_1.append(x)
                 y_array_1.append(y)
 
             elif (y[0] == 1):
+                if (self.__up_counter == self.__breake):
+                    continue
                 self.__up_counter += 1
                 X_array_0.append(x)
                 y_array_0.append(y)
 
             elif (y[2] == 1):
+                if (self.__down_counter == self.__breake):
+                    continue
                 self.__down_counter += 1
                 X_array_2.append(x)
                 y_array_2.append(y)
 
-            print ("------" + str(self.__up_counter)+ ", "+str(self.__down_counter)+" , "+str(self.__none_counter))
-            input(y)
             X_array.append(x)
             y_array.append(y)
 
-        print("*******")
         return np.array(X_array).astype(np.float64), np.array(y_array).astype(np.float64), \
                np.array(X_array_0).astype(np.float64), np.array(y_array_0).astype(np.float64), \
                np.array(X_array_1).astype(np.float64), np.array(y_array_1).astype(np.float64), \
