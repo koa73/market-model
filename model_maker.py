@@ -44,10 +44,10 @@ checkpointer = tf.keras.callbacks.ModelCheckpoint(monitor='accuracy',
                                                   filepath = dirPath + "weights_"+sys.argv[1]+".h5",
                                                   verbose=1, save_best_only=True)
 # Уменьшение коэфф. обучения при отсутствии изменения ошибки в течении learn_count эпох
-reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='accuracy', factor=0.1, patience=10, min_lr=0.000001,
+reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='accuracy', factor=0.1, patience=5, min_lr=0.000001,
                                                  verbose=1)
 # Остановка при переобучении. patience - сколько эпох мы ждем прежде чем прерваться.
-early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0, patience=10, verbose=0, mode='auto')
+early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0, patience=12, verbose=0, mode='auto')
 
 # Тренировка сети
 model.fit(X_train, y_train, validation_split=0.05, epochs=100,
