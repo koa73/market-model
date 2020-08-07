@@ -96,28 +96,3 @@ print("Test accuracy: UP ", accuracy_score(rounded_labels_up, y_up_pred_test_cla
 print("Test accuracy: DOWN ", accuracy_score(rounded_labels_down, y_down_pred_test_classes))
 print("Test accuracy: NONE ", accuracy_score(rounded_labels_none, y_none_pred_test_classes))
 
-np.savetxt('up.csv', pred_up, delimiter=',')
-np.savetxt('none.csv', pred_none, delimiter=',')
-np.savetxt('down.csv', pred_down, delimiter=',')
-
-exit(0)
-
-fig, axs = plt.subplots(3, 1)
-
-t = np.arange(0, y_up.shape[0], 1)
-line1 = axs[0].plot(t, y_up, label='y_up', color='red')
-line2 = axs[0].plot(t, pred_up, label='pred_up', color='blue')
-axs[0].legend()
-axs[0].grid(True)
-
-t = np.arange(0, y_down.shape[0], 1)
-line1 = axs[1].plot(t, y_down, label='y_down', color='red')
-line2 = axs[1].plot(t, pred_down, label='pred_down', color='blue')
-axs[1].legend()
-axs[1].grid(True)
-
-t = np.arange(0, y_none.shape[0], 1)
-line1 = axs[2].plot(t, y_none, label='y_none', color='red')
-line2 = axs[2].plot(t, pred_none, label='pred_none', color='blue')
-axs[2].legend()
-axs[2].grid(True)
