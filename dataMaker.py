@@ -245,7 +245,7 @@ class DataMaker:
     # Создание массивов
     def get_Xy_arrays(self, type, list_num, prefix, __break = 35000):
 
-        self.__breake = __break
+        self.__breake = int(__break)
 
         inputDir = self.__fileDir + '/data'
         outputDir = inputDir
