@@ -35,11 +35,8 @@ model = tf.keras.models.Model(inputs=[input_layer_1], outputs=[output])
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 #
 print(model.summary())
-
 data.save_conf(model, sys.argv[1])                                                  # Запись конфигурации скти для прерывания расчета
-model.compile(optimizer='adam',
-              loss='categorical_crossentropy',
-              metrics=['acc'])
+
 
 
 dirPath = data.get_current_dir()+ "/data/model_test/"
