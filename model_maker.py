@@ -41,9 +41,7 @@ data.save_conf(model, sys.argv[1])                                              
 
 dirPath = data.get_current_dir()+ "/data/model_test/"
 # Сохранение модели с лучшими параметрами
-checkpointer = tf.keras.callbacks.ModelCheckpoint(monitor='accuracy',
-                                                  filepath = dirPath + "weights_"+sys.argv[1]+".h5",
-                                                  verbose=1, save_best_only=True)
+checkpointer = tf.keras.callbacks.ModelCheckpoint(filepath = dirPath + "weights_"+sys.argv[1]+".h5",verbose=1, save_best_only=True)
 # Уменьшение коэфф. обучения при отсутствии изменения ошибки в течении learn_count эпох
 reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_loss', factor=0.9, patience=10, min_lr=0.000001,
                                                  verbose=1)
