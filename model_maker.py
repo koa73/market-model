@@ -23,9 +23,9 @@ print(X_train.shape)
 
 input_layer_1 = tf.keras.layers.Input(shape=(24,))
 norma_layer = tf.keras.layers.LayerNormalization(axis=1)(input_layer_1)
-hidden_d2_dense = tf.keras.layers.Dense(24, activation='tanh')(norma_layer)
-hidden_d3_dense = tf.keras.layers.Dense(48, activation='tanh')(hidden_d2_dense)
-hidden_d4_dense = tf.keras.layers.Dense(12, activation='tanh')(hidden_d3_dense)
+hidden_d2_dense = tf.keras.layers.Dense(48, activation='tanh')(norma_layer)
+hidden_d3_dense = tf.keras.layers.Dense(96, activation='tanh')(hidden_d2_dense)
+hidden_d4_dense = tf.keras.layers.Dense(24, activation='tanh')(hidden_d3_dense)
 hidden_d5_dense = tf.keras.layers.Dense(6, activation='tanh')(hidden_d4_dense)
 output = tf.keras.layers.Dense(3, activation='softmax')(hidden_d5_dense)
 
@@ -47,7 +47,7 @@ checkpointer = tf.keras.callbacks.ModelCheckpoint(monitor='accuracy',
 reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='accuracy', factor=0.1, patience=5, min_lr=0.000001,
                                                  verbose=1)
 # Остановка при переобучении. patience - сколько эпох мы ждем прежде чем прерваться.
-early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0, patience=12, verbose=0, mode='auto')
+early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0, patience=10, verbose=0, mode='auto')
 
 # Тренировка сети
 model.fit(X_train, y_train, validation_split=0.05, epochs=100,
