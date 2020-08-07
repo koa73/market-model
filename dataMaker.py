@@ -244,58 +244,59 @@ class DataMaker:
 
     # Создание массивов
     def get_Xy_arrays(self, type, list_num, prefix, __break = 35000):
-        try:
 
-            self.__breake = int(__break)
+        self.__breake = int(__break)
 
-            inputDir = self.__fileDir + '/data'
-            outputDir = inputDir
+        inputDir = self.__fileDir + '/data'
+        outputDir = inputDir
+
+        if (type == 'edu'):
+
+            inputDir = inputDir + '/rawdata/'
+            outputDir = outputDir + '/'
+            print(" --- Prepare EDU data from Long tickers list" if (
+                    list_num == 1) else ' --- Prepare EDU data from Short tickers list' + ' ----')
+
+        elif (type == 'test'):
+
+            inputDir = inputDir + '/test/rawdata/'
+            outputDir = outputDir + '/test/cases/binary/'
+            print(" --- Prepare TEST data from Long tickers list" if (
+                    list_num == 1) else '--- Prepare TEST data from Short tickers list' + ' ----')
+
+        tickers = self.__tickers_array[list_num]
+
+        X_array = np.empty([0, self.__batch_size, 8])
+        y_array = np.empty([0, 3])
+        X_array_0 = np.empty([0, self.__batch_size, 8])
+        y_array_0 = np.empty([0, 3])
+        X_array_1 = np.empty([0, self.__batch_size, 8])
+        y_array_1 = np.empty([0, 3])
+        X_array_2 = np.empty([0, self.__batch_size, 8])
+        y_array_2 = np.empty([0, 3])
+
+        for __ticker in tickers:
+
+            raw_data = []
+
+            filename = inputDir + 'train_' + __ticker + '.csv'
+
+            print("->> " + __ticker)
+
+            with open(filename, newline='') as f:
+                next(f)
+                rows = csv.reader(f, delimiter=',', quotechar='|')
+                # Выборка данных под Х и y массивы
+                for row in rows:
+                    raw_data.append(row[8:20])
+            f.close()
+            X, y, X_0, y_0, X_1, y_1, X_2, y_2 = self.__prepare_Xy_array(raw_data)
 
             if (type == 'edu'):
+                y_array = np.concatenate((y_array, y), axis=0)
+                X_array = np.concatenate((X_array, X), axis=0)
 
-                inputDir = inputDir + '/rawdata/'
-                outputDir = outputDir + '/'
-                print(" --- Prepare EDU data from Long tickers list" if (
-                        list_num == 1) else ' --- Prepare EDU data from Short tickers list' + ' ----')
-
-            elif (type == 'test'):
-
-                inputDir = inputDir + '/test/rawdata/'
-                outputDir = outputDir + '/test/cases/binary/'
-                print(" --- Prepare TEST data from Long tickers list" if (
-                        list_num == 1) else '--- Prepare TEST data from Short tickers list' + ' ----')
-
-            tickers = self.__tickers_array[list_num]
-
-            X_array = np.empty([0, self.__batch_size, 8])
-            y_array = np.empty([0, 3])
-            X_array_0 = np.empty([0, self.__batch_size, 8])
-            y_array_0 = np.empty([0, 3])
-            X_array_1 = np.empty([0, self.__batch_size, 8])
-            y_array_1 = np.empty([0, 3])
-            X_array_2 = np.empty([0, self.__batch_size, 8])
-            y_array_2 = np.empty([0, 3])
-
-            for __ticker in tickers:
-
-                raw_data = []
-
-                filename = inputDir + 'train_' + __ticker + '.csv'
-
-                print("->> " + __ticker)
-
-                with open(filename, newline='') as f:
-                    next(f)
-                    rows = csv.reader(f, delimiter=',', quotechar='|')
-                    # Выборка данных под Х и y массивы
-                    for row in rows:
-                        raw_data.append(row[8:20])
-                f.close()
-                X, y, X_0, y_0, X_1, y_1, X_2, y_2 = self.__prepare_Xy_array(raw_data)
-
-                if (type == 'edu'):
-                    y_array = np.concatenate((y_array, y), axis=0)
-                    X_array = np.concatenate((X_array, X), axis=0)
+            try:
 
                 if (type == 'test'):
                     y_array_0 = np.concatenate((y_array_0, y_0), axis=0)
@@ -307,41 +308,33 @@ class DataMaker:
                     y_array_2 = np.concatenate((y_array_2, y_2), axis=0)
                     X_array_2 = np.concatenate((X_array_2, X_2), axis=0)
 
-                # выход если массив заполнен по всем показателям
-                if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 3):
-                    print ("Stop iteration ")
-                    break
+            except ValueError:
+                pass
 
-            if (type == 'edu'):
-                self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
-                self.__save_numpy_array(outputDir, 'edu_X_' + prefix, X_array)
-                print("X : " + str(X_array.shape) + " y :" + str(y_array.shape))
+            # выход если массив заполнен по всем показателям
+            if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 3):
+                print("Stop iteration ")
+                break
 
-            elif (type == 'test'):
+        if (type == 'edu'):
 
-                self.__save_numpy_array(outputDir, 'test_y_UP_' + prefix, y_array_0)
-                self.__save_numpy_array(outputDir, 'test_X_UP_' + prefix, X_array_0)
-                print("X_UP : " + str(X_array_0.shape) + " y_UP :" + str(y_array_0.shape))
+            self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
+            self.__save_numpy_array(outputDir, 'edu_X_' + prefix, X_array)
+            print("X : " + str(X_array.shape) + " y :" + str(y_array.shape))
 
-                self.__save_numpy_array(outputDir, 'test_y_NONE_' + prefix, y_array_1)
-                self.__save_numpy_array(outputDir, 'test_X_NONE_' + prefix, X_array_1)
-                print("X_NONE : " + str(X_array_1.shape) + " y_NONE :" + str(y_array_1.shape))
+        elif (type == 'test'):
 
-                self.__save_numpy_array(outputDir, 'test_y_DOWN_' + prefix, y_array_2)
-                self.__save_numpy_array(outputDir, 'test_X_DOWN_' + prefix, X_array_2)
-                print("X_DOWN : " + str(X_array_2.shape) + " y_DOWN :" + str(y_array_2.shape))
+            self.__save_numpy_array(outputDir, 'test_y_UP_' + prefix, y_array_0)
+            self.__save_numpy_array(outputDir, 'test_X_UP_' + prefix, X_array_0)
+            print("X_UP : " + str(X_array_0.shape) + " y_UP :" + str(y_array_0.shape))
 
+            self.__save_numpy_array(outputDir, 'test_y_NONE_' + prefix, y_array_1)
+            self.__save_numpy_array(outputDir, 'test_X_NONE_' + prefix, X_array_1)
+            print("X_NONE : " + str(X_array_1.shape) + " y_NONE :" + str(y_array_1.shape))
 
-        except ValueError:
-            print(">>>>>> "+__ticker+"<<<<")
-            print( " Error y array shape : "+str(y.shape))
-            print(" Error X array : "+ str(X.shape))
-            print(X_0.shape)
-            print(y_0.shape)
-            print(X_1.shape)
-            print(y_1.shape)
-            print(X_2.shape)
-            print(y_2.shape)
+            self.__save_numpy_array(outputDir, 'test_y_DOWN_' + prefix, y_array_2)
+            self.__save_numpy_array(outputDir, 'test_X_DOWN_' + prefix, X_array_2)
+            print("X_DOWN : " + str(X_array_2.shape) + " y_DOWN :" + str(y_array_2.shape))
 
         print("UP : " + str(self.__up_counter) + " NONE : " + str(self.__none_counter) + " DOWN :" + str(
             self.__down_counter))
