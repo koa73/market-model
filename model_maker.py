@@ -23,9 +23,9 @@ print(X_train.shape)
 
 input_layer_1 = tf.keras.layers.Input(shape=(24,))
 norma_layer = tf.keras.layers.LayerNormalization(axis=1)(input_layer_1)
-hidden_d2_dense = tf.keras.layers.Dense(48, activation='tanh')(norma_layer)
-hidden_d3_dense = tf.keras.layers.Dense(96, activation='tanh')(hidden_d2_dense)
-hidden_d4_dense = tf.keras.layers.Dense(24, activation='tanh')(hidden_d3_dense)
+hidden_d2_dense = tf.keras.layers.Dense(12, activation='tanh')(norma_layer)
+hidden_d3_dense = tf.keras.layers.Dense(34, activation='tanh')(hidden_d2_dense)
+hidden_d4_dense = tf.keras.layers.Dense(34, activation='tanh')(hidden_d3_dense)
 hidden_d5_dense = tf.keras.layers.Dense(6, activation='tanh')(hidden_d4_dense)
 output = tf.keras.layers.Dense(3, activation='softmax')(hidden_d5_dense)
 
