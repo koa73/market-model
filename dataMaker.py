@@ -24,7 +24,6 @@ class DataMaker:
     __none_counter = 0
     __breake = 35000
 
-
     def __init__(self, batch_size=3):
 
         self.__batch_size = batch_size
@@ -218,6 +217,54 @@ class DataMaker:
 
         csv_out_file.close()
 
+    # Подготовка данных для сравнения
+    def get_csv_for_compare(self,list_num, __break):
+
+        self.__breake = int(__break)
+
+        inputDir = self.__fileDir + '/data/rawdata/'
+        outputDir =  self.__fileDir + '/data/model_test/check/'
+
+        # Output files
+        file_UP = outputDir + "UP_" + str(list_num) + '_'+ str(__break)+".csv"
+        file_NONE = outputDir + "NONE_" + str(list_num) + '_' + str(__break) + ".csv"
+        file_DOWN = outputDir + "DOWN_" + str(list_num) + '_' + str(__break) + ".csv"
+
+        raw_data_up = []
+        raw_data_none = []
+        raw_data_down = []
+
+        tickers = self.__tickers_array[list_num]
+
+        print ("------ Make CSV file ------")
+
+        for __ticker in tickers:
+
+            filename = inputDir + 'train_' + __ticker + '.csv'
+
+            print("->> " + __ticker)
+
+            with open(filename, newline='') as f:
+                next(f)
+                rows = csv.reader(f, delimiter=',', quotechar='|')
+                for row in rows:
+                    if (len(row)>16):
+                        if (float(row[18]) >= self.__max_border):
+                            raw_data_up.append(row)
+
+                        elif ((float(row[18]) > self.__min_border) and (float(row[18]) < self.__max_border)):
+                            raw_data_none.append(row)
+
+                        elif (float(row[18]) <= self.__min_border):
+                            raw_data_down.append(row)
+            f.close()
+
+        self.__append_to_file('UP_'+ str(list_num)+'_'+ str(__break), raw_data_up, outputDir)
+        self.__append_to_file('NONE_' + str(list_num)+'_'+ str(__break), raw_data_none, outputDir)
+        self.__append_to_file('DOWN_' + str(list_num)+'_'+ str(__break), raw_data_down, outputDir)
+
+
+
     # Расчет данных
     def prepare_data(self, type, list_num = 1):
         """
@@ -242,6 +289,7 @@ class DataMaker:
                         list_num == 1) else ' --- Prepare TEST data from Short tickers list' + ' ----')
 
         self.__prepare_data(list_num, inputDir, outputDir)
+
 
     # Создание массивов
     def get_Xy_arrays(self, type, list_num, prefix, __break = 35000, factor = 1):
