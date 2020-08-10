@@ -240,7 +240,7 @@ class DataMaker:
             # выход если массив заполнен по всем показателям
             if (
                     self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 3):
-                print("Stop iteration ")
+                input("Stop iteration ")
                 break
 
             print("->> " + __ticker)
