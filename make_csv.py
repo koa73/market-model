@@ -9,4 +9,4 @@ if (len(sys.argv) < 3):
     exit(0)
 
 data = d.DataMaker()
-data.get_csv_for_compare(sys.argv[1], sys.argv[2])
+data.get_csv_for_compare(int(sys.argv[1]), int(sys.argv[2]))
