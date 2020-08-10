@@ -225,11 +225,6 @@ class DataMaker:
         inputDir = self.__fileDir + '/data/rawdata/'
         outputDir =  self.__fileDir + '/data/model_test/check/'
 
-        # Output files
-        file_UP = outputDir + "UP_" + str(list_num) + '_'+ str(__break)+".csv"
-        file_NONE = outputDir + "NONE_" + str(list_num) + '_' + str(__break) + ".csv"
-        file_DOWN = outputDir + "DOWN_" + str(list_num) + '_' + str(__break) + ".csv"
-
         raw_data_up = []
         raw_data_none = []
         raw_data_down = []
@@ -242,6 +237,12 @@ class DataMaker:
 
             filename = inputDir + 'train_' + __ticker + '.csv'
 
+            # выход если массив заполнен по всем показателям
+            if (
+                    self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 2):
+                print("Stop iteration ")
+                break
+
             print("->> " + __ticker)
 
             with open(filename, newline='') as f:
@@ -250,12 +251,21 @@ class DataMaker:
                 for row in rows:
                     if (len(row)>16):
                         if (float(row[18]) >= self.__max_border):
+                            if (self.__up_counter == self.__breake):
+                                continue
+                            self.__up_counter +=1
                             raw_data_up.append(row)
 
                         elif ((float(row[18]) > self.__min_border) and (float(row[18]) < self.__max_border)):
+                            if (self.__down_counter == self.__breake):
+                                continue
+                            self.__none_counter +=1
                             raw_data_none.append(row)
 
                         elif (float(row[18]) <= self.__min_border):
+                            if (self.__down_counter == self.__breake):
+                                continue
+                            self.__down_counter +=1
                             raw_data_down.append(row)
             f.close()
 
