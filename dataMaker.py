@@ -239,7 +239,7 @@ class DataMaker:
 
             # выход если массив заполнен по всем показателям
             if (
-                    self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 2):
+                    self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 3):
                 print("Stop iteration ")
                 break
 
@@ -257,7 +257,7 @@ class DataMaker:
                             raw_data_up.append(row)
 
                         elif ((float(row[18]) > self.__min_border) and (float(row[18]) < self.__max_border)):
-                            if (self.__down_counter == self.__breake):
+                            if (self.__none_counter == self.__breake):
                                 continue
                             self.__none_counter +=1
                             raw_data_none.append(row)
