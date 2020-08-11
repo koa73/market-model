@@ -360,9 +360,9 @@ class DataMaker:
                 X_array = np.concatenate((X_array, X), axis=0)
                 y_array_v = np.concatenate((y_array_v, y_v), axis=0)
 
-            try:
+            elif (type == 'test'):
 
-                if (type == 'test'):
+                try:
 
                     y_array_0 = np.concatenate((y_array_0, y_0), axis=0)
                     X_array_0 = np.concatenate((X_array_0, X_0), axis=0)
@@ -376,8 +376,10 @@ class DataMaker:
                     X_array_2 = np.concatenate((X_array_2, X_2), axis=0)
                     y_array_v_2 = np.concatenate((y_array_v_2, y_v2), axis=0)
 
-            except ValueError:
-                pass
+                    input('----- '+str(self.__down_counter) + ' ---  '+ str(X_2.shape))
+
+                except ValueError:
+                    pass
 
                 # выход если массив заполнен по всем показателям
             if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 2 + self.__breake * factor):
@@ -469,7 +471,6 @@ class DataMaker:
                     y_array_2.append(y)
                     y_array_v2.append(vector)
                     self.__down_counter += 1
-                    input('' + str(self.__down_counter)+'  -- '+str(len(X_array_2)))
 
             X_array.append(x)
             y_array.append(y)
