@@ -377,7 +377,6 @@ class DataMaker:
                     y_array_v_2 = np.concatenate((y_array_v_2, y_v2), axis=0)
 
                     input('----- '+str(self.__down_counter) + ' ---  '+ str(X_2.shape))
-
                 except ValueError:
                     pass
 
