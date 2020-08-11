@@ -443,19 +443,21 @@ class DataMaker:
 
                 if (self.__none_counter == self.__breake * factor):
                     continue
-                X_array_1.append(x)
-                y_array_1.append(y)
-                y_array_v1.append(vector)
-                self.__none_counter += 1
+                else:
+                    X_array_1.append(x)
+                    y_array_1.append(y)
+                    y_array_v1.append(vector)
+                    self.__none_counter += 1
 
             elif (y[0] == 1):
 
                 if (self.__up_counter == self.__breake):
                     continue
-                X_array_0.append(x)
-                y_array_0.append(y)
-                y_array_v0.append(vector)
-                self.__up_counter += 1
+                else:
+                    X_array_0.append(x)
+                    y_array_0.append(y)
+                    y_array_v0.append(vector)
+                    self.__up_counter += 1
 
             elif (y[2] == 1):
 
