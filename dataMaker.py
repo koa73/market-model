@@ -378,7 +378,7 @@ class DataMaker:
                     y_array_v_1 = np.concatenate((y_array_v_1, y_v1), axis=0)
 
                 except ValueError:
-                pass
+                    pass
 
                 try:
                     y_array_2 = np.concatenate((y_array_2, y_2), axis=0)
