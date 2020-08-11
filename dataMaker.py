@@ -378,11 +378,6 @@ class DataMaker:
             except ValueError:
                 pass
 
-            # выход если массив заполнен по всем показателям
-            if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 2 + self.__breake * factor):
-                print("Stop iteration ")
-                break
-
         if (type == 'edu'):
 
             self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
