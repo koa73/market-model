@@ -273,8 +273,6 @@ class DataMaker:
         self.__append_to_file('NONE_' + str(list_num)+'_'+ str(__break), raw_data_none, outputDir)
         self.__append_to_file('DOWN_' + str(list_num)+'_'+ str(__break), raw_data_down, outputDir)
 
-
-
     # Расчет данных
     def prepare_data(self, type, list_num = 1):
         """
@@ -356,14 +354,15 @@ class DataMaker:
             X, y, X_0, y_0, X_1, y_1, X_2, y_2, y_v, y_v0, y_v1, y_v2 = self.__prepare_Xy_array(raw_data, factor)
 
             if (type == 'edu'):
+
                 y_array = np.concatenate((y_array, y), axis=0)
                 X_array = np.concatenate((X_array, X), axis=0)
-
                 y_array_v = np.concatenate((y_array_v, y_v), axis=0)
 
             try:
 
                 if (type == 'test'):
+
                     y_array_0 = np.concatenate((y_array_0, y_0), axis=0)
                     X_array_0 = np.concatenate((X_array_0, X_0), axis=0)
                     y_array_v_0 = np.concatenate((y_array_v_0, y_v0), axis=0)
@@ -380,7 +379,7 @@ class DataMaker:
                 pass
 
             # выход если массив заполнен по всем показателям
-            if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 2 +self.__breake*factor):
+            if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 2 + self.__breake * factor):
                 print("Stop iteration ")
                 break
 
@@ -438,28 +437,31 @@ class DataMaker:
             x = self.__resize_list(x,8)
 
             if (y[1] == 1):
+
                 if (self.__none_counter == self.__breake * factor):
                     continue
-                self.__none_counter += 1
                 X_array_1.append(x)
                 y_array_1.append(y)
                 y_array_v1.append(vector)
+                self.__none_counter += 1
 
             elif (y[0] == 1):
+
                 if (self.__up_counter == self.__breake):
                     continue
-                self.__up_counter += 1
                 X_array_0.append(x)
                 y_array_0.append(y)
                 y_array_v0.append(vector)
+                self.__up_counter += 1
 
             elif (y[2] == 1):
+
                 if (self.__down_counter == self.__breake):
                     continue
-                self.__down_counter += 1
                 X_array_2.append(x)
                 y_array_2.append(y)
                 y_array_v2.append(vector)
+                self.__down_counter += 1
 
             X_array.append(x)
             y_array.append(y)

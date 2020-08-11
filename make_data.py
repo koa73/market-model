@@ -4,7 +4,7 @@ import sys
 
 
 if (len(sys.argv) < 3):
-    print("Add arguments : type ('edu'/'test'), list_num (0,1,2), prefix, break_size")
+    print("Add arguments : type ('edu'/'test'), list_num (0,1,2), prefix, break_size, factor")
 
     exit(0)
 
