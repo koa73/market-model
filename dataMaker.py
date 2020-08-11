@@ -353,6 +353,7 @@ class DataMaker:
             f.close()
             X, y, X_0, y_0, X_1, y_1, X_2, y_2, y_v, y_v0, y_v1, y_v2 = self.__prepare_Xy_array(raw_data, factor)
 
+
             if (type == 'edu'):
 
                 y_array = np.concatenate((y_array, y), axis=0)
@@ -378,6 +379,11 @@ class DataMaker:
             except ValueError:
                 pass
 
+                # выход если массив заполнен по всем показателям
+            if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 2 + self.__breake * factor):
+                print("Stop iteration ")
+                break
+
         if (type == 'edu'):
 
             self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
@@ -390,20 +396,22 @@ class DataMaker:
             self.__save_numpy_array(outputDir, 'test_y_UP_' + prefix, y_array_0)
             self.__save_numpy_array(outputDir, 'test_X_UP_' + prefix, X_array_0)
             self.__save_numpy_array(outputDir, 'test_y_vector_UP_' + prefix, y_array_v_0)
+
             print("X_UP : " + str(X_array_0.shape) + " y_UP :" + str(y_array_0.shape))
 
             self.__save_numpy_array(outputDir, 'test_y_NONE_' + prefix, y_array_1)
             self.__save_numpy_array(outputDir, 'test_X_NONE_' + prefix, X_array_1)
             self.__save_numpy_array(outputDir, 'test_y_vector_NONE_' + prefix, y_array_v_1)
+
             print("X_NONE : " + str(X_array_1.shape) + " y_NONE :" + str(y_array_1.shape))
 
             self.__save_numpy_array(outputDir, 'test_y_DOWN_' + prefix, y_array_2)
             self.__save_numpy_array(outputDir, 'test_X_DOWN_' + prefix, X_array_2)
             self.__save_numpy_array(outputDir, 'test_y_vector_DOWN_' + prefix, y_array_v_2)
+
             print("X_DOWN : " + str(X_array_2.shape) + " y_DOWN :" + str(y_array_2.shape))
 
-        print("UP : " + str(self.__up_counter) + " NONE : " + str(self.__none_counter) + " DOWN :" + str(
-            self.__down_counter))
+        print("UP : " + str(self.__up_counter) + " NONE : " + str(self.__none_counter) + " DOWN :" + str(self.__down_counter))
 
     # Подготовка Х массива
     def __prepare_Xy_array(self, raw_data, factor):
@@ -453,10 +461,11 @@ class DataMaker:
 
                 if (self.__down_counter == self.__breake):
                     continue
-                X_array_2.append(x)
-                y_array_2.append(y)
-                y_array_v2.append(vector)
-                self.__down_counter += 1
+                else:
+                    X_array_2.append(x)
+                    y_array_2.append(y)
+                    y_array_v2.append(vector)
+                    self.__down_counter += 1
 
             X_array.append(x)
             y_array.append(y)
