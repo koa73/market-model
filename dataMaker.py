@@ -459,6 +459,7 @@ class DataMaker:
                     y_array_v0.append(vector)
                     self.__up_counter += 1
 
+
             elif (y[2] == 1):
 
                 if (self.__down_counter == self.__breake):
@@ -468,6 +469,7 @@ class DataMaker:
                     y_array_2.append(y)
                     y_array_v2.append(vector)
                     self.__down_counter += 1
+                    input('' + str(self.__down_counter)+'  -- '+str(len(X_array_2)))
 
             X_array.append(x)
             y_array.append(y)
