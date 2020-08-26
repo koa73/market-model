@@ -190,7 +190,8 @@ class DataMaker:
                                 'LBTYA', 'HPQ', 'DXC', 'CAG', 'MAS', 'SPXC', 'TGNA', 'VAR']]
 
     def add_tikers(self, array):
-        self.__tikets.append(array)
+        self.__tickers_array.append(array)
+        print(len(self.__tickers_array))
 
     # Вычисление изменения текущего значения относительно базового
     def __change_percent(self, base, curr):
