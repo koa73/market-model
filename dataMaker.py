@@ -189,6 +189,9 @@ class DataMaker:
                                 'WDC', 'EXPE', 'ULTA', 'NTAP', 'LBTYK', 'ASH', 'EQT', 'TSM', 'APD',
                                 'LBTYA', 'HPQ', 'DXC', 'CAG', 'MAS', 'SPXC', 'TGNA', 'VAR']]
 
+    def add_tikers(self, array):
+        self.__tikets.append(array)
+
     # Вычисление изменения текущего значения относительно базового
     def __change_percent(self, base, curr):
 
@@ -197,6 +200,9 @@ class DataMaker:
 
         except ZeroDivisionError:
             return 1
+
+    def get_tikers(self, list_nun):
+        return self.__tickers_array[list_nun]
 
     # Запись данных в СSV файл
     def __append_to_file(self, ticker, data, outputDir):
@@ -296,7 +302,14 @@ class DataMaker:
             print(" --- Prepare TEST data from Long tickers list" if (
                         list_num == 1) else ' --- Prepare TEST data from Short tickers list' + ' ----')
 
-        self.__prepare_data(list_num, inputDir, outputDir)
+        elif (type == 'custom'):
+
+            inputDir = inputDir + '/custom/'
+            outputDir = outputDir + '/custom/rawdata/'
+            print(" --- Prepare Custom data from Long tickers list" if (
+                    list_num == 1) else ' --- Prepare Custom data from Short tickers list' + ' ----')
+
+        self.__prepare_data(self.__tickers_array[list_num], inputDir, outputDir)
 
 
     # Создание массивов
@@ -491,9 +504,8 @@ class DataMaker:
                np.array(y_array_v1).astype(np.float64), np.array(y_array_v2).astype(np.float64)
 
     # Расчет относительных данных
-    def __prepare_data(self, list_num, inputDir, outputDir):
+    def __prepare_data(self, tickers, inputDir, outputDir):
 
-        tickers = self.__tickers_array[list_num]
         error_tickers = []
 
         for __ticker in tickers:

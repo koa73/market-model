@@ -9,4 +9,8 @@ if (len(sys.argv) < 3):
 
 data = d.DataMaker()
 #data.prepare_data('edu', 0)
-data.prepare_data(str(sys.argv[1]), int(sys.argv[2]))
+if (str(sys.argv[1]) == 'custom'):
+    data.add_tikers(str(sys.argv[2]))
+    data.prepare_data(str(sys.argv[1]), 3)
+else:
+    data.prepare_data(str(sys.argv[1]), int(sys.argv[2]))
