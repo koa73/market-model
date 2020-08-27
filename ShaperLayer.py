@@ -1,10 +1,10 @@
 import tensorflow as tf
 
 
-class ComputeSum(tf.keras.layers.Layer):
+class ShaperLayer(tf.keras.layers.Layer):
 
     def __init__(self, input_dim):
-        super(ComputeSum, self).__init__()
+        #super(ComputeSum, self).__init__()
         self.total = tf.Variable(initial_value=tf.zeros((input_dim,)), trainable=False)
 
     def call(self, inputs):

@@ -1,5 +1,5 @@
 import tensorflow as tf
-import ComputeSum as c
+import ShaperLayer as c
 
 x = tf.constant([[1., 2.], [3., 4.]])
 print(x.numpy())
