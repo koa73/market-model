@@ -9,5 +9,5 @@ class ComputeSum(tf.keras.layers.Layer):
 
     def call(self, inputs):
         #self.total.assign_add(tf.reduce_sum(inputs, axis=0))
-        self.total.assign_add()
+        #self.total.assign_add()
         return [1.,0.]
