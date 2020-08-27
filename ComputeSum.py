@@ -8,5 +8,6 @@ class ComputeSum(tf.keras.layers.Layer):
         self.total = tf.Variable(initial_value=tf.zeros((input_dim,)), trainable=False)
 
     def call(self, inputs):
-        self.total.assign_add(tf.reduce_sum(inputs, axis=0))
+        #self.total.assign_add(tf.reduce_sum(inputs, axis=0))
+        self.total.assign_add([1.,0.])
         return self.total
