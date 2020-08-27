@@ -10,4 +10,5 @@ class ShaperLayer(tf.keras.layers.Layer):
     def call(self, inputs):
         #self.total.assign_add(tf.reduce_sum(inputs, axis=0))
         #self.total.assign_add()
+        print("---- "+inputs)
         return tf.constant([1.,0.])
