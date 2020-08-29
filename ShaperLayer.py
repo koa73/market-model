@@ -11,5 +11,5 @@ class ShaperLayer(tf.keras.layers.Layer):
         #self.total.assign_add(tf.reduce_sum(inputs, axis=0))
         #self.total.assign_add()
         vector = tf.unstack(inputs)
-        print(vector[0])
+        print(vector[0][0])
         return tf.stack(vector)
