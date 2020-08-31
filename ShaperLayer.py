@@ -32,7 +32,6 @@ class ShaperLayer(tf.keras.layers.Layer):
 
     def call(self, inputs):
         vector = tf.unstack(inputs)
-        print (vector[0])
-        result = self.concat_result(vector.numpy())
+        result = tf.convert_to_tensor(self.concat_result(vector.numpy()))
         return tf.stack(vector)
 
