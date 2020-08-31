@@ -31,6 +31,8 @@ class ShaperLayer(tf.keras.layers.Layer):
         self.total = tf.Variable(initial_value=tf.zeros((input_dim,)), trainable=False)
 
     def call(self, inputs):
-        vector = an_array = inputs.eval(session=tf.compat.v1.Session())
-        return tf.convert_to_tensor(self.concat_result(vector.numpy()))
+        vector = tf.unstack(inputs)
+        print (vector[0])
+        result = self.concat_result(vector.numpy())
+        return tf.stack(vector)
 
