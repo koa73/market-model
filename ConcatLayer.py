@@ -38,7 +38,7 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         return self.__find_best_data(vector_up,vector_none,vector_down, calc_value)
 
-    def __init__(self, input_dim):
+    def __init__(self):
         super(ConcatLayer, self).__init__()
         self.convert_dict = {0: 1, 1: 0, 2: -1}
 

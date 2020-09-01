@@ -21,12 +21,5 @@ with open(filename, newline='') as f:
         x = tf.constant(list(np.float_(row[0:9])), dtype='float32')
         my_sum = c.ConcatLayer()
         y = my_sum(x)
-        raw_data.append(y.numpy())
-        if(y.numpy() > 0):
-            up +=1
-        elif(y.numpy() < 0):
-            down +=1
-        else:
-            none +=1
+        input(y.numpy())
     f.close()
-print('UP : ' + str(up) + ', NONE: ' + str(none) + ', DOWN : '+ str(down) + ', SUMM : '+ str(up+none+down) )
