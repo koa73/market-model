@@ -15,6 +15,7 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         tmp = np. array([up[idx], none[idx], down[idx]], dtype='float32')
         max_index_array = np.argmax(tmp, axis=0)
+
         if(max_index_array == 1):
             return none
         elif (max_index_array == 0):
