@@ -13,8 +13,13 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __find_best_data(self, up, none, down, idx):
 
+        print()
+
         tmp = np. array([up[self.convert_dict[idx]], none[self.convert_dict[idx]], down[self.convert_dict[idx]]], dtype='float32')
+
+        print(tmp)
         max_index_array = np.argmax(tmp, axis=0)
+        print(max_index_array)
 
         if(max_index_array == 1):
             return none
