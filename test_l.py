@@ -17,7 +17,7 @@ with open(filename, newline='') as f:
     i=0
     raw_data = []
     for row in rows:
-
+        i +=1
         x = tf.constant(list(np.float_(row[0:9])), dtype='float32')
         my_sum = c.ShaperLayer(2)
         y = my_sum(x)
@@ -28,6 +28,9 @@ with open(filename, newline='') as f:
             down +=1
         else:
             none +=1
+
+        if (i>=205):
+            input("---- STOP _______")
         #input(y.numpy())
     f.close()
 print('UP : ' + str(up) + ', NONE: ' + str(none) + ', DOWN : '+ str(down) + ', SUMM : '+ str(up+none+down) )
