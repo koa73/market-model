@@ -11,6 +11,12 @@ class ShaperLayer(tf.keras.layers.Layer):
         vector_none = np.array(__array).astype(np.float32)[3:6]
         vector_down = np.array(__array).astype(np.float32)[6:9]
 
+        # Find more then 1 max in vector
+        winner_up = np.argwhere(vector_up == np.amax(vector_up)).size
+        winner_none = np.argwhere(vector_none == np.amax(vector_none)).size
+        winner_down = np.argwhere(vector_down == np.amax(vector_down)).size
+        print("SIZE : "+str(winner_down))
+
         max_index_up = convert_dict[np.argmax(vector_up, axis=0)]
         max_index_none = convert_dict[np.argmax(vector_none, axis=0)]
         max_index_down = convert_dict[np.argmax(vector_down, axis=0)]
