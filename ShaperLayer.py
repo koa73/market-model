@@ -8,7 +8,7 @@ class ShaperLayer(tf.keras.layers.Layer):
         convert_dict = {0: 1, 1: 0, 2: -1}
 
         winner = np.argwhere(vector == np.amax(vector))
-        print(winner)
+        print(winner[0][0])
         if (winner.size > 1):
             return 0
         else:
