@@ -15,7 +15,7 @@ class ShaperLayer(tf.keras.layers.Layer):
         max_index_none = convert_dict[np.argmax(vector_none, axis=0)]
         max_index_down = convert_dict[np.argmax(vector_down, axis=0)]
 
-        calc_value = abs(max_index_none) * (max_index_up + max_index_down + max_index_none)
+        calc_value = abs(max_index_none) * (max_index_up + max_index_down )
 
         print (calc_value)
 
