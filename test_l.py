@@ -1,5 +1,5 @@
 import tensorflow as tf
-import ShaperLayer as c
+import SimpleConcatLayer as c
 import numpy as np
 import csv
 import os
@@ -19,7 +19,7 @@ with open(filename, newline='') as f:
     for row in rows:
         i +=1
         x = tf.constant(list(np.float_(row[0:9])), dtype='float32')
-        my_sum = c.ShaperLayer(2)
+        my_sum = c.SimpleConcatLayer(1)
         y = my_sum(x)
         raw_data.append(y.numpy())
         if(y.numpy() > 0):
