@@ -1,7 +1,7 @@
 import tensorflow as tf
 import numpy as np
 
-class ShaperLayer(tf.keras.layers.Layer):
+class ConcatLayer(tf.keras.layers.Layer):
 
     def __get_max_index(self, vector):
 

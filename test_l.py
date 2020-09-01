@@ -19,7 +19,7 @@ with open(filename, newline='') as f:
     for row in rows:
         i +=1
         x = tf.constant(list(np.float_(row[0:9])), dtype='float32')
-        my_sum = c.SimpleConcatLayer(3)
+        my_sum = c.SimpleConcatLayer()
         y = my_sum(x)
         raw_data.append(y.numpy())
         if(y.numpy() > 0):
