@@ -28,4 +28,4 @@ with open(filename, newline='') as f:
             none +=1
         #input(y.numpy())
     f.close()
-print('UP : ' + up + 'NONE: ' + none + 'DOWN : '+ down)
+print('UP : ' + str(up) + 'NONE: ' + str(none) + 'DOWN : '+ str(down))
