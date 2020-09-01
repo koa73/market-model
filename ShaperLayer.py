@@ -19,14 +19,17 @@ class ShaperLayer(tf.keras.layers.Layer):
 
         #print (calc_value)
 
-        #if (calc_value == 0):
+        if (calc_value == 0):
+            return 0
             #return np.array([0, 1, 0])
-        #elif (calc_value >= 1):
+        elif (calc_value >= 1):
+            return 1
             #return np.array([1, 0, 0])
-        #elif (calc_value <= -1):
+        elif (calc_value <= -1):
+            return -1
             #return np.array([0, 0, 1])
 
-        return  calc_value
+        #return  calc_value
 
     def __init__(self, input_dim):
         super(ShaperLayer, self).__init__()
