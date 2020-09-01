@@ -29,8 +29,8 @@ with open(filename, newline='') as f:
         else:
             none +=1
 
-        if (i>=205):
-            input("---- STOP _______")
+        #if (i>=205):
+        input("---- STOP _______ "+str(1))
         #input(y.numpy())
     f.close()
 print('UP : ' + str(up) + ', NONE: ' + str(none) + ', DOWN : '+ str(down) + ', SUMM : '+ str(up+none+down) )
