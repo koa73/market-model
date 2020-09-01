@@ -25,8 +25,6 @@ class ShaperLayer(tf.keras.layers.Layer):
 
         calc_value = abs(max_index_none) * (max_index_up + max_index_down )
 
-        print (str(max_index_up) +','+ str(max_index_none) + ',' + str(max_index_down))
-
         if (calc_value == 0):
             return 0
             #return np.array([0, 1, 0])

@@ -30,5 +30,3 @@ with open(filename, newline='') as f:
             none +=1
     f.close()
 print('UP : ' + str(up) + ', NONE: ' + str(none) + ', DOWN : '+ str(down) + ', SUMM : '+ str(up+none+down) )
-
-print (raw_data)
