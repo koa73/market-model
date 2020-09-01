@@ -13,7 +13,6 @@ class ShaperLayer(tf.keras.layers.Layer):
         else:
             return convert_dict[winner[0]]
 
-
     def __concat_result(self, __array):
 
         vector_up = np.array(__array).astype(np.float32)[0:3]
