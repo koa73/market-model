@@ -13,7 +13,7 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __find_best_data(self, up, none, down, idx):
 
-        print()
+        print("=== "+str(idx))
 
         tmp = np. array([up[self.convert_dict[idx]], none[self.convert_dict[idx]], down[self.convert_dict[idx]]], dtype='float32')
 
