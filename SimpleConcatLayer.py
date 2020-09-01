@@ -39,9 +39,8 @@ class SimpleConcatLayer(tf.keras.layers.Layer):
 
     def __init__(self,input_dim):
         super(SimpleConcatLayer, self).__init__()
-        self.total = tf.Variable(initial_value=tf.zeros((input_dim,)), trainable=False, dtype='float32')
+        #self.total = tf.Variable(initial_value=tf.zeros((input_dim,)), trainable=False, dtype='float32')
 
     def call(self, inputs):
-        input(input.shape)
         return tf.convert_to_tensor(self.__concat_result(inputs.numpy()))
 
