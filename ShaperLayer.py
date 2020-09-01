@@ -3,29 +3,30 @@ import numpy as np
 
 class ShaperLayer(tf.keras.layers.Layer):
 
-    def concat_result(self, __array):
+    def __get_max_index(self, vector):
 
         convert_dict = {0: 1, 1: 0, 2: -1}
+
+        winner = np.argwhere(vector == np.amax(vector))
+        if (winner.size > 1):
+            return 0;
+        else:
+            return convert_dict[winner[0]]
+
+
+    def __concat_result(self, __array):
 
         vector_up = np.array(__array).astype(np.float32)[0:3]
         vector_none = np.array(__array).astype(np.float32)[3:6]
         vector_down = np.array(__array).astype(np.float32)[6:9]
 
-        # Find more then 1 max in vector
-        winner_up = np.argwhere(vector_up == np.amax(vector_up)).size
-        winner_none = np.argwhere(vector_none == np.amax(vector_none)).size
-        winner_down = np.argwhere(vector_down == np.amax(vector_down)).size
-        print("SIZE : "+str(winner_down))
-
-        max_index_up = convert_dict[np.argmax(vector_up, axis=0)]
-        max_index_none = convert_dict[np.argmax(vector_none, axis=0)]
-        max_index_down = convert_dict[np.argmax(vector_down, axis=0)]
+        max_index_up = self.__get_max_index(vector_up)
+        max_index_none = self.__get_max_index(vector_none)
+        max_index_down = self.__get_max_index(vector_down)
 
         calc_value = abs(max_index_none) * (max_index_up + max_index_down )
 
         print (str(max_index_up) +','+ str(max_index_none) + ',' + str(max_index_down))
-
-        #print (calc_value)
 
         if (calc_value == 0):
             return 0
@@ -44,5 +45,5 @@ class ShaperLayer(tf.keras.layers.Layer):
         self.total = tf.Variable(initial_value=tf.zeros((input_dim,)), trainable=False, dtype='float32')
 
     def call(self, inputs):
-        return tf.convert_to_tensor(self.concat_result(inputs.numpy()))
+        return tf.convert_to_tensor(self.__concat_result(inputs.numpy()))
 
