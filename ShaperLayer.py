@@ -9,7 +9,7 @@ class ShaperLayer(tf.keras.layers.Layer):
 
         winner = np.argwhere(vector == np.amax(vector))
         if (winner.size > 1):
-            return 0;
+            return 0
         else:
             return convert_dict[winner[0]]
 
