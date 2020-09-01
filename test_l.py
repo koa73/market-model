@@ -15,11 +15,13 @@ none = 0
 with open(filename, newline='') as f:
     rows = csv.reader(f, delimiter=';', quotechar='|')
     i=0
+    raw_data = []
     for row in rows:
 
         x = tf.constant(list(np.float_(row[0:9])), dtype='float32')
         my_sum = c.ShaperLayer(2)
         y = my_sum(x)
+        raw_data.append()
         if(y > 0):
             up +=1
         elif(y<0):
@@ -29,3 +31,5 @@ with open(filename, newline='') as f:
         #input(y.numpy())
     f.close()
 print('UP : ' + str(up) + ', NONE: ' + str(none) + ', DOWN : '+ str(down) + ', SUMM : '+ str(up+none+down) )
+
+print (raw_data)
