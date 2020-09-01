@@ -30,7 +30,7 @@ with open(filename, newline='') as f:
             none +=1
 
         #if (i>=205):
-        input("---- STOP _______ "+str(1))
+        input("---- STOP _______ "+str(i))
         #input(y.numpy())
     f.close()
 print('UP : ' + str(up) + ', NONE: ' + str(none) + ', DOWN : '+ str(down) + ', SUMM : '+ str(up+none+down) )
