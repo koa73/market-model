@@ -7,7 +7,7 @@ import os
 
 __fileDir = os.path.dirname(os.path.abspath(__file__))
 inputDir = __fileDir + '/data/test/tmp/'
-filename = inputDir + 'NONE.csv'
+filename = inputDir + 'DOWN.csv'
 up = 0
 down = 0
 none = 0
