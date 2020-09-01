@@ -17,14 +17,16 @@ class ShaperLayer(tf.keras.layers.Layer):
 
         calc_value = abs(max_index_none) * (max_index_up + max_index_down )
 
-        print (calc_value)
+        #print (calc_value)
 
-        if (calc_value == 0):
-            return np.array([0, 1, 0])
-        elif (calc_value >= 1):
-            return np.array([1, 0, 0])
-        elif (calc_value <= -1):
-            return np.array([0, 0, 1])
+        #if (calc_value == 0):
+            #return np.array([0, 1, 0])
+        #elif (calc_value >= 1):
+            #return np.array([1, 0, 0])
+        #elif (calc_value <= -1):
+            #return np.array([0, 0, 1])
+
+        return  calc_value
 
     def __init__(self, input_dim):
         super(ShaperLayer, self).__init__()
