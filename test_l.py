@@ -21,7 +21,7 @@ with open(filename, newline='') as f:
         x = tf.constant(list(np.float_(row[0:9])), dtype='float32')
         my_sum = c.ShaperLayer(2)
         y = my_sum(x)
-        raw_data.append()
+        raw_data.append(y)
         if(y > 0):
             up +=1
         elif(y<0):
