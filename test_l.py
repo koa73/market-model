@@ -15,7 +15,7 @@ with open(filename, newline='') as f:
     i=0
     for row in rows:
 
-        x = tf.constant(list(np.float_(row[0:9])))
+        x = tf.constant(list(np.float_(row[0:9])), dtype='float32')
         my_sum = c.ShaperLayer(2)
         y = my_sum(x)
         #input(y.numpy())
