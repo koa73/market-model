@@ -13,7 +13,7 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __find_best_data(self, up, none, down, idx):
 
-        tmp = np. array([up[idx], none[idx], down[idx]], dtype='float32')
+        tmp = np. array([up[self.convert_dict[idx]], none[self.convert_dict[idx]], down[self.convert_dict[idx]]], dtype='float32')
         max_index_array = np.argmax(tmp, axis=0)
 
         if(max_index_array == 1):
@@ -41,7 +41,7 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __init__(self):
         super(ConcatLayer, self).__init__()
-        self.convert_dict = {0: 1, 1: 0, 2: -1}
+        self.convert_dict = {0: 1, 1: 0, 2: -1, -1:2}
 
     def call(self, inputs):
         return tf.convert_to_tensor(self.__concat_result(inputs.numpy()))
