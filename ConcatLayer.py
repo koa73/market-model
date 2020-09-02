@@ -65,5 +65,6 @@ class ConcatLayer(tf.keras.layers.Layer):
         self.convert_dict = {0: 1, 1: 0, 2: -1}
 
     def call(self, inputs):
-        return tf.convert_to_tensor(self.__concat_result(inputs.numpy()))
+        if (tf.executing_eagerly):
+            return tf.convert_to_tensor(self.__concat_result(np.array(inputs)))
 
