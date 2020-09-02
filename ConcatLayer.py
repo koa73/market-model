@@ -1,6 +1,7 @@
 import tensorflow as tf
 import numpy as np
 
+
 class ConcatLayer(tf.keras.layers.Layer):
 
     def __get_max_index(self, vector):
@@ -15,14 +16,26 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         tmp = np. array([up[idx], none[idx], down[idx]], dtype='float32')
         max_index_array = np.argmax(tmp, axis=0)
+
         if(max_index_array == 1):
             return none
+
         elif (max_index_array == 0):
             return up
+
         else:
             return down
 
+    def __remove_ex_data(self, vector, max_idex, calc_value):
 
+        if (calc_value > 0 and max_idex > 1):
+            return vector
+        elif (calc_value < 0 and max_idex < 0):
+            return vector
+        elif (calc_value == 0 and max_idex == 0):
+            return  vector
+
+        return np.array([0,0,0])
 
     def __concat_result(self, __array):
 
@@ -36,13 +49,16 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         calc_value = abs(max_index_none) * (max_index_up + max_index_down )
 
+        vector_up = self.__remove_ex_data(vector_up, max_index_up, calc_value)
+        vector_none = self.__remove_ex_data(vector_none, max_index_none, calc_value)
+        vector_down = self.__remove_ex_data(vector_down, max_index_down, calc_value)
+
         if (calc_value == 0):
             return self.__find_best_data(vector_up,vector_none,vector_down, 1)
         elif (calc_value >= 1):
             return self.__find_best_data(vector_up,vector_none,vector_down, 0)
         elif (calc_value <= -1):
             return self.__find_best_data(vector_up,vector_none,vector_down, 2)
-
 
     def __init__(self):
         super(ConcatLayer, self).__init__()
