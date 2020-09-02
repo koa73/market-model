@@ -69,6 +69,7 @@ class ConcatLayer(tf.keras.layers.Layer):
         if (tf.executing_eagerly() == False):
             sess = tf.compat.v1.Session()
             inputs.eval(sess)
+            input()
 
         return tf.convert_to_tensor(self.__concat_result(inputs.numpy()))
 
