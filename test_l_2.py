@@ -28,8 +28,6 @@ with open(filename, newline='') as f:
     for row in rows:
         # Превращает вектор [1,9] в тензор
         x = tf.constant(list(np.float_(row[0:9])))
-        input(type(x))
-        input(x.shape)
         # Инициирует слой
         separator = c.ConcatLayer()
         # Получаем выход вектор [1,3]
