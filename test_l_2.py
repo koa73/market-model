@@ -29,9 +29,9 @@ with open(filename, newline='') as f:
         # Превращает вектор [1,9] в тензор
         x = tf.constant(list(np.float_(row[0:9])), dtype='float32')
         # Инициирует слой
-        my_sum = c.ConcatLayer()
+        separator = c.ConcatLayer()
         # Получаем выход вектор [1,3]
-        y = my_sum(x)
+        y = separator(x)
         # Классифицируем ответ
         calc_val = get_max_index(y)
         if(calc_val == 0):
