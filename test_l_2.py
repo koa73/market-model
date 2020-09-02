@@ -16,7 +16,7 @@ def get_max_index(vector):
 
 __fileDir = os.path.dirname(os.path.abspath(__file__))
 inputDir = __fileDir + '/data/test/tmp/'
-filename = inputDir + 'DOWN.csv'
+filename = inputDir + 'UP.csv'
 up = 0
 down = 0
 none = 0
