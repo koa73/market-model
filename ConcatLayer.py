@@ -28,7 +28,7 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __remove_ex_data(self, vector, max_idex, calc_value):
 
-        if (calc_value > 0 and max_idex > 1):
+        if (calc_value > 0 and max_idex > 0):
             return vector
         elif (calc_value < 0 and max_idex < 0):
             return vector
