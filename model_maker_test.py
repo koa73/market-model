@@ -20,6 +20,8 @@ y_train =  data.get_edu('edu_y_', 'b22_200')
 print("X_edu : " + str(X_train.shape))
 print("y_edu : " + str(y_train.shape))
 
+tf.compat.v1.enable_eager_execution()
+
 print(X_train.shape)
 
 input_layer_1 = tf.keras.layers.Input(shape=(24,))
@@ -27,7 +29,7 @@ norma_layer = tf.keras.layers.LayerNormalization(axis=1)(input_layer_1)
 hidden_d2_dense = tf.keras.layers.Dense(12, activation='tanh')(norma_layer)
 hidden_d5_dense = tf.keras.layers.Dense(9, activation='tanh')(hidden_d2_dense)
 hidden_d6_dense = c.ConcatLayer()(hidden_d5_dense)
-output = tf.keras.layers.Dense(3, activation='softmax')(hidden_d5_dense)
+output = tf.keras.layers.Dense(3, activation='softmax')(hidden_d6_dense)
 
 #
 model = tf.keras.models.Model(inputs=[input_layer_1], outputs=[output])
