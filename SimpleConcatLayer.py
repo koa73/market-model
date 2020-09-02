@@ -31,7 +31,7 @@ class SimpleConcatLayer(tf.keras.layers.Layer):
             return -1
 
     def __init__(self):
-        super(SimpleConcatLayer, self).__init__()
+        super(SimpleConcatLayer, self).__init__(a)
         self.convert_dict = {0: 1, 1: 0, 2: -1}
 
     def call(self, inputs):
