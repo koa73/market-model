@@ -27,7 +27,7 @@ with open(filename, newline='') as f:
     raw_data = []
     for row in rows:
         # Превращает вектор [1,9] в тензор
-        x = tf.constant(list(np.float_(row[0:9])))
+        x = tf.constant(list(np.float_(row[0:9])), dtype='float32')
         # Инициирует слой
         separator = c.ConcatLayer()
         # Получаем выход вектор [1,3]
