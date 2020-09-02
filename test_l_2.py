@@ -31,6 +31,12 @@ with open(filename, newline='') as f:
         my_sum = c.ConcatLayer()
         y = my_sum(x)
         calc_val = get_max_index(y)
-        input (calc_val)
+        if(calc_val == 0):
+            none +=1
+        elif(calc_val == 1):
+            up +=1
+        else:
+            down +=1
     f.close()
+print('UP : ' + str(up) + ', NONE: ' + str(none) + ', DOWN : '+ str(down) + ', SUMM : '+ str(up+none+down) )
 
