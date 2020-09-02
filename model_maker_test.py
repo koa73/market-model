@@ -11,11 +11,11 @@ print("Start model making ....")
 
 if (len(sys.argv) < 2):
     print("Argument not found ")
-    exit(0)
+    #exit(0)
 
-X_train = data.get_edu('edu_X_', sys.argv[1])
+X_train = data.get_edu('edu_X_', 'b22_200')
 X_train = X_train.reshape(X_train.shape[0],-1)
-y_train =  data.get_edu('edu_y_', sys.argv[1])
+y_train =  data.get_edu('edu_y_', 'b22_200')
 
 print("X_edu : " + str(X_train.shape))
 print("y_edu : " + str(y_train.shape))
