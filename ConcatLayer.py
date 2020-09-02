@@ -37,8 +37,9 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         return np.array([0,0,0])
 
-    def __concat_result(self, __array):
+    def __concat_result(self, inputs):
 
+        __array = inputs.numpy()
         vector_up = np.array(__array).astype(np.float32)[0:3]
         vector_none = np.array(__array).astype(np.float32)[3:6]
         vector_down = np.array(__array).astype(np.float32)[6:9]
@@ -68,8 +69,6 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         if (tf.executing_eagerly() == False):
             sess = tf.compat.v1.Session()
-            inputs.eval(sess.as_default())
-            input()
 
-        return tf.convert_to_tensor(self.__concat_result(inputs.numpy()))
+        return tf.convert_to_tensor(self.__concat_result(inputs))
 
