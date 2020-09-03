@@ -76,8 +76,7 @@ class ConcatLayer(tf.keras.layers.Layer):
     def call(self, inputs, **kwargs):
         return self.__wrapper(inputs)
 
-    def __init__(self, batch_size):
-        self.__batch_size = batch_size
+    def __init__(self):
         super(ConcatLayer, self).__init__(autocast=False)
         self.convert_dict = {0: 1, 1: 0, 2: -1}
 
