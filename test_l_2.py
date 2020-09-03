@@ -25,21 +25,29 @@ with open(filename, newline='') as f:
 
     rows = csv.reader(f, delimiter=';', quotechar='|')
     raw_data = []
+    i = 0
     for row in rows:
-        # Превращает вектор [1,9] в тензор
-        x = tf.constant(list(np.float_(row[0:9])))
-        # Инициирует слой
-        separator = c.ConcatLayer()
-        # Получаем выход вектор [1,3]
-        y = separator(x)
-        # Классифицируем ответ
-        calc_val = get_max_index(y)
-        if(calc_val == 0):
-            none +=1
-        elif(calc_val == 1):
-            up +=1
+        if(i<10):
+            i +=1
+            raw_data.append(list(np.float_(row[0:9])))
         else:
-            down +=1
+            # Превращает вектор [1,9] в тензор
+            x = tf.constant(raw_data)
+            # Инициирует слой
+            separator = c.ConcatLayer()
+            # Получаем выход вектор [1,3]
+            y = separator(x)
+            # Классифицируем ответ
+            calc_val = get_max_index(y)
+            if (calc_val == 0):
+                none += 1
+            elif (calc_val == 1):
+                up += 1
+            else:
+                down += 1
+            raw_data = []
+            i=0
+
     f.close()
 print('UP : ' + str(up) + ', NONE: ' + str(none) + ', DOWN : '+ str(down) + ', SUMM : '+ str(up+none+down) )
 
