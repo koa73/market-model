@@ -70,7 +70,7 @@ class ConcatLayer(tf.keras.layers.Layer):
                 res =self.__concat_result(tf.slice(inputs, [i, 0], [1, inputs.shape[1]])[0]).reshape(1, -1)
                 arr = np.concatenate((arr, res), axis=0)
         else:
-            arr = np.zeros([self.__batch_size, 3], dtype='float32')
+            arr = np.empty([self.__batch_size, 3], dtype='float32')
         return tf.convert_to_tensor(arr)
 
     def call(self, inputs, **kwargs):
