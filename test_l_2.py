@@ -33,6 +33,10 @@ with open(filename, newline='') as f:
         else:
             # Превращает вектор [1,9] в тензор
             x = tf.constant(raw_data)
+            input(x)
+            print('---- start ------')
+            input(tf.slice(x, [0,0], [-1, 3]))
+            input('----Stop')
             # Инициирует слой
             separator = c.ConcatLayer()
             # Получаем выход вектор [1,3]
