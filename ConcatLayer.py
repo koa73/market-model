@@ -70,13 +70,14 @@ class ConcatLayer(tf.keras.layers.Layer):
                 res =self.__concat_result(tf.slice(inputs, [i, 0], [1, inputs.shape[1]])[0]).reshape(1, -1)
                 arr = np.concatenate((arr, res), axis=0)
         else:
-            arr = np.zeros([10, 3], dtype='float32')
+            arr = np.zeros([self.__batch_size, 3], dtype='float32')
         return tf.convert_to_tensor(arr)
 
     def call(self, inputs, **kwargs):
         return self.__wrapper(inputs)
 
-    def __init__(self):
+    def __init__(self, batch_size):
+        self.__batch_size = batch_size
         super(ConcatLayer, self).__init__(autocast=False)
         self.convert_dict = {0: 1, 1: 0, 2: -1}
 
