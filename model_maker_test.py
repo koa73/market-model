@@ -29,8 +29,9 @@ hidden_d2_dense = tf.keras.layers.Dense(12, activation='tanh')(norma_layer)
 hidden_d5_dense = tf.keras.layers.Dense(9, activation='tanh')(hidden_d2_dense)
 #hidden_d6_dense = A.Antirectifier()(hidden_d5_dense)
 hidden_d6_dense = c.ConcatLayer(10)(hidden_d5_dense)
-hidden_d7_dense = tf.keras.layers.Dense(3, activation='tanh')(hidden_d6_dense)
-output = tf.keras.layers.Dense(3, activation='softmax')(hidden_d7_dense)
+hidden_d7_dense = tf.keras.layers.Dense(24, activation='tanh')(hidden_d6_dense)
+hidden_d8_dense = tf.keras.layers.Dense(12, activation='tanh')(hidden_d7_dense)
+output = tf.keras.layers.Dense(3, activation='softmax')(hidden_d8_dense)
 
 #
 model = tf.keras.models.Model(inputs=[input_layer_1], outputs=[output])
