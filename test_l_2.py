@@ -27,30 +27,29 @@ with open(filename, newline='') as f:
     raw_data = []
     i = 0
     for row in rows:
-        if(i<10):
-            i +=1
-            raw_data.append(list(np.float_(row[0:9])))
-        else:
+        i += 1
+        raw_data.append(list(np.float_(row[0:9])))
+
+        if (i==1):
             # Превращает вектор [1,9] в тензор
             x = tf.constant(raw_data)
-            input(x)
-            print('---- start ------')
-            input(tf.slice(x, [0,0], [-1, 3]))
-            input('----Stop')
             # Инициирует слой
             separator = c.ConcatLayer()
             # Получаем выход вектор [1,3]
             y = separator(x)
             # Классифицируем ответ
-            calc_val = get_max_index(y)
-            if (calc_val == 0):
-                none += 1
-            elif (calc_val == 1):
-                up += 1
-            else:
-                down += 1
+            #input(y)
+            for j in range(0, y.shape[0]):
+               #input(y[j].numpy())
+               calc_val = get_max_index(y[j].numpy())
+               if (calc_val == 0):
+                   none += 1
+               elif (calc_val == 1):
+                   up += 1
+               else:
+                   down += 1
             raw_data = []
-            i=0
+            i = 0
 
     f.close()
 print('UP : ' + str(up) + ', NONE: ' + str(none) + ', DOWN : '+ str(down) + ', SUMM : '+ str(up+none+down) )
