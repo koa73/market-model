@@ -189,6 +189,9 @@ class DataMaker:
                                 'WDC', 'EXPE', 'ULTA', 'NTAP', 'LBTYK', 'ASH', 'EQT', 'TSM', 'APD',
                                 'LBTYA', 'HPQ', 'DXC', 'CAG', 'MAS', 'SPXC', 'TGNA', 'VAR']]
 
+    def get_file_dir(self):
+        return self.__fileDir;
+
     def add_tikers(self, array):
         self.__tickers_array.append(array)
         print(len(self.__tickers_array))
@@ -225,7 +228,7 @@ class DataMaker:
         csv_out_file.close()
 
     # Подготовка данных для сравнения
-    def get_csv_for_compare(self,list_num, __break):
+    def get_csv_for_compare(self, list_num, __break):
 
         self.__breake = int(__break)
 
@@ -339,13 +342,13 @@ class DataMaker:
 
         X_array = np.empty([0, self.__batch_size, 8])
         y_array = np.empty([0, 3])
+        y_array_v = np.empty([0])
         X_array_0 = np.empty([0, self.__batch_size, 8])
         y_array_0 = np.empty([0, 3])
         X_array_1 = np.empty([0, self.__batch_size, 8])
         y_array_1 = np.empty([0, 3])
         X_array_2 = np.empty([0, self.__batch_size, 8])
         y_array_2 = np.empty([0, 3])
-        y_array_v = np.empty([0])
         y_array_v_0 = np.empty([0])
         y_array_v_1 = np.empty([0])
         y_array_v_2 = np.empty([0])
