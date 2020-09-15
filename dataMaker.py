@@ -370,13 +370,11 @@ class DataMaker:
             f.close()
             X, y, X_0, y_0, X_1, y_1, X_2, y_2, y_v, y_v0, y_v1, y_v2 = self.__prepare_Xy_array(raw_data, factor)
 
+            if (type == 'edu'):
+                y_array = np.concatenate((y_array, y), axis=0)
+                X_array = np.concatenate((X_array, X), axis=0)
+                y_array_v = np.concatenate((y_array_v, y_v), axis=0)
 
-            #if (type == 'edu1'):
-            #    y_array = np.concatenate((y_array, y), axis=0)
-            #    X_array = np.concatenate((X_array, X), axis=0)
-            #    y_array_v = np.concatenate((y_array_v, y_v), axis=0)
-
-            #elif (type == 'test'):
             try:
 
                 y_array_0 = np.concatenate((y_array_0, y_0), axis=0)
@@ -407,6 +405,11 @@ class DataMaker:
             if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 2 + self.__breake * factor):
                 print("Stop iteration ")
                 break
+
+        if (type == 'edu'):
+            self.__save_numpy_array(outputDir, type + '_y_' + prefix, y_array)
+            self.__save_numpy_array(outputDir, type + '_X_' + prefix, X_array)
+            self.__save_numpy_array(outputDir, type + '_y_vector_' + prefix, y_array_v)
 
         self.__save_numpy_array(outputDir, type + '_y_UP_' + prefix, y_array_0)
         self.__save_numpy_array(outputDir, type + '_X_UP_' + prefix, X_array_0)
