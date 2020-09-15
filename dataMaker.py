@@ -368,13 +368,14 @@ class DataMaker:
             X, y, X_0, y_0, X_1, y_1, X_2, y_2, y_v, y_v0, y_v1, y_v2 = self.__prepare_Xy_array(raw_data, factor)
 
 
-            if (type == 'edu'):
+            #if (type == 'edu1'):
 
-                y_array = np.concatenate((y_array, y), axis=0)
-                X_array = np.concatenate((X_array, X), axis=0)
-                y_array_v = np.concatenate((y_array_v, y_v), axis=0)
+            #    y_array = np.concatenate((y_array, y), axis=0)
+            #    X_array = np.concatenate((X_array, X), axis=0)
+            #    y_array_v = np.concatenate((y_array_v, y_v), axis=0)
 
-            elif (type == 'test'):
+            #elif (type == 'test'):
+            if (type == 'test' or type == 'edu'):
 
                 try:
 
@@ -409,10 +410,28 @@ class DataMaker:
 
         if (type == 'edu'):
 
-            self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
-            self.__save_numpy_array(outputDir, 'edu_X_' + prefix, X_array)
-            self.__save_numpy_array(outputDir, 'edu_y_V_' + prefix, y_array_v)
-            print("X : " + str(X_array.shape) + " y :" + str(y_array.shape))
+            #self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
+            #self.__save_numpy_array(outputDir, 'edu_X_' + prefix, X_array)
+            #self.__save_numpy_array(outputDir, 'edu_y_V_' + prefix, y_array_v)
+            #print("X : " + str(X_array.shape) + " y :" + str(y_array.shape))
+
+            self.__save_numpy_array(outputDir, 'edy_y_UP_' + prefix, y_array_0)
+            self.__save_numpy_array(outputDir, 'edu_X_UP_' + prefix, X_array_0)
+            self.__save_numpy_array(outputDir, 'edu_y_vector_UP_' + prefix, y_array_v_0)
+
+            print("X_UP : " + str(X_array_0.shape) + " y_UP :" + str(y_array_0.shape))
+
+            self.__save_numpy_array(outputDir, 'edu_y_NONE_' + prefix, y_array_1)
+            self.__save_numpy_array(outputDir, 'edu_X_NONE_' + prefix, X_array_1)
+            self.__save_numpy_array(outputDir, 'edu_y_vector_NONE_' + prefix, y_array_v_1)
+
+            print("X_NONE : " + str(X_array_1.shape) + " y_NONE :" + str(y_array_1.shape))
+
+            self.__save_numpy_array(outputDir, 'edu_y_DOWN_' + prefix, y_array_2)
+            self.__save_numpy_array(outputDir, 'edu_X_DOWN_' + prefix, X_array_2)
+            self.__save_numpy_array(outputDir, 'edu_y_vector_DOWN_' + prefix, y_array_v_2)
+
+            print("X_DOWN : " + str(X_array_2.shape) + " y_DOWN :" + str(y_array_2.shape))
 
         elif (type == 'test'):
 
