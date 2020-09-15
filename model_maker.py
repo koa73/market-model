@@ -13,7 +13,7 @@ if (len(sys.argv) < 2):
     print("Argument not found ")
     exit(0)
 
-workDir = data.get_current_dir + '/data/'
+workDir = data.get_file_dir() + '/data/'
 X_UP = np.load(workDir + 'edu_X_UP_'+ sys.argv[1])
 X_DOWN = np.load(workDir + 'edu_X_DOWN_'+ sys.argv[1])
 X_NONE = np.load(workDir + 'edu_X_NONE_'+ sys.argv[1])
