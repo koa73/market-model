@@ -8,6 +8,6 @@ inputDir = data.get_file_dir()+'/data/'
 
 print(" -----> "+ inputDir + str(sys.argv[1]))
 array = np.load(inputDir + str(sys.argv[1]))
-print (" <<<< "+array.shape[0])
+print (" <<<< "+str(array.shape[0]))
 for i in range(array.shape[0]):
     input(array[i])
