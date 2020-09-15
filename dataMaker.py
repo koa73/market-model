@@ -369,41 +369,38 @@ class DataMaker:
 
 
             #if (type == 'edu1'):
-
             #    y_array = np.concatenate((y_array, y), axis=0)
             #    X_array = np.concatenate((X_array, X), axis=0)
             #    y_array_v = np.concatenate((y_array_v, y_v), axis=0)
 
             #elif (type == 'test'):
-            if (type == 'test' or type == 'edu'):
+            try:
 
-                try:
+                y_array_0 = np.concatenate((y_array_0, y_0), axis=0)
+                X_array_0 = np.concatenate((X_array_0, X_0), axis=0)
+                y_array_v_0 = np.concatenate((y_array_v_0, y_v0), axis=0)
 
-                    y_array_0 = np.concatenate((y_array_0, y_0), axis=0)
-                    X_array_0 = np.concatenate((X_array_0, X_0), axis=0)
-                    y_array_v_0 = np.concatenate((y_array_v_0, y_v0), axis=0)
+            except ValueError:
+                pass
 
-                except ValueError:
-                    pass
+            try:
 
-                try:
+                y_array_1 = np.concatenate((y_array_1, y_1), axis=0)
+                X_array_1 = np.concatenate((X_array_1, X_1), axis=0)
+                y_array_v_1 = np.concatenate((y_array_v_1, y_v1), axis=0)
 
-                    y_array_1 = np.concatenate((y_array_1, y_1), axis=0)
-                    X_array_1 = np.concatenate((X_array_1, X_1), axis=0)
-                    y_array_v_1 = np.concatenate((y_array_v_1, y_v1), axis=0)
+            except ValueError:
+                pass
 
-                except ValueError:
-                    pass
+            try:
+                y_array_2 = np.concatenate((y_array_2, y_2), axis=0)
+                X_array_2 = np.concatenate((X_array_2, X_2), axis=0)
+                y_array_v_2 = np.concatenate((y_array_v_2, y_v2), axis=0)
 
-                try:
-                    y_array_2 = np.concatenate((y_array_2, y_2), axis=0)
-                    X_array_2 = np.concatenate((X_array_2, X_2), axis=0)
-                    y_array_v_2 = np.concatenate((y_array_v_2, y_v2), axis=0)
+            except ValueError:
+                pass
 
-                except ValueError:
-                    pass
-
-                # выход если массив заполнен по всем показателям
+            # выход если массив заполнен по всем показателям
             if (self.__none_counter + self.__up_counter + self.__down_counter == self.__breake * 2 + self.__breake * factor):
                 print("Stop iteration ")
                 break
