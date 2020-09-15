@@ -14,12 +14,12 @@ if (len(sys.argv) < 2):
     exit(0)
 
 workDir = data.get_file_dir() + '/data/'
-X_UP = np.load(workDir + 'edu_X_UP_'+ sys.argv[1])
-X_DOWN = np.load(workDir + 'edu_X_DOWN_'+ sys.argv[1])
-X_NONE = np.load(workDir + 'edu_X_NONE_'+ sys.argv[1])
-y_UP = np.load(workDir + 'edu_y_UP_'+ sys.argv[1])
-y_DOWN = np.load(workDir + 'edu_y_DOWN_'+ sys.argv[1])
-y_NONE = np.load(workDir + 'edu_y_NONE_'+ sys.argv[1])
+X_UP = np.load(workDir + 'edu_X_UP_'+ sys.argv[1] + '.npy')
+X_DOWN = np.load(workDir + 'edu_X_DOWN_'+ sys.argv[1]+ '.npy')
+X_NONE = np.load(workDir + 'edu_X_NONE_'+ sys.argv[1]+ '.npy')
+y_UP = np.load(workDir + 'edu_y_UP_'+ sys.argv[1]+ '.npy')
+y_DOWN = np.load(workDir + 'edu_y_DOWN_'+ sys.argv[1]+ '.npy')
+y_NONE = np.load(workDir + 'edu_y_NONE_'+ sys.argv[1]+ '.npy')
 
 X_train = np.concatenate(X_DOWN,X_UP, axis=0)
 y_train = np.concatenate(y_DOWN,y_NONE, axis=0)
