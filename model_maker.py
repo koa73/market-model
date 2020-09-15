@@ -2,9 +2,10 @@
 
 import tensorflow as tf
 import sys
-import dataMiner as D
+import dataMaker as D
+import numpy as np
 
-data = D.DataMiner(3)
+data = D.DataMaker90
 
 print("Start model making ....")
 
@@ -12,9 +13,23 @@ if (len(sys.argv) < 2):
     print("Argument not found ")
     exit(0)
 
-X_train = data.get_edu('edu_X_', sys.argv[1])
+workDir = data.get_current_dir + '/data/'
+X_UP = np.load(workDir + 'edu_X_UP_'+ sys.argv[1])
+X_DOWN = np.load(workDir + 'edu_X_DOWN_'+ sys.argv[1])
+X_NONE = np.load(workDir + 'edu_X_NONE_'+ sys.argv[1])
+y_UP = np.load(workDir + 'edu_y_UP_'+ sys.argv[1])
+y_DOWN = np.load(workDir + 'edu_y_DOWN_'+ sys.argv[1])
+y_NONE = np.load(workDir + 'edu_y_NONE_'+ sys.argv[1])
+
+X_train = np.concatenate(X_DOWN,X_UP, axis=0)
+y_train = np.concatenate(y_DOWN,y_NONE, axis=0)
+print ("Shape X: " + str(X_train.shape))
+print ("Shape y: " + str(y_train.shape))
 X_train = X_train.reshape(X_train.shape[0],-1)
-y_train =  data.get_edu('edu_y_', sys.argv[1])
+
+#X_train = data.get_edu('edu_X_', sys.argv[1])
+#X_train = X_train.reshape(X_train.shape[0],-1)
+#y_train =  data.get_edu('edu_y_', sys.argv[1])
 
 print("X_edu : " + str(X_train.shape))
 print("y_edu : " + str(y_train.shape))
