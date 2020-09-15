@@ -52,7 +52,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 print(model.summary())
 data.save_conf(model, sys.argv[1])                                                  # Запись конфигурации скти для прерывания расчета
 
-dirPath = data.get_current_dir()+ "/data/model_test/"
+dirPath = data.get_file_dir()+ "/data/model_test/"
 
 # Сохранение модели с лучшими параметрами
 checkpointer = tf.keras.callbacks.ModelCheckpoint(monitor='accuracy',
