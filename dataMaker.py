@@ -408,50 +408,23 @@ class DataMaker:
                 print("Stop iteration ")
                 break
 
-        if (type == 'edu'):
+        self.__save_numpy_array(outputDir, type + '_y_UP_' + prefix, y_array_0)
+        self.__save_numpy_array(outputDir, type + '_X_UP_' + prefix, X_array_0)
+        self.__save_numpy_array(outputDir, type + '_y_vector_UP_' + prefix, y_array_v_0)
 
-            #self.__save_numpy_array(outputDir, 'edu_y_' + prefix, y_array)
-            #self.__save_numpy_array(outputDir, 'edu_X_' + prefix, X_array)
-            #self.__save_numpy_array(outputDir, 'edu_y_V_' + prefix, y_array_v)
-            #print("X : " + str(X_array.shape) + " y :" + str(y_array.shape))
+        print("X_UP : " + str(X_array_0.shape) + " y_UP :" + str(y_array_0.shape))
 
-            self.__save_numpy_array(outputDir, 'edy_y_UP_' + prefix, y_array_0)
-            self.__save_numpy_array(outputDir, 'edu_X_UP_' + prefix, X_array_0)
-            self.__save_numpy_array(outputDir, 'edu_y_vector_UP_' + prefix, y_array_v_0)
+        self.__save_numpy_array(outputDir, type + '_y_NONE_' + prefix, y_array_1)
+        self.__save_numpy_array(outputDir, type + '_X_NONE_' + prefix, X_array_1)
+        self.__save_numpy_array(outputDir, type + '_y_vector_NONE_' + prefix, y_array_v_1)
 
-            print("X_UP : " + str(X_array_0.shape) + " y_UP :" + str(y_array_0.shape))
+        print("X_NONE : " + str(X_array_1.shape) + " y_NONE :" + str(y_array_1.shape))
 
-            self.__save_numpy_array(outputDir, 'edu_y_NONE_' + prefix, y_array_1)
-            self.__save_numpy_array(outputDir, 'edu_X_NONE_' + prefix, X_array_1)
-            self.__save_numpy_array(outputDir, 'edu_y_vector_NONE_' + prefix, y_array_v_1)
+        self.__save_numpy_array(outputDir, type + '_y_DOWN_' + prefix, y_array_2)
+        self.__save_numpy_array(outputDir, type + '_X_DOWN_' + prefix, X_array_2)
+        self.__save_numpy_array(outputDir, type + '_y_vector_DOWN_' + prefix, y_array_v_2)
 
-            print("X_NONE : " + str(X_array_1.shape) + " y_NONE :" + str(y_array_1.shape))
-
-            self.__save_numpy_array(outputDir, 'edu_y_DOWN_' + prefix, y_array_2)
-            self.__save_numpy_array(outputDir, 'edu_X_DOWN_' + prefix, X_array_2)
-            self.__save_numpy_array(outputDir, 'edu_y_vector_DOWN_' + prefix, y_array_v_2)
-
-            print("X_DOWN : " + str(X_array_2.shape) + " y_DOWN :" + str(y_array_2.shape))
-
-        elif (type == 'test'):
-
-            self.__save_numpy_array(outputDir, 'test_y_UP_' + prefix, y_array_0)
-            self.__save_numpy_array(outputDir, 'test_X_UP_' + prefix, X_array_0)
-            self.__save_numpy_array(outputDir, 'test_y_vector_UP_' + prefix, y_array_v_0)
-
-            print("X_UP : " + str(X_array_0.shape) + " y_UP :" + str(y_array_0.shape))
-
-            self.__save_numpy_array(outputDir, 'test_y_NONE_' + prefix, y_array_1)
-            self.__save_numpy_array(outputDir, 'test_X_NONE_' + prefix, X_array_1)
-            self.__save_numpy_array(outputDir, 'test_y_vector_NONE_' + prefix, y_array_v_1)
-
-            print("X_NONE : " + str(X_array_1.shape) + " y_NONE :" + str(y_array_1.shape))
-
-            self.__save_numpy_array(outputDir, 'test_y_DOWN_' + prefix, y_array_2)
-            self.__save_numpy_array(outputDir, 'test_X_DOWN_' + prefix, X_array_2)
-            self.__save_numpy_array(outputDir, 'test_y_vector_DOWN_' + prefix, y_array_v_2)
-
-            print("X_DOWN : " + str(X_array_2.shape) + " y_DOWN :" + str(y_array_2.shape))
+        print("X_DOWN : " + str(X_array_2.shape) + " y_DOWN :" + str(y_array_2.shape))
 
         print("UP : " + str(self.__up_counter) + " NONE : " + str(self.__none_counter) + " DOWN :" + str(self.__down_counter))
 
