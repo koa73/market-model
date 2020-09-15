@@ -5,7 +5,7 @@ import sys
 import dataMaker as D
 import numpy as np
 
-data = D.DataMaker90
+data = D.DataMaker()
 
 print("Start model making ....")
 
