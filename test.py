@@ -4,9 +4,9 @@ import dataMaker as d
 
 data = d.DataMaker()
 
-input = data.get_file_dir()+'/data/'
+inputDir = data.get_file_dir()+'/data/'
 
-print(" -----> "+ input+str(sys.argv[2]))
+print(" -----> "+ inputDir + str(sys.argv[2]))
 array = np.load(input+str(sys.argv[2]))
 print (" <<<< "+array.shape[0])
 for i in range(array.shape[0]):
