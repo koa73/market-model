@@ -678,15 +678,15 @@ class DataMaker:
 
         all_errors = 0
         print ("------------------------------------ \n")
-        print(" Check Up case (shape " + str(y_UP.shape) + "): ")
+        print(">>> Check Up case (shape " + str(y_UP.shape) + "): ")
         up_, none, down = self.__sum_check_results(y_UP)
         all_errors += abs(down)
 
-        print(" Check None case shape("+str(y_NONE.shape)+") : ")
+        print(">>> Check None case shape("+str(y_NONE.shape)+") : ")
         up, none, down = self.__sum_check_results(y_NONE)
         all_errors = all_errors + abs(down) + up
 
-        print(" Check Down case shape("+str(y_DOWN.shape)+") : ")
+        print(">>> Check Down case shape("+str(y_DOWN.shape)+") : ")
         up, none, down = self.__sum_check_results(y_DOWN)
         all_errors = all_errors + up
 
