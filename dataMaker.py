@@ -4,7 +4,7 @@ import csv
 import os
 import re
 from decimal import Decimal as D, ROUND_DOWN
-from datetime import datetime
+from datetime import datetime, date
 import numpy as np
 
 class DataMaker:
@@ -699,7 +699,6 @@ class DataMaker:
         except ZeroDivisionError:
             k2 = 1000
 
-        print (datetime.date().isoformat())
         print (">>>> Gold : "+str(up_+abs(down))+"\t Shit : " + str(all_errors)+
                "\t Absolute_Error : "+str(k1)+"\t Relevant_Error : "+ str(k2)+"\n")
 
