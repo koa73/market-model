@@ -315,7 +315,6 @@ class DataMaker:
 
         self.__prepare_data(self.__tickers_array[list_num], inputDir, outputDir)
 
-
     # Создание массивов
     def get_Xy_arrays(self, type, list_num, prefix, __break = 35000, factor = 1):
 
@@ -564,7 +563,6 @@ class DataMaker:
         if (len(error_tickers) > 0):
             print ("Tickers not found : "+ str(error_tickers))
 
-
     # Convert date to day of year
     def __day_of_year(self, date_str):
         return datetime.strptime(date_str, '%Y-%m-%d').date().timetuple().tm_yday
@@ -648,6 +646,59 @@ class DataMaker:
         json_file = open(self.__fileDir + "/data/model_test/weights_"+prefix+".json", "w")
         json_file.write(model.to_json())
         json_file.close
+
+    # Нахождение индекса максимального элемента
+    # Если два максимума, тогда возвращается 0
+    def __get_max_index(self, vector):
+
+        convert_dict = {0: 1, 1: 0, 2: -1}
+        winner = np.argwhere(vector == np.amax(vector))
+        if (winner.size > 1):
+            return 0
+        else:
+            return convert_dict[winner[0][0]]
+
+    def __sum_check_results(self, vector):
+        up = 0
+        none = 0
+        down = 0
+        for i in range(vector.shape[0]):
+            max_index = self.__get_max_index(vector)
+            if (max_index == 0):
+                none += 1
+            elif (max_index == 1):
+                up += 1
+            elif (max_index == -1):
+                down += 1
+        print("\nFound results :\n"+"UP:\t"+str(up)+"\nNONE:\t"+str(none)+"\nDOWN:\t"+str(down)+"\n")
+        return up, none, down
+
+    # Check single model
+    def check_single_model(self, y_UP, y_NONE, y_DOWN):
+
+        all_errors = 0
+        up_ = 0
+        print (" Check Up case (shape " + str(y_UP.shape) + "): ")
+        up_, none, down = self.__sum_check_results(y_UP)
+        all_errors += abs(down)
+
+        print (" Check None case shape("+str(y_NONE.shape)+") : ")
+        up, none, down = self.__sum_check_results(y_NONE)
+        all_errors = all_errors + abs(down) + up
+
+        print (" Check Down case shape("+str(y_DOWN.shape)+") : ")
+        up, none, down = self.__sum_check_results(y_DOWN)
+        all_errors = all_errors + up
+
+        k1 = 1 - all_errors/(y_UP.shape[0]+y_NONE.shape[0]+y_DOWN.shape[0])
+        k2 = 1 - (up_ + abs(down))/all_errors
+
+        print (">>>> Key_1 : "+str(k1)+"\t Key_2 : "+ str(k2))
+
+
+
+
+
 
 
 
