@@ -720,7 +720,7 @@ class DataMaker:
             output = csv.writer(csv_out_file, delimiter=';')
             if (append_write == 'w'):
                 output.writerow(['Date', 'Gold', 'Shit', 'Rel Error', 'Abs Error', 'Model'])
-            output.writerow([datetime, gold, shit, relErr, absErr, ''])
+            output.writerow([dateTime, gold, shit, relErr, absErr, ''])
         csv_out_file.close()
 
 
