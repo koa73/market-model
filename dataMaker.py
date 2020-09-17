@@ -653,7 +653,6 @@ class DataMaker:
 
         convert_dict = {0: 1, 1: 0, 2: -1}
         winner = np.argwhere(vector == np.amax(vector))
-        input(winner)
         if (winner.size > 1):
             return 0
         else:
