@@ -670,7 +670,7 @@ class DataMaker:
                 up += 1
             elif (max_index == -1):
                 down += 1
-        print("\nFound results :\n"+"UP:\t"+str(up)+"\nNONE:\t"+str(none)+"\nDOWN:\t"+str(down)+"\n")
+        print("\nUP:\t"+str(up)+"\nNONE:\t"+str(none)+"\nDOWN:\t"+str(down)+"\n")
         return up, none, down
 
     # Check single model
