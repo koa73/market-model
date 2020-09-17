@@ -727,7 +727,7 @@ class DataMaker:
         csv_out_file.close()
 
         file_count = len([name for name in os.listdir(outputDir+'models')
-                          if os.path.isfile(os.path.join(outputDir+'models', name))])+1
+                          if os.path.isfile(os.path.join(outputDir+'models', name))])
 
         copyfile(self.__fileDir+ "/data/model_test/"+model_name+".json",
                  outputDir+"models/"+model_name + "_"+str(file_count)+".json" )
