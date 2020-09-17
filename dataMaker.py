@@ -695,7 +695,7 @@ class DataMaker:
         except ZeroDivisionError:
             k1 = 1000
         try:
-            k2 = 1 + (up_ + abs(down))/all_errors
+            k2 = 1 - all_errors / (up_ + abs(down))
         except ZeroDivisionError:
             k2 = 1000
 
