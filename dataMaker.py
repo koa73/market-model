@@ -664,7 +664,7 @@ class DataMaker:
         none = 0
         down = 0
         for i in range(vector.shape[0]):
-            max_index = self.__get_max_index(vector)
+            max_index = self.__get_max_index(vector[i])
             if (max_index == 0):
                 none += 1
             elif (max_index == 1):
