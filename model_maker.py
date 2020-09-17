@@ -23,7 +23,7 @@ y_NONE = np.load(workDir + 'edu_y_NONE_'+ sys.argv[1]+ '.npy')
 class_weight = {0: 1., 1: 1, 2: 1.}
 
 X_train = np.concatenate((X_DOWN,X_UP), axis=0)
-y_train = np.concatenate((y_DOWN,y_NONE), axis=0)
+y_train = np.concatenate((y_NONE,y_UP), axis=0)
 X_train = np.concatenate((X_train,X_NONE), axis=0)
 y_train = np.concatenate((y_train,y_NONE), axis=0)
 print ("Shape X: " + str(X_train.shape))
