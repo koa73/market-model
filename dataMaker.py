@@ -698,8 +698,30 @@ class DataMaker:
             k2 = 1 - all_errors / (up_ + abs(down))
         except ZeroDivisionError:
             k2 = 1000
+
+        print (datetime.date().isoformat())
         print (">>>> Gold : "+str(up_+abs(down))+"\t Shit : " + str(all_errors)+
                "\t Absolute_Error : "+str(k1)+"\t Relevant_Error : "+ str(k2)+"\n")
+
+        self.__archive_model_data(up_+abs(down), all_errors, k1,k2,'X')
+
+    def __archive_model_data(self, gold, shit, absErr, relErr, model):
+
+        dateTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
+        outputDir = self.__fileDir + "/data/model_test/archive/"
+        filename = outputDir + 'archive_DB.csv'
+
+        if os.path.exists(filename):
+            append_write = 'a'  # append if already exists
+        else:
+            append_write = 'w'  # make a new file if not
+
+        with open(filename, append_write, newline='') as csv_out_file:
+            output = csv.writer(csv_out_file, delimiter=';')
+            if (append_write == 'w'):
+                output.writerow(['Date', 'Gold', 'Shit', 'Rel Error', 'Abs Error', 'Model'])
+            output.writerow([datetime, gold, shit, relErr, absErr, ''])
+        csv_out_file.close()
 
 
 
