@@ -677,6 +677,7 @@ class DataMaker:
     def check_single_model(self, y_UP, y_NONE, y_DOWN):
 
         all_errors = 0
+        print ("------------------------------------ \n")
         print(" Check Up case (shape " + str(y_UP.shape) + "): ")
         up_, none, down = self.__sum_check_results(y_UP)
         all_errors += abs(down)
@@ -698,7 +699,7 @@ class DataMaker:
         except ZeroDivisionError:
             k2 = 1000
 
-        print (">>>> Key_1 : "+str(k1)+"\t Key_2 : "+ str(k2))
+        print (">>>> Key_1 : "+str(k1)+"\t Key_2 : "+ str(k2)+"\n")
 
 
 
