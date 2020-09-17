@@ -699,7 +699,8 @@ class DataMaker:
         except ZeroDivisionError:
             k2 = 1000
 
-        print (">>>> Key_1 : "+str(k1)+"\t Key_2 : "+ str(k2)+"\n")
+        print (">>>> Absolute_Error : "+str(k1)+"\t Relevant_Error : "+ str(k2)+"\t Gold count : "
+               +str(up_+abs(down))+"\t Shit : "+str(all_errors)+"\n")
 
 
 
