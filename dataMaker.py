@@ -720,7 +720,7 @@ class DataMaker:
         with open(filename, append_write, newline='') as csv_out_file:
             output = csv.writer(csv_out_file, delimiter=';')
             if (append_write == 'w'):
-                output.writerow(['Date', 'Gold', 'Shit', 'Rel Error', 'Abs Error', 'Model'])
+                output.writerow(['Date', 'Gold', 'Shit', 'Rel Error', 'Abs Error', 'Model', 'Comment'])
             file_count = len([name for name in os.listdir(outputDir + 'models')
                               if os.path.isfile(os.path.join(outputDir + 'models', name))])/2
 
