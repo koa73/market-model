@@ -698,7 +698,6 @@ class DataMaker:
             k2 = 1 - all_errors / (up_ + abs(down))
         except ZeroDivisionError:
             k2 = 1000
-
         print (">>>> Gold : "+str(up_+abs(down))+"\t Shit : " + str(all_errors)+
                "\t Absolute_Error : "+str(k1)+"\t Relevant_Error : "+ str(k2)+"\n")
 
