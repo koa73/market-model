@@ -653,6 +653,7 @@ class DataMaker:
 
         convert_dict = {0: 1, 1: 0, 2: -1}
         winner = np.argwhere(vector == np.amax(vector))
+        input(winner)
         if (winner.size > 1):
             return 0
         else:
@@ -689,8 +690,14 @@ class DataMaker:
         up, none, down = self.__sum_check_results(y_DOWN)
         all_errors = all_errors + up
 
-        k1 = 1 - all_errors/(y_UP.shape[0]+y_NONE.shape[0]+y_DOWN.shape[0])
-        k2 = 1 - (up_ + abs(down))/all_errors
+        try:
+            k1 = 1 - all_errors/(y_UP.shape[0]+y_NONE.shape[0]+y_DOWN.shape[0])
+        except ZeroDivisionError:
+            k1 = 1000
+        try:
+            k2 = 1 - (up_ + abs(down))/all_errors
+        except ZeroDivisionError:
+            k2 = 1000
 
         print (">>>> Key_1 : "+str(k1)+"\t Key_2 : "+ str(k2))
 
