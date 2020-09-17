@@ -6,6 +6,7 @@ import re
 from decimal import Decimal as D, ROUND_DOWN
 from datetime import datetime, date
 import numpy as np
+from shutil import copyfile
 
 class DataMaker:
 
@@ -674,7 +675,7 @@ class DataMaker:
         return up, none, down
 
     # Check single model
-    def check_single_model(self, y_UP, y_NONE, y_DOWN):
+    def check_single_model(self, y_UP, y_NONE, y_DOWN, model):
 
         all_errors = 0
         print ("------------------------------------ \n")
@@ -702,13 +703,14 @@ class DataMaker:
         print (">>>> Gold : "+str(up_+abs(down))+"\t Shit : " + str(all_errors)+
                "\t Absolute_Error : "+str(k1)+"\t Relevant_Error : "+ str(k2)+"\n")
 
-        self.__archive_model_data(up_+abs(down), all_errors, k1,k2,'X')
+        self.__archive_model_data(up_+abs(down), all_errors, k1,k2,model)
 
-    def __archive_model_data(self, gold, shit, absErr, relErr, model):
+    def __archive_model_data(self, gold, shit, absErr, relErr, prefix):
 
         dateTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         outputDir = self.__fileDir + "/data/model_test/archive/"
         filename = outputDir + 'archive_DB.csv'
+        model_name = "weights_"+ prefix
 
         if os.path.exists(filename):
             append_write = 'a'  # append if already exists
@@ -719,8 +721,19 @@ class DataMaker:
             output = csv.writer(csv_out_file, delimiter=';')
             if (append_write == 'w'):
                 output.writerow(['Date', 'Gold', 'Shit', 'Rel Error', 'Abs Error', 'Model'])
-            output.writerow([dateTime, gold, shit, relErr, absErr, ''])
+            file_count = len([name for name in os.listdir(outputDir + 'models')
+                              if os.path.isfile(os.path.join(outputDir + 'models', name))]) + 1
+            output.writerow([dateTime, gold, shit, relErr, absErr, model_name + "_"+str(file_count)+".h5"])
         csv_out_file.close()
+
+        file_count = len([name for name in os.listdir(outputDir+'models')
+                          if os.path.isfile(os.path.join(outputDir+'models', name))])+1
+
+        copyfile(self.__fileDir+ "/data/model_test/"+model_name+".json",
+                 outputDir+"models/"+model_name + "_"+str(file_count)+".json" )
+
+        copyfile(self.__fileDir + "/data/model_test/" + model_name + ".h5",
+                 outputDir + "models/" + model_name + "_" + str(file_count) + ".h5")
 
 
 

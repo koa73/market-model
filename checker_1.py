@@ -52,13 +52,14 @@ print('y_none.shape: ', y_none.shape)
 print("\n====== Load Model ======")
 
 # Load network
-print('Load JSON as: ', data_path +"model_test/weights_"+ sys.argv[1] + ".json")
-json_file = open(data_path +"model_test/weights_"+ sys.argv[1] + ".json", "r")
+model_file_name = data_path +"model_test/weights_"+ sys.argv[1]
+print('Load JSON as: ', model_file_name + ".json")
+json_file = open(model_file_name + ".json", "r")
 model_json = json_file.read()
 json_file.close()
 
 model = tf.keras.models.model_from_json(model_json)
-model.load_weights(data_path +"/model_test/weights_"+ sys.argv[1]  + ".h5")
+model.load_weights(model_file_name  + ".h5")
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 print("====== Prediction ======\n")
@@ -66,7 +67,7 @@ y_up_pred_test = model.predict([X_up])
 y_none_pred_test = model.predict([X_none])
 y_down_pred_test = model.predict([X_down])
 
-data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test)
+data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, prefix)
 
 y_pred_test = np.zeros(shape=(y_up.shape[0], 9))     # Сюда положим результаты прогона X_up моделями up, none, down
 
