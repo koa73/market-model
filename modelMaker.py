@@ -22,9 +22,9 @@ class ModelMaker:
         data_path = self.__fileDir + '/data/test/cases/binary/'
         return self.__get_data(type, caseName, data_path, shape)
 
-    def get_edu_data(self, type: str, caseName: str, prefix: str, shape='3D'):
+    def get_edu_data(self, type: str, caseName: str, shape='3D'):
         data_path = self.__fileDir + '/data/'
-        return self.__get_data(type, caseName+'_'+prefix, data_path, shape)
+        return self.__get_data(type, caseName, data_path, shape)
 
 
     def __get_data(self, type: str, caseName: str, data_path: str, shape) -> object:
