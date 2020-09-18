@@ -141,18 +141,24 @@ class ModelMaker:
         else:
             append_write = 'w'  # make a new file if not
 
-        with open(filename, append_write, newline='') as csv_out_file:
-            output = csv.writer(csv_out_file, delimiter=';')
-            if (append_write == 'w'):
-                output.writerow(['Date', 'Gold', 'Shit', 'Rel Error', 'Abs Error', 'Model', 'Comment'])
+        try:
             file_count = len([name for name in os.listdir(outputDir + 'models')
-                              if os.path.isfile(os.path.join(outputDir + 'models', name))])/2
+                              if os.path.isfile(os.path.join(outputDir + 'models', name))]) / 2
 
-            output.writerow([dateTime, gold, shit, relErr, absErr, model_name + "_"+str(file_count)+".h5", comment])
-        csv_out_file.close()
-
-        copyfile(self.__fileDir+ "/data/model_test/"+model_name+".json",
+            copyfile(self.__fileDir+ "/data/model_test/"+model_name+".json",
                  outputDir+"models/"+model_name + "_"+str(file_count)+".json" )
 
-        copyfile(self.__fileDir + "/data/model_test/" + model_name + ".h5",
+            copyfile(self.__fileDir + "/data/model_test/" + model_name + ".h5",
                  outputDir + "models/" + model_name + "_" + str(file_count) + ".h5")
+
+            with open(filename, append_write, newline='') as csv_out_file:
+                output = csv.writer(csv_out_file, delimiter=';')
+                if (append_write == 'w'):
+                    output.writerow(['Date', 'Gold', 'Shit', 'Rel Error', 'Abs Error', 'Model', 'Comment'])
+
+                output.writerow(
+                    [dateTime, gold, shit, relErr, absErr, model_name + "_" + str(file_count) + ".h5", comment])
+            csv_out_file.close()
+
+        except FileNotFoundError:
+            print ("Error can't write file")
