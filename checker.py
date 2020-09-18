@@ -96,3 +96,5 @@ print("Test accuracy: UP ", accuracy_score(rounded_labels_up, y_up_pred_test_cla
 print("Test accuracy: DOWN ", accuracy_score(rounded_labels_down, y_down_pred_test_classes))
 print("Test accuracy: NONE ", accuracy_score(rounded_labels_none, y_none_pred_test_classes))
 
+
+
