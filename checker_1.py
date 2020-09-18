@@ -1,51 +1,26 @@
 import tensorflow as tf
 import numpy as np
 import sys
+import modelMaker as m
 
-import dataMaker as d
+#import dataMaker as d
 if (len(sys.argv) < 2):
     print("Argument not found ")
     exit(0)
 
-data = d.DataMaker()
+data = m.ModelMaker('b38')
 
 # ===================== Constants =========================
 
 data_path = data.get_file_dir()+'/data/'
-test_path = data_path + "test/cases/binary/"
-prefix = 'b38'
 
 # ===================== Data load =========================
 
-with open(test_path + 'test_X_DOWN_'+prefix+'.npy', 'rb') as fin:
-    X_down = np.load(fin)
-    X_down = X_down.reshape(X_down.shape[0], -1)
+X_down, y_down = data.get_check_data('test', 'DOWN', '2D')
 
-with open(test_path + 'test_y_DOWN_'+prefix+'.npy', 'rb') as fin:
-    y_down = np.load(fin)
+X_up, y_up = data.get_check_data('test', 'UP', '2D')
 
-print('X_down.shape: ', X_down.shape)
-print('y_down.shape: ', y_down.shape)
-
-with open(test_path + 'test_X_UP_'+prefix+'.npy', 'rb') as fin:
-    X_up = np.load(fin)
-    X_up = X_up.reshape(X_up.shape[0], -1)
-
-with open(test_path + 'test_y_UP_'+prefix+'.npy', 'rb') as fin:
-    y_up = np.load(fin)
-
-print('X_up.shape: ', X_up.shape)
-print('y_up.shape: ', y_up.shape)
-
-with open(test_path + 'test_X_NONE_'+prefix+'.npy', 'rb') as fin:
-    X_none = np.load(fin)
-    X_none = X_none.reshape(X_none.shape[0], -1)
-
-with open(test_path + 'test_y_NONE_'+prefix+'.npy', 'rb') as fin:
-    y_none = np.load(fin)
-
-print('X_none.shape: ', X_none.shape)
-print('y_none.shape: ', y_none.shape)
+X_none, y_none = data.get_check_data('test', 'NONE', '2D')
 
 # ===================== Model =========================
 
@@ -63,6 +38,7 @@ model.load_weights(model_file_name  + ".h5")
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 
 print("====== Prediction ======\n")
+
 y_up_pred_test = model.predict([X_up])
 y_none_pred_test = model.predict([X_none])
 y_down_pred_test = model.predict([X_down])
