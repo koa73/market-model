@@ -9,7 +9,7 @@ data = D.DataMaker()
 
 print("Start model making ....")
 
-if (len(sys.argv) < 2):
+if (len(sys.argv) < 3):
     print("Argument not found ")
     exit(0)
 
