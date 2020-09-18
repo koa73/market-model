@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 import numpy as np
 from shutil import copyfile
+import tensorflow as tf
 
 
 class ModelMaker:
@@ -14,6 +15,21 @@ class ModelMaker:
     def __init__(self, testPrefix='') -> None:
         super().__init__()
         self.testPrefix = testPrefix
+
+    def model_loader(self, prefix, path=''):
+        if not path:
+            input_dir = self.__fileDir + path
+        else:
+            input_dir = self.__fileDir + '/data/model_test/archive/models/'
+        json_file = open(input_dir + prefix + ".json", "r")
+        model_json = json_file.read()
+        json_file.close()
+        model = tf.keras.models.model_from_json(model_json)
+        model.load_weights(input_dir + prefix +".h5")
+        model.trainable = False
+        model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+        return model
+        #
 
     def get_check_data(self, type: str, caseName: str, shape='3D'):
 

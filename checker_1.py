@@ -27,7 +27,7 @@ X_none, y_none = data.get_check_data('test', 'NONE_b38', '2D')
 print("\n====== Load Model ======")
 
 # Load network
-model_file_name = data_path +"model_test/weights_"+ sys.argv[1]
+model_file_name = data_path +"model_test/archive/models/weights_"+ sys.argv[1]
 print('Load JSON as: ', model_file_name + ".json")
 json_file = open(model_file_name + ".json", "r")
 model_json = json_file.read()
