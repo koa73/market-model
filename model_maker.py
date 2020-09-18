@@ -21,7 +21,7 @@ y_UP = np.load(workDir + 'edu_y_UP_'+ sys.argv[1]+ '.npy')
 y_DOWN = np.load(workDir + 'edu_y_DOWN_'+ sys.argv[1]+ '.npy')
 y_NONE = np.load(workDir + 'edu_y_NONE_'+ sys.argv[1]+ '.npy')
 class_weight = {0: 1., 1: 1., 2: 1.}
-class_weight[1] = sys.argv[2]
+class_weight[1] = float(sys.argv[2])
 
 X_train = np.concatenate((X_DOWN,X_UP), axis=0)
 y_train = np.concatenate((y_NONE,y_UP), axis=0)
