@@ -18,9 +18,10 @@ class ModelMaker:
 
     def model_loader(self, prefix, path=''):
         if not path:
-            input_dir = self.__fileDir + path
-        else:
             input_dir = self.__fileDir + '/data/model_test/archive/models/'
+        else:
+            input_dir = self.__fileDir + path
+
         json_file = open(input_dir + prefix + ".json", "r")
         model_json = json_file.read()
         json_file.close()
