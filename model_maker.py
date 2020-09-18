@@ -13,13 +13,10 @@ if (len(sys.argv) < 3):
     print("Argument not found ")
     exit(0)
 
-workDir = data.get_file_dir() + '/data/'
-X_UP = np.load(workDir + 'edu_X_UP_'+ sys.argv[1] + '.npy')
-X_DOWN = np.load(workDir + 'edu_X_DOWN_'+ sys.argv[1]+ '.npy')
-X_NONE = np.load(workDir + 'edu_X_NONE_'+ sys.argv[1]+ '.npy')
-y_UP = np.load(workDir + 'edu_y_UP_'+ sys.argv[1]+ '.npy')
-y_DOWN = np.load(workDir + 'edu_y_DOWN_'+ sys.argv[1]+ '.npy')
-y_NONE = np.load(workDir + 'edu_y_NONE_'+ sys.argv[1]+ '.npy')
+X_UP, y_UP = data.get_edu_data('edu','UP_'+sys.argv[1], '2D')
+X_DOWN, y_DOWN = data.get_edu_data('edu','UP_'+sys.argv[1], '2D')
+X_NONE, y_NONE = data.get_edu_data('edu','UP_'+sys.argv[1], '2D')
+
 class_weight = {0: 1., 1: 1., 2: 1.}
 class_weight[1] = float(sys.argv[2])
 
@@ -27,18 +24,6 @@ X_train = np.concatenate((X_DOWN,X_UP), axis=0)
 y_train = np.concatenate((y_DOWN,y_UP), axis=0)
 X_train = np.concatenate((X_train,X_NONE), axis=0)
 y_train = np.concatenate((y_train,y_NONE), axis=0)
-print ("Shape X: " + str(X_train.shape))
-print ("Shape y: " + str(y_train.shape))
-X_train = X_train.reshape(X_train.shape[0],-1)
-
-#X_train = data.get_edu('edu_X_', sys.argv[1])
-#X_train = X_train.reshape(X_train.shape[0],-1)
-#y_train =  data.get_edu('edu_y_', sys.argv[1])
-
-print("X_edu : " + str(X_train.shape))
-print("y_edu : " + str(y_train.shape))
-
-print(X_train.shape)
 
 input_layer_1 = tf.keras.layers.Input(shape=(24,))
 norma_layer = tf.keras.layers.LayerNormalization(axis=1)(input_layer_1)

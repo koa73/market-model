@@ -13,27 +13,37 @@ class ModelMaker:
 
     __fileDir = os.path.dirname(os.path.abspath(__file__))
 
-    def __init__(self, testPrefix) -> None:
+    def __init__(self, testPrefix='') -> None:
         super().__init__()
         self.testPrefix = testPrefix
 
-    def get_check_data(self, type: str, caseName: str, shape='3D') -> object:
+    def get_check_data(self, type: str, caseName: str, shape='3D'):
+
+        data_path = self.__fileDir + '/data/test/cases/binary/'
+        return self.__get_data(type, caseName, data_path, shape)
+
+    def get_edu_data(self, type: str, caseName: str, prefix: str, shape='3D'):
+        data_path = self.__fileDir + '/data/'
+        return self.__get_data(type, caseName+'_'+prefix, data_path, shape)
+
+
+    def __get_data(self, type: str, caseName: str, data_path: str, shape) -> object:
         """
         :return: X, y numpy arrays
         :rtype: object
         """
-        list = ['X', 'y']
+        _list = ['X', 'y']
         result = []
-        data_path = self.__fileDir + '/data/test/cases/binary/'
-        for i in list:
-            input(i)
-            with open(data_path + type + '_'+i+'_' + caseName + '_' + self.testPrefix + '.npy', 'rb') as fin:
+
+        for i in _list:
+            with open(data_path + type + '_' + i + '_' + caseName + '.npy', 'rb') as fin:
                 result.append(np.load(fin))
 
         if(shape == '2D'):
             result[0] = result[0].reshape(result[0].shape[0], -1)
 
-        print(' >>>> Loaded ' + type + ' data case '+ caseName + ' shape X/y :' + str(result[0].shape) + ' ' + str(result[1].shape) )
+        print(' >>>> Loaded ' + type + ' data case '+ caseName + ' shape X/y :' + str(result[0].shape) + ' '
+              + str(result[1].shape) )
         return result[0], result[1]
 
     def get_file_dir(self):
