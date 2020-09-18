@@ -22,10 +22,11 @@ class ModelMaker:
         :return: X, y numpy arrays
         :rtype: object
         """
-        dict = {'y', 'X'}
+        dict = {'X', 'y'}
         result = []
         data_path = self.__fileDir + '/data/test/cases/binary/'
         for i in dict:
+            input(i)
             with open(data_path + type + '_'+i+'_' + caseName + '_' + self.testPrefix + '.npy', 'rb') as fin:
                 result.append(np.load(fin))
 
