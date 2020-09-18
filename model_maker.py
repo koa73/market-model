@@ -2,10 +2,10 @@
 
 import tensorflow as tf
 import sys
-import dataMaker as D
+import modelMaker as d
 import numpy as np
 
-data = D.DataMaker()
+data = d.ModelMaker()
 
 print("Start model making ....")
 
@@ -24,7 +24,7 @@ class_weight = {0: 1., 1: 1., 2: 1.}
 class_weight[1] = float(sys.argv[2])
 
 X_train = np.concatenate((X_DOWN,X_UP), axis=0)
-y_train = np.concatenate((y_NONE,y_UP), axis=0)
+y_train = np.concatenate((y_DOWN,y_UP), axis=0)
 X_train = np.concatenate((X_train,X_NONE), axis=0)
 y_train = np.concatenate((y_train,y_NONE), axis=0)
 print ("Shape X: " + str(X_train.shape))
