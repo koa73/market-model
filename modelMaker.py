@@ -91,7 +91,7 @@ class ModelMaker:
         return up, none, down
 
     # Check single model
-    def check_single_model(self, y_UP, y_NONE, y_DOWN, model):
+    def check_single_model(self, y_UP, y_NONE, y_DOWN, model, comment=''):
 
         all_errors = 0
         print ("------------------------------------ \n")
@@ -119,9 +119,9 @@ class ModelMaker:
         print (">>>> Gold : "+str(up_+abs(down))+"\t Shit : " + str(all_errors)+
                "\t Absolute_Error : "+str(k1)+"\t Relevant_Error : "+ str(k2)+"\n")
 
-        self.__archive_model_data(up_+abs(down), all_errors, k1,k2,model)
+        self.__archive_model_data(up_+abs(down), all_errors, k1, k2, model, comment)
 
-    def __archive_model_data(self, gold, shit, absErr, relErr, prefix):
+    def __archive_model_data(self, gold, shit, absErr, relErr, prefix, comment):
 
         dateTime = datetime.now().strftime("%d/%m/%Y %H:%M:%S")
         outputDir = self.__fileDir + "/data/model_test/archive/"
@@ -140,7 +140,7 @@ class ModelMaker:
             file_count = len([name for name in os.listdir(outputDir + 'models')
                               if os.path.isfile(os.path.join(outputDir + 'models', name))])/2
 
-            output.writerow([dateTime, gold, shit, relErr, absErr, model_name + "_"+str(file_count)+".h5"])
+            output.writerow([dateTime, gold, shit, relErr, absErr, model_name + "_"+str(file_count)+".h5", comment])
         csv_out_file.close()
 
         copyfile(self.__fileDir+ "/data/model_test/"+model_name+".json",

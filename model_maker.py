@@ -74,7 +74,7 @@ for i in data.seq(2, 7, 0.1):
     y_down_pred_test = model.predict([X_down])
 
     # ====================== Check model =========================
-    data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, sys.argv[1])
+    data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, sys.argv[1], "NONE with var : " +str(i))
 
 
 
