@@ -22,16 +22,17 @@ class ModelMaker:
         :return: X, y numpy arrays
         :rtype: object
         """
-        dict = {'X', 'y'}
+        dict = {'y', 'X'}
         result = []
         data_path = self.__fileDir + '/data/test/cases/binary/'
         for i in dict:
             with open(data_path + type + '_'+i+'_' + caseName + '_' + self.testPrefix + '.npy', 'rb') as fin:
                 result.append(np.load(fin))
-        if (shape == '2D'):
+
+        if(shape == '2D'):
             result[0] = result[0].reshape(result[0].shape[0], -1)
 
-        print('Loaded ' + type + ' data case '+ caseName + ' shape X/y :' + str(result[0].shape) + ' ' + str(result[1].shape) )
+        print(' >>>> Loaded ' + type + ' data case '+ caseName + ' shape X/y :' + str(result[0].shape) + ' ' + str(result[1].shape) )
         return result[0], result[1]
 
     def get_file_dir(self):
