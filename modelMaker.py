@@ -2,8 +2,7 @@
 
 import csv
 import os
-import itertools
-from datetime import datetime, date
+from datetime import datetime
 import numpy as np
 from shutil import copyfile
 
@@ -15,13 +14,6 @@ class ModelMaker:
     def __init__(self, testPrefix='') -> None:
         super().__init__()
         self.testPrefix = testPrefix
-
-
-    def seq(start, end, step):
-        if step == 0:
-            raise ValueError("step must not be 0")
-        sample_count = int(abs(end - start) / step)
-        return itertools.islice(itertools.count(start, step), sample_count)
 
     def get_check_data(self, type: str, caseName: str, shape='3D'):
 

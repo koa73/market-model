@@ -3,6 +3,7 @@
 import tensorflow as tf
 import sys
 import modelMaker as d
+import itertools
 import numpy as np
 
 
@@ -54,7 +55,14 @@ reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='accuracy', factor=0.1,
 early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0, patience=10, verbose=0, mode='auto')
 
 
-for i in data.seq(2, 7, 0.1):
+def seq(start, end, step):
+    if step == 0:
+        raise ValueError("step must not be 0")
+    sample_count = int(abs(end - start) / step)
+    return itertools.islice(itertools.count(start, step), sample_count)
+
+
+for i in seq(2, 7, 0.1):
 
     print ("----------------  Start new loop with value : "+ str(i))
     # Тренировка сети
