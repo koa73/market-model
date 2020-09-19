@@ -5,6 +5,7 @@ import sys
 import modelMaker as d
 import itertools
 import numpy as np
+import time
 
 
 data = d.ModelMaker()
@@ -22,17 +23,18 @@ X_none, y_none = data.get_edu_data('edu','NONE_'+sys.argv[1], '2D')
 class_weight = {0: 1., 1: 1., 2: 1.}
 
 X_train = np.concatenate((X_down,X_up), axis=0)
-y_train = np.concatenate((y_down,y_up), axis=0)
+y_train = np.concatenate((y_down,y_none), axis=0)
 X_train = np.concatenate((X_train,X_none), axis=0)
 y_train = np.concatenate((y_train,y_none), axis=0)
 
-input_layer_1 = tf.keras.layers.Input(shape=(24,))
-norma_layer = tf.keras.layers.LayerNormalization(axis=1)(input_layer_1)
-hidden_d2_dense = tf.keras.layers.Dense(12, activation='tanh')(norma_layer)
-hidden_d3_dense = tf.keras.layers.Dense(34, activation='tanh')(hidden_d2_dense)
-hidden_d4_dense = tf.keras.layers.Dense(34, activation='tanh')(hidden_d3_dense)
-hidden_d5_dense = tf.keras.layers.Dense(6, activation='tanh')(hidden_d4_dense)
-output = tf.keras.layers.Dense(3, activation='softmax')(hidden_d5_dense)
+sec = str(time.time())
+input_layer_1 = tf.keras.layers.Input(shape=(24,), name='1'+sec)
+norma_layer = tf.keras.layers.LayerNormalization(axis=1, name='2'+sec)(input_layer_1)
+hidden_d2_dense = tf.keras.layers.Dense(12, activation='tanh', name='3'+sec)(norma_layer)
+hidden_d3_dense = tf.keras.layers.Dense(34, activation='tanh', name='4'+sec)(hidden_d2_dense)
+hidden_d4_dense = tf.keras.layers.Dense(34, activation='tanh', name='5'+sec)(hidden_d3_dense)
+hidden_d5_dense = tf.keras.layers.Dense(6, activation='tanh', name='6'+sec)(hidden_d4_dense)
+output = tf.keras.layers.Dense(3, activation='softmax', name='7'+sec)(hidden_d5_dense)
 
 #
 model = tf.keras.models.Model(inputs=[input_layer_1], outputs=[output])
@@ -62,27 +64,27 @@ def seq(start, end, step):
     return itertools.islice(itertools.count(start, step), sample_count)
 
 
-for i in seq(2, 7, 0.1):
+#for i in seq(2, 7, 0.1):
 
-    print ("----------------  Start new loop with value : "+ str(i))
+    #print ("----------------  Start new loop with value : "+ str(i))
     # Тренировка сети
-    class_weight[1] = i
-    model.fit(X_train, y_train, class_weight=class_weight, validation_split=0.05, epochs=100,
+    #class_weight[1] = i
+model.fit(X_train, y_train, class_weight=class_weight, validation_split=0.05, epochs=100,
               batch_size=10, verbose=1, shuffle=True, callbacks=[checkpointer, reduce_lr, early_stopping])
 
-    # ===================== Data load =========================
+# ===================== Data load =========================
 
-    X_down, y_down = data.get_check_data('test', 'DOWN_b38', '2D')
-    X_up, y_up = data.get_check_data('test', 'UP_b38', '2D')
-    X_none, y_none = data.get_check_data('test', 'NONE_b38', '2D')
+X_down, y_down = data.get_check_data('test', 'DOWN_b38', '2D')
+X_up, y_up = data.get_check_data('test', 'UP_b38', '2D')
+X_none, y_none = data.get_check_data('test', 'NONE_b38', '2D')
 
-    # ===================== Make prediction =====================
-    y_up_pred_test = model.predict([X_up])
-    y_none_pred_test = model.predict([X_none])
-    y_down_pred_test = model.predict([X_down])
+# ===================== Make prediction =====================
+y_up_pred_test = model.predict([X_up])
+y_none_pred_test = model.predict([X_none])
+y_down_pred_test = model.predict([X_down])
 
-    # ====================== Check model =========================
-    data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, sys.argv[1], "NONE with var : " +str(i))
+# ====================== Check model =========================
+data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, sys.argv[1], "Down model")
 
 
 
