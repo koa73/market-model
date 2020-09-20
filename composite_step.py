@@ -12,14 +12,14 @@ model_path = 'model/'
 stats_path = 'tensorboard/'
 weights_file = 'tmp_weights'
 
-X_up_set_name = 'edu_X_b22_50.npy'
-y_up_set_name = 'edu_y_b22_50.npy'
+X_up_set_name = 'edu_X_b25_150.npy'
+y_up_set_name = 'edu_y_b25_150.npy'
 
-X_down_set_name = 'edu_X_b22_50.npy'
-y_down_set_name = 'edu_y_b22_50.npy'
+X_down_set_name = 'edu_X_b25_150.npy'
+y_down_set_name = 'edu_y_b25_150.npy'
 
-X_none_set_name = 'edu_X_b22_50.npy'
-y_none_set_name = 'edu_y_b22_50.npy'
+X_none_set_name = 'edu_X_b25_150.npy'
+y_none_set_name = 'edu_y_b25_150.npy'
 
 batch_size = 10
 epochs = 50
@@ -111,7 +111,7 @@ print(" --- Done ---")
 model_complex.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy', 'categorical_crossentropy'])
 
 print('\n--- Save structure of model ---\n')
-json_file = open(model_path + "complex.json", "w")
+json_file = open(model_path + "complex_2.json", "w")
 json_file.write(model_complex.to_json())
 json_file.close()
 print(" --- Done ---")
@@ -129,7 +129,7 @@ model_complex.fit([X_up_train, X_none_train, X_down_train], y_up_train,
                   callbacks=[checkpointer, reduce_lr, early_stopping])
 print("\n--- Save weights of model ---\n")
 #shutil.move(model_path + weights_file + '_complex.h5', model_path + "complex.h5")
-model_complex.save(model_path + "complex.h5")
+model_complex.save(model_path + "complex_2.h5")
 
 # ===================== Data load =========================
 data_path = 'test/'
@@ -172,5 +172,5 @@ for i in range(0, y_up_pred_test.shape[0]):
                       y_down_pred_test[i, 0], y_down_pred_test[i, 1], y_down_pred_test[i, 2]]
 
 print("====== Save predicted data ======\n")
-np.savetxt(result_path + 'complex.csv', y_pred_test, delimiter=',')
+np.savetxt(result_path + 'complex_2.csv', y_pred_test, delimiter=',')
 
