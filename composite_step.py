@@ -139,6 +139,7 @@ data_path = 'data/test/cases/binary/'
 result_path = 'data/'
 with open(data_path + 'test_X_UP_b38.npy', 'rb') as up_file:
     X_up = np.load(up_file)
+    X_up = X_up.reshape(X_up.shape[0], -1)
 with open(data_path + 'test_y_UP_b38.npy', 'rb') as up_file:
     y_up = np.load(up_file)
 print('X_up.shape: ', X_up.shape)
@@ -146,6 +147,7 @@ print('y_up.shape: ', y_up.shape)
 
 with open(data_path + 'test_X_NONE_b38.npy', 'rb') as none_file:
     X_none = np.load(none_file)
+    X_none = X_none.reshape(X_none.shape[0], -1)
 with open(data_path + 'test_y_NONE_b38.npy', 'rb') as none_file:
     y_none = np.load(none_file)
 print('X_none.shape: ', X_none.shape)
@@ -153,6 +155,7 @@ print('y_none.shape: ', y_none.shape)
 
 with open(data_path + 'test_X_DOWN_b38.npy', 'rb') as down_file:
     X_down = np.load(down_file)
+    X_down = X_down.reshape(X_down.shape[0], -1)
 with open(data_path + 'test_y_DOWN_b38.npy', 'rb') as down_file:
     y_down = np.load(down_file)
 print('X_down.shape: ', X_down.shape)
