@@ -32,6 +32,14 @@ with open(filename, newline='') as f:
         if (i == 1):
             # Превращает вектор [1,9] в тензор
             x = tf.constant(raw_data)
+
+            print(x)
+            up = tf.slice(x, [0, 0], [1, 3])
+            none = tf.slice(x, [0, 3], [1, 3])
+            down = tf.slice(x, [0, 6], [1, 3])
+            print(up)
+            print(none)
+            input(down)
             # Инициирует слой
             separator = c.ConcatLayer()
             # Получаем выход вектор [1,3]
