@@ -29,6 +29,7 @@ learn_count = 2
 
 with open(data_path + X_up_set_name, 'rb') as x_up_file:
     X_up_train = np.load(x_up_file)
+    X_up_train = X_up_train.reshape(X_up_train.shape[0], -1)
 
 with open(data_path + y_up_set_name, 'rb') as y_up_file:
     y_up_train = np.load(y_up_file)
@@ -38,6 +39,7 @@ print('y_up_train.shape:', y_up_train.shape)
 
 with open(data_path + X_none_set_name, 'rb') as x_none_file:
     X_none_train = np.load(x_none_file)
+    X_none_train = X_none_train.reshape(X_none_train.shape[0], -1)
 
 with open(data_path + y_none_set_name, 'rb') as y_none_file:
     y_none_train = np.load(y_none_file)
@@ -47,6 +49,7 @@ print('y_none_train.shape:', y_none_train.shape)
 
 with open(data_path + X_down_set_name, 'rb') as x_down_file:
     X_down_train = np.load(x_down_file)
+    X_down_train = X_down_train.reshape(X_down_train.shape[0], -1)
 
 with open(data_path + y_down_set_name, 'rb') as y_down_file:
     y_down_train = np.load(y_down_file)
@@ -93,12 +96,12 @@ print("\n --- Create complex model ---")
 def make_model(model_up, model_none, model_down):
     # --- COMPLEX ---
     input_layer_concat = tf.keras.layers.concatenate([model_up.output, model_none.output, model_down.output])
-    hidden_concat_custom = c.ConcatLayer()(input_layer_concat)
-    hidden_concat_dense1 = tf.keras.layers.Dense(180, name='hidden_concat_dense1_complex')(hidden_concat_custom)
-    hidden_concat_dense2 = tf.keras.layers.Dense(90, name='hidden_concat_dense2_complex')(hidden_concat_dense1)
-    hidden_concat_dense3 = tf.keras.layers.Dense(30, name='hidden_concat_dense3_complex')(hidden_concat_dense2)
-    output_complex = tf.keras.layers.Dense(3, activation='softmax', name='output_complex')(hidden_concat_dense3)
-    #output_complex = c.ConcatLayer()(input_layer_concat)
+    #hidden_concat_custom = c.ConcatLayer()(input_layer_concat)
+    #hidden_concat_dense1 = tf.keras.layers.Dense(180, name='hidden_concat_dense1_complex')(hidden_concat_custom)
+    #hidden_concat_dense2 = tf.keras.layers.Dense(90, name='hidden_concat_dense2_complex')(hidden_concat_dense1)
+    #hidden_concat_dense3 = tf.keras.layers.Dense(30, name='hidden_concat_dense3_complex')(hidden_concat_dense2)
+    #output_complex = tf.keras.layers.Dense(3, activation='softmax', name='output_complex')(hidden_concat_dense3)
+    output_complex = c.ConcatLayer()(input_layer_concat)
     #
     model = tf.keras.models.Model(inputs=[model_up.inputs, model_none.inputs, model_down.inputs], outputs=[output_complex])
     return model
