@@ -30,7 +30,6 @@ class ModelMaker:
         model.trainable = False
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
         return model
-        #
 
     def get_check_data(self, type: str, caseName: str, shape='3D'):
 
