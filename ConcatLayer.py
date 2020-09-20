@@ -63,7 +63,7 @@ class ConcatLayer(tf.keras.layers.Layer):
             return self.__find_best_data(vector_up,vector_none,vector_down, 2)
 
     def compute_output_shape(self, input_shape):
-        return super().compute_output_shape(input_shape)
+        return (input_shape[0], 3)
 
     def __wrapper(self, inputs):
         if (tf.executing_eagerly()):
