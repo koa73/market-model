@@ -36,12 +36,12 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 print(model.summary())
 data.save_conf(model,'composite')                                                  # Запись конфигурации скти для прерывания расчета
 
-model.fit(X_down, y_down, validation_split=0.05, epochs=100,batch_size=10, verbose=1)
+model.fit([X_up, X_none, X_down], y_down, validation_split=0.05, epochs=100,batch_size=10, verbose=1)
 
 # ===================== Make prediction =====================
-y_up_pred_test = model.predict([X_up])
-y_none_pred_test = model.predict([X_none])
-y_down_pred_test = model.predict([X_down])
+y_up_pred_test = model.predict([X_up, X_up, X_up])
+y_none_pred_test = model.predict([X_none, X_none, X_none])
+y_down_pred_test = model.predict([X_down, X_down, X_down])
 
 y_pred_test = np.zeros(shape=(y_up.shape[0], 9))     # Сюда положим результаты прогона X_up моделями up, none, down
 
