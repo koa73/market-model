@@ -63,14 +63,15 @@ class ConcatLayer(tf.keras.layers.Layer):
             return self.__find_best_data(vector_up,vector_none,vector_down, 2)
 
     def __wrapper(self, inputs):
-        arr = np.empty([tf.shape(inputs)[0], 3])
+
         if (tf.executing_eagerly()):
+            arr = np.empty([inputs.shape[0], 3], float)
             for i in range(0, inputs.shape[0]):
                 res = self.__concat_result(tf.slice(inputs, [i, 0], [1, inputs.shape[1]])[0]).reshape(1, -1)
                 arr = np.concatenate((arr, res), axis=0)
-        return tf.convert_to_tensor(arr)
-       # else:
-            #return tf.slice(inputs, [0, 0], [-1, 3])
+            return
+        else:
+            return tf.convert_to_tensor(np.zeros([10, 3], float))
 
     def call(self, inputs, **kwargs):
         return self.__wrapper(inputs)
