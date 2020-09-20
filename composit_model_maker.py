@@ -37,7 +37,7 @@ print(model.summary())
 data.save_conf(model,'composite')                                                  # Запись конфигурации скти для прерывания расчета
 
 #model.fit([X_up, X_none, X_down], y_down, validation_split=0.05, epochs=2, batch_size=10, verbose=1)
-model.save(data.get_file_dir() + "/data/model_test/composite.h5")
+model.save(data.get_file_dir() + "/data/model_test/weights_composite.h5")
 
 # ===================== Make prediction =====================
 y_up_pred_test = model.predict([X_up, X_up, X_up])
