@@ -78,7 +78,7 @@ class ConcatLayer(tf.keras.layers.Layer):
     def __init__(self):
         super(ConcatLayer, self).__init__()
         self.convert_dict = {0: 1, 1: 0, 2: -1}
-        self.total = tf.Variable(initial_value=tf.zeros((1, 3)), trainable=False)
+        self.total = tf.Variable(initial_value=tf.zeros((1, 3)), trainable=True)
 
     def build(self, input_shape):
         return super(ConcatLayer, self).build(input_shape)
