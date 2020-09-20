@@ -127,9 +127,9 @@ reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(monitor='loss', factor=0.1, pat
 early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_loss', min_delta=0, patience=5, verbose=2, mode='auto')
 print("\n--- Start fit of model ---\n")
 
-model_complex.fit([X_up_train, X_none_train, X_down_train], y_up_train,
-                  validation_split=0.05, epochs=epochs, batch_size=batch_size, verbose=1, shuffle=True,
-                  callbacks=[checkpointer, reduce_lr, early_stopping])
+#model_complex.fit([X_up_train, X_none_train, X_down_train], y_up_train,
+#                  validation_split=0.05, epochs=epochs, batch_size=batch_size, verbose=1, shuffle=True,
+#                  callbacks=[checkpointer, reduce_lr, early_stopping])
 print("\n--- Save weights of model ---\n")
 #shutil.move(model_path + weights_file + '_complex.h5', model_path + "complex.h5")
 model_complex.save(model_path + "complex_2.h5")
