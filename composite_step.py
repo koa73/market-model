@@ -135,7 +135,7 @@ print("\n--- Save weights of model ---\n")
 model_complex.save(model_path + "complex_2.h5")
 
 # ===================== Data load =========================
-data_path = 'data/test/'
+data_path = 'data/test/cases/binary/'
 result_path = 'data/'
 with open(data_path + 'test_X_UP_b38.npy', 'rb') as up_file:
     X_up = np.load(up_file)
