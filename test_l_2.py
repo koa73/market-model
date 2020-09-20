@@ -38,6 +38,7 @@ with open(filename, newline='') as f:
             none = tf.slice(x, [0, 3], [1, 3])
             down = tf.slice(x, [0, 6], [1, 3])
             print(up)
+            print(tf.math.argmax(down[0]))
             print(none)
             input(down)
             # Инициирует слой
