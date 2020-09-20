@@ -1,9 +1,7 @@
-import tensorflow as tf
 import numpy as np
 import sys
 import modelMaker as m
 
-#import dataMaker as d
 if (len(sys.argv) < 2):
     print("Argument not found ")
     exit(0)
@@ -25,7 +23,7 @@ X_none, y_none = data.get_check_data('test', 'NONE_b38', '2D')
 # ===================== Model =========================
 
 print("\n====== Load Model ======")
-model = data.model_loader('weights_'+ sys.argv[1])
+model = data.model_loader('weights_'+sys.argv[1])
 
 print("====== Prediction ======\n")
 
