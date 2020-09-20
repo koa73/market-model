@@ -64,6 +64,8 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __wrapper(self, inputs):
 
+        shape = inputs.shape
+
         if (tf.executing_eagerly()):
             arr = np.empty([0, 3], dtype='float32')
             for i in range(0, inputs.shape[0]):
@@ -77,7 +79,7 @@ class ConcatLayer(tf.keras.layers.Layer):
         return self.__wrapper(inputs)
 
     def __init__(self):
-        super(ConcatLayer, self).__init__(autocast=False)
+        super(ConcatLayer, self).__init__()
         self.convert_dict = {0: 1, 1: 0, 2: -1}
 
     def build(self, input_shape):
