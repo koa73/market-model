@@ -107,7 +107,7 @@ def make_model(model_up, model_none, model_down):
     return model
 
 model_complex = make_model(model_up, model_none, model_down)
-#model_complex.trainable = False
+model_complex.trainable = False
 print(model_complex.summary())
 #exit(0)
 print(" --- Done ---")
