@@ -30,7 +30,7 @@ model_down = data.model_loader('weights_b25_150_63.0')
 
 input_layer_1 = tf.keras.layers.concatenate([model_up.output, model_none.output, model_down.output])
 output = c.ConcatLayer()(input_layer_1)
-model = tf.keras.models.Model(inputs=[model_up, model_none, model_down], outputs=[output])
+model = tf.keras.models.Model(inputs=[model_up.inputs, model_none.inputs, model_down.inputs], outputs=[output])
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 #
 print(model.summary())
