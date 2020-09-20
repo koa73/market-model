@@ -27,15 +27,17 @@ X_none, y_none = data.get_check_data('test', 'NONE_b38', '2D')
 print("\n====== Load Model ======")
 
 # Load network
-model_file_name = data_path +"model_test/archive/models/weights_"+ sys.argv[1]
-print('Load JSON as: ', model_file_name + ".json")
-json_file = open(model_file_name + ".json", "r")
-model_json = json_file.read()
-json_file.close()
-
-model = tf.keras.models.model_from_json(model_json)
-model.load_weights(model_file_name  + ".h5")
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+# model_file_name = data_path +"model_test/archive/models/weights_"+ sys.argv[1]
+# print('Load JSON as: ', model_file_name + ".json")
+# json_file = open(model_file_name + ".json", "r")
+# model_json = json_file.read()
+# json_file.close()
+#
+# model = tf.keras.models.model_from_json(model_json)
+# model.load_weights(model_file_name  + ".h5")
+# model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
+#
+model = data.model_loader('weights_'+ sys.argv[1])
 
 print("====== Prediction ======\n")
 
