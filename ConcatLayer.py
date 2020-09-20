@@ -63,7 +63,7 @@ class ConcatLayer(tf.keras.layers.Layer):
             return self.__find_best_data(vector_up,vector_none,vector_down, 2)
 
     def __wrapper(self, inputs):
-        arr = np.empty([0, 3], dtype='float32')
+        arr = np.empty([10, 3], dtype='float32')
         if (tf.executing_eagerly()):
 
             for i in range(0, inputs.shape[0]):
