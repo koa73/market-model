@@ -31,14 +31,16 @@ with open(filename, newline='') as f:
         raw_data.append(list(np.float_(row[0:9])))
         if (i == 1):
             # Превращает вектор [1,9] в тензор
-            x = tf.constant(raw_data)
+            #x = tf.constant(raw_data)
+
+            x = tf.constant([[0.48,0.3,0.22, 0.12,0.75,0.13, 0.15,0.31,0.54]])
 
             print(x)
             up = tf.slice(x, [0, 0], [1, 3])
             none = tf.slice(x, [0, 3], [1, 3])
             down = tf.slice(x, [0, 6], [1, 3])
             print(up)
-            print(tf.math.argmax(down[0]))
+            print(tf.math.argmax(none[0]))
             print(none)
             input(down)
             # Инициирует слой
