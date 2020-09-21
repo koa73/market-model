@@ -33,9 +33,14 @@ with open(filename, newline='') as f:
             # Превращает вектор [1,9] в тензор
             #x = tf.constant(raw_data)
 
-            x = tf.constant([[0.48,0.3,0.22, 0.12,0.75,0.13, 0.15,0.31,0.54]])
+            x = tf.constant([[0.48,0.3,0.22, 0.75,0.75,0.13, 0.15,0.31,0.54],
+                             [0.49,0.4,0.12, 0.85,0.99,0.10, 0.1,0.21,0.84]])
 
             print(x)
+            data = tf.data.Dataset.from_tensor_slices(x)
+            print (">>>>>>>")
+            for i in data:
+                input(i)
             up = tf.slice(x, [0, 0], [1, 3])
             none = tf.slice(x, [0, 3], [1, 3])
             down = tf.slice(x, [0, 6], [1, 3])
