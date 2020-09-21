@@ -6,11 +6,11 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __get_max_index(self, vector):
 
-        winner = np.argwhere(vector == np.amax(vector))
-        if (winner.size > 1):
+        winner = tf.where(vector == tf.math.reduce_max(vector))
+        if (winner.shape[0] > 1):
             return 0
         else:
-            return self.convert_dict[winner[0][0]]
+            return self.convert_dict[tf.math.argmax(vector).numpy()]
 
     def __find_best_data(self, up, none, down, idx):
 
@@ -35,15 +35,13 @@ class ConcatLayer(tf.keras.layers.Layer):
         elif (calc_value == 0 and max_idex == 0):
             return  vector
 
-        return np.array([0,0,0])
+        return tf.constant([0, 0, 0])
 
-    def __concat_result(self, inputs):
+    def __concat_result(self, vector):
 
-        __array = inputs.numpy()
-
-        vector_up = np.array(__array).astype(np.float32)[0:3]
-        vector_none = np.array(__array).astype(np.float32)[3:6]
-        vector_down = np.array(__array).astype(np.float32)[6:9]
+        vector_up = tf.slice(vector, [0], [3])
+        vector_none = tf.slice(vector, [3], [3])
+        vector_down = tf.slice(vector, [6], [3])
 
         max_index_up = self.__get_max_index(vector_up)
         max_index_none = self.__get_max_index(vector_none)
@@ -62,13 +60,9 @@ class ConcatLayer(tf.keras.layers.Layer):
         elif (calc_value <= -1):
             return self.__find_best_data(vector_up,vector_none,vector_down, 2)
 
-    def compute_output_shape(self, input_shape):
-        return (input_shape[0], 3)
-
     def __wrapper(self, inputs):
         if (inputs.shape):
             arr = np.empty([0, 3], dtype='float32')
-            #for i in range(0, inputs.shape[0]):
             for vector in tf.data.Dataset.from_tensor_slices(inputs):
                 res = self.__concat_result(vector).reshape(1, -1)
                 arr = np.concatenate((arr, res), axis=0)

@@ -29,10 +29,9 @@ with open(filename, newline='') as f:
     for row in rows:
         i += 1
         raw_data.append(list(np.float_(row[0:9])))
-        if (i == 10):
+        if (i == 1):
             # Превращает вектор [1,9] в тензор
             x = tf.constant(raw_data)
-
 
             # Инициирует слой
             separator = c.ConcatLayer()
