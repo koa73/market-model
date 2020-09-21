@@ -62,9 +62,6 @@ class ConcatLayer(tf.keras.layers.Layer):
         elif (calc_value <= -1):
             return self.__find_best_data(vector_up,vector_none,vector_down, 2)
 
-    def compute_output_shape(self, input_shape):
-        return (input_shape[0], 3)
-
     def __wrapper(self, inputs):
         if (tf.executing_eagerly()):
             arr = np.empty([0, 3], dtype='float32')
@@ -84,6 +81,7 @@ class ConcatLayer(tf.keras.layers.Layer):
         self.total = tf.Variable(initial_value=tf.zeros((1, 3)), trainable=True)
 
     def build(self, input_shape):
+
         return super(ConcatLayer, self).build(input_shape)
 
     def get_config(self):
