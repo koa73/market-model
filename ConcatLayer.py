@@ -7,7 +7,7 @@ class ConcatLayer(tf.keras.layers.Layer):
     def __get_max_index(self, vector):
 
         winner = tf.where(vector == tf.math.reduce_max(vector))
-        if (self.convert_dict[winner.shape[0]] != 1):
+        if (winner.shape[0] > 1):
             return 0
         else:
             return self.convert_dict[tf.math.argmax(vector).numpy()]
