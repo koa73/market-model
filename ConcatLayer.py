@@ -6,16 +6,13 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __get_max_index(self, vector):
 
+        tf.constant([0,])
+
         winner = tf.where(vector == tf.math.reduce_max(vector))
-        if (winner.shape[0] > 1):
+        if (tf.slice(tf.constant([False, True, True]), [winner.shape[0]], [1]).numpy()[0]):
             return 0
         else:
             return self.convert_dict[tf.math.argmax(vector).numpy()]
-
-    def compute_output_shape(self, input_shape):
-
-        input("=========>>>>>>>")
-        return super().compute_output_shape(input_shape)
 
     def __find_best_data(self, up, none, down, idx):
 
@@ -77,7 +74,7 @@ class ConcatLayer(tf.keras.layers.Layer):
         return self.__wrapper(inputs)
 
     def __init__(self):
-        super(ConcatLayer, self).__init__()
+        super(ConcatLayer, self).__init__(autocast=False, trainable=False)
         self.convert_dict = {0: 1, 1: 0, 2: -1}
 
 
