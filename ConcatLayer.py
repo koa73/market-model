@@ -6,8 +6,6 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __get_max_index(self, vector):
 
-        tf.constant([0,])
-
         winner = tf.where(vector == tf.math.reduce_max(vector))
         if (tf.slice(tf.constant([False, True, True]), [winner.shape[0]], [1]).numpy()[0]):
             return 0
