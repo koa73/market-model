@@ -6,22 +6,15 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __get_max_index(self, vector):
 
-        tf.constant([0,])
-
         winner = tf.where(vector == tf.math.reduce_max(vector))
-        count = 0
-        for w in tf.data.Dataset.from_tensor_slices(winner):
-            count +=1
-
-        if (count > 1):
+        if (winner.shape[0] > 1):
             return 0
         else:
             return self.convert_dict[tf.math.argmax(vector).numpy()]
 
     def __find_best_data(self, up, none, down, idx):
 
-        max_index_array = tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]),
-                                        tf.slice(down, [idx], [1])], 0)).numpy()
+        max_index_array = tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]), tf.slice(down, [idx], [1])], 0)).numpy()
         if(max_index_array == 1):
             return none
 
@@ -69,16 +62,17 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __wrapper(self, inputs):
 
-        for vector in tf.data.Dataset.from_tensor_slices(inputs):
-            x = self.__concat_result(vector)
-            self.total = tf.concat([self.total, tf.reshape(x, [1, 3])], 0)
+        if(inputs.shape[0] != None):
+            for vector in tf.data.Dataset.from_tensor_slices(inputs):
+                x = self.__concat_result(vector)
+                self.total = tf.concat([self.total, tf.reshape(x, [1, 3])], 0)
         return self.total
 
     def call(self, inputs, **kwargs):
         return self.__wrapper(inputs)
 
     def __init__(self):
-        super(ConcatLayer, self).__init__(autocast=False, trainable=False)
+        super(ConcatLayer, self).__init__()
         self.convert_dict = {0: 1, 1: 0, 2: -1}
 
 
