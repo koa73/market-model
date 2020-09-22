@@ -53,6 +53,7 @@ class ConcatLayer(tf.keras.layers.Layer):
     def wrapper(self, inputs):
         print(tf.shape(inputs))
         print (inputs)
+        print(tf.range(0, inputs.shape[0]))
         input(tf.slice(inputs, [0, 0], [1, -1]))
         for i in range(tf.shape(inputs)[0]):
             x = self.concat_result(inputs[i])
