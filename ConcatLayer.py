@@ -10,13 +10,13 @@ class ConcatLayer(tf.keras.layers.Layer):
         if(winner.shape == tf.TensorShape([1, 1])):
             return tf.math.argmax(tf.reverse(vector, [0])) - 1
         else:
-            return 0
+            return tf.constant(0, dtype=tf.int64)
 
     def __find_best_data(self, up, none, down, idx):
 
         offset = tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]),
-                                                    tf.slice(down, [idx], [1])], 0))*3
-        return tf.slice(tf.concat([up,none,down],0), [offset], [3])
+                                           tf.slice(down, [idx], [1])], 0))*3
+        return tf.slice(tf.concat([up, none, down], 0), [offset], [3])
 
     def __remove_ex_data(self, vector, max_idex, calc_value):
 
@@ -54,7 +54,6 @@ class ConcatLayer(tf.keras.layers.Layer):
         elif (calc_value <= -1):
             return self.__find_best_data(vector_up, vector_none, vector_down, 2)
 
-    @tf.autograph.experimental.do_not_convert
     def __wrapper(self, inputs):
         for vector in tf.data.Dataset.from_tensor_slices(inputs):
             x = self.__concat_result(vector)
