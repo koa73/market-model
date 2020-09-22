@@ -54,6 +54,7 @@ class ConcatLayer(tf.keras.layers.Layer):
         elif (calc_value <= -1):
             return self.__find_best_data(vector_up, vector_none, vector_down, 2)
 
+    @tf.autograph.experimental.do_not_convert
     def __wrapper(self, inputs):
         for vector in tf.data.Dataset.from_tensor_slices(inputs):
             x = self.__concat_result(vector)
