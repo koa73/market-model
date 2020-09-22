@@ -14,17 +14,9 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __find_best_data(self, up, none, down, idx):
 
-        max_index_array = tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]),
-                                                    tf.slice(down, [idx], [1])], 0))
-
-        if(tf.math.equal(max_index_array, tf.constant(1, dtype=tf.int64))):
-            return none
-
-        elif(tf.math.equal(max_index_array, tf.constant(0, dtype=tf.int64))):
-            return up
-
-        else:
-            return down
+        offset = tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]),
+                                                    tf.slice(down, [idx], [1])], 0))*3
+        return tf.slice(tf.concat([up,none,down],0), [offset], [3])
 
     def __remove_ex_data(self, vector, max_idex, calc_value):
 
