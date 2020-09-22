@@ -14,15 +14,21 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __find_best_data(self, up, none, down, idx):
 
+        idx = tf.cond(tf.equal(idx, 0), lambda: tf.constant(1, dtype=tf.int64),
+                      lambda: tf.cond(tf.equal(idx, 1), lambda: tf.constant(0, dtype=tf.int64),
+                                      lambda : tf.constant(2, dtype=tf.int64)))
+
         offset = tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]),
-                                           tf.slice(down, [idx], [1])], 0))*3
+                                           tf.slice(down, [idx], [1])], 0)) * 3
         return tf.slice(tf.concat([up, none, down], 0), [offset], [3])
 
     def __remove_ex_data(self, vector, max_idx, calc_value):
-        calc_value = tf.cond(tf.equal(calc_value, 0), lambda: calc_value, lambda:
-        tf.cond(tf.greater(calc_value, 0), lambda: tf.constant(1, dtype=tf.int64), lambda: tf.constant(-1, dtype=tf.int64)))
-        return tf.math.multiply(vector, tf.cond(tf.equal(calc_value, max_idx), lambda: tf.constant(1., dtype=tf.float64),
-                                                lambda: tf.constant(0., dtype=tf.float64)))
+
+        calc_value = tf.cond(tf.equal(calc_value, 0), lambda: calc_value, lambda: tf.cond(
+            tf.greater(calc_value, 0), lambda: tf.constant(1, dtype=tf.int64), lambda: tf.constant(-1, dtype=tf.int64)))
+
+        return tf.math.multiply(vector, tf.cond(tf.equal(calc_value, max_idx), lambda: tf.constant(1., dtype=tf.float64)
+                                                , lambda: tf.constant(0., dtype=tf.float64)))
 
 
     #@tf.function
@@ -42,12 +48,7 @@ class ConcatLayer(tf.keras.layers.Layer):
         vector_none = self.__remove_ex_data(vector_none, max_index_none, calc_value)
         vector_down = self.__remove_ex_data(vector_down, max_index_down, calc_value)
 
-        if (calc_value == 0):
-            return self.__find_best_data(vector_up, vector_none, vector_down, 1)
-        elif (calc_value >= 1):
-            return self.__find_best_data(vector_up, vector_none, vector_down, 0)
-        elif (calc_value <= -1):
-            return self.__find_best_data(vector_up, vector_none, vector_down, 2)
+        return self.__find_best_data(vector_up, vector_none, vector_down, calc_value)
 
     def __wrapper(self, inputs):
         for vector in tf.data.Dataset.from_tensor_slices(inputs):
