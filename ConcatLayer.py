@@ -55,6 +55,7 @@ class ConcatLayer(tf.keras.layers.Layer):
     #@tf.autograph.experimental.set_loop_options(shape_invariants=[1, 3])
     def wrapper(self, inputs):
 
+        print(inputs.shape[0])
         input(tf.range(0, inputs.shape[0]))
 
         c = lambda inputs: tf.less(i, 10)
