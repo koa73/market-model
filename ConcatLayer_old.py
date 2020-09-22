@@ -33,7 +33,7 @@ class ConcatLayer(tf.keras.layers.Layer):
         elif (calc_value < 0 and max_idex < 0):
             return vector
         elif (calc_value == 0 and max_idex == 0):
-            return  vector
+            return vector
 
         return np.array([0,0,0])
 
