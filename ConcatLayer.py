@@ -51,7 +51,9 @@ class ConcatLayer(tf.keras.layers.Layer):
         return self.find_best_data(vector_up, vector_none, vector_down, calc_value)
 
     def wrapper(self, inputs):
-        input(tf.shape(inputs)[0])
+        print(tf.shape(inputs))
+        print (inputs)
+        input(tf.slice(inputs, [0, 0], [1, -1]))
         for i in range(tf.shape(inputs)[0]):
             x = self.concat_result(inputs[i])
             self.total = tf.concat([self.total, tf.reshape(x, [1, 3])], 0)
