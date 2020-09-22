@@ -20,20 +20,10 @@ class ConcatLayer(tf.keras.layers.Layer):
 
 
     def __remove_ex_data(self, vector, max_idx, calc_value):
-        calc_value = tf.constant(tf.cond(tf.equal(calc_value, 0), lambda: 0,
-                             lambda: tf.cond(tf.greater(calc_value, 0), lambda: 1, lambda: -1)), dtype=tf.int64)
+        calc_value = tf.constant(tf.cond(tf.equal(calc_value, 0), lambda: 0, lambda:
+        tf.cond(tf.greater(calc_value, 0), lambda: 1, lambda: -1)), dtype=tf.int64)
         return tf.math.multiply(vector, tf.cond(tf.equal(calc_value, max_idx), lambda: 1., lambda: 0.))
 
-    def __remove_ex_data_(self, vector, max_idx, calc_value):
-
-        if (calc_value > 0 and max_idx > 0):
-            return vector
-        elif (calc_value < 0 and max_idx < 0):
-            return vector
-        elif (calc_value == 0 and max_idx == 0):
-            return vector
-        else:
-            return tf.constant([0, 0, 0], dtype=tf.float32)
 
     #@tf.function
     def __concat_result(self, vector):
@@ -70,11 +60,11 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     @tf.autograph.experimental.do_not_convert
     def __init__(self):
-        super(ConcatLayer, self).__init__()
+        super(ConcatLayer, self).__init__(dtype=tf.float64)
 
 
     def build(self, input_shape):
-        self.total = tf.Variable(np.empty((0, 3), dtype=np.float32))
+        self.total = tf.Variable(np.empty((0, 3), dtype=np.float64))
         return super(ConcatLayer, self).build(input_shape)
 
     def get_config(self):
