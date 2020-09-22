@@ -29,8 +29,8 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         elif (calc_value == 0 and max_idx == 0):
             return vector
-
-        return tf.constant([0, 0, 0], dtype=float)
+        else:
+            return tf.constant([0, 0, 0], dtype=float)
 
     def __concat_result(self, vector):
 
