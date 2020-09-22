@@ -20,8 +20,8 @@ class ConcatLayer(tf.keras.layers.Layer):
 
 
     def __remove_ex_data(self, vector, max_idx, calc_value):
-        calc_value = tf.cond(tf.equal(calc_value, 0), lambda: 0,
-                             lambda: tf.cond(tf.greater(calc_value, 0), lambda: 1, lambda: -1))
+        calc_value = tf.constant([tf.cond(tf.equal(calc_value, 0), lambda: 0,
+                             lambda: tf.cond(tf.greater(calc_value, 0), lambda: 1, lambda: -1))], dtype=tf.int64)
 
         return tf.math.multiply(vector, tf.cond(tf.equal(calc_value, max_idx), lambda: 1., lambda: 0.))
 
