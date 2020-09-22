@@ -4,7 +4,7 @@ import numpy as np
 
 class ConcatLayer(tf.keras.layers.Layer):
 
-    def __get_max_index(self, vector):
+    def get_max_index(self, vector):
 
         winner = tf.where(vector == tf.math.reduce_max(vector))
         if(winner.shape == tf.TensorShape([1, 1])):
@@ -12,7 +12,7 @@ class ConcatLayer(tf.keras.layers.Layer):
         else:
             return tf.constant(0, dtype=tf.int64)
 
-    def __find_best_data(self, up, none, down, idx):
+    def find_best_data(self, up, none, down, idx):
 
         idx = tf.cond(tf.equal(idx, 0), lambda: tf.constant(1, dtype=tf.int64),
                       lambda: tf.cond(tf.equal(idx, 1), lambda: tf.constant(0, dtype=tf.int64),
@@ -22,7 +22,7 @@ class ConcatLayer(tf.keras.layers.Layer):
                                            tf.slice(down, [idx], [1])], 0)), tf.constant(3, dtype=tf.int64))
         return tf.slice(tf.concat([up, none, down], 0), [offset], [3])
 
-    def __remove_ex_data(self, vector, max_idx, calc_value):
+    def remove_ex_data(self, vector, max_idx, calc_value):
 
         calc_value = tf.cond(tf.equal(calc_value, 0), lambda: calc_value, lambda: tf.cond(
             tf.greater(calc_value, 0), lambda: tf.constant(1, dtype=tf.int64), lambda: tf.constant(-1, dtype=tf.int64)))
@@ -31,36 +31,35 @@ class ConcatLayer(tf.keras.layers.Layer):
                                                 , lambda: tf.constant(0., dtype=tf.float64)))
 
 
-    #@tf.function
-    def __concat_result(self, vector):
+    def concat_result(self, vector):
 
         vector_up = tf.slice(vector, [0], [3])
         vector_none = tf.slice(vector, [3], [3])
         vector_down = tf.slice(vector, [6], [3])
 
-        max_index_up = self.__get_max_index(vector_up)
-        max_index_none = self.__get_max_index(vector_none)
-        max_index_down = self.__get_max_index(vector_down)
+        max_index_up = self.get_max_index(vector_up)
+        max_index_none = self.get_max_index(vector_none)
+        max_index_down = self.get_max_index(vector_down)
 
         calc_value = tf.math.multiply (tf.math.abs(max_index_none),
                                        tf.math.add_n([max_index_up + max_index_down + max_index_none]))
 
-        vector_up = self.__remove_ex_data(vector_up, max_index_up, calc_value)
-        vector_none = self.__remove_ex_data(vector_none, max_index_none, calc_value)
-        vector_down = self.__remove_ex_data(vector_down, max_index_down, calc_value)
+        vector_up = self.remove_ex_data(vector_up, max_index_up, calc_value)
+        vector_none = self.remove_ex_data(vector_none, max_index_none, calc_value)
+        vector_down = self.remove_ex_data(vector_down, max_index_down, calc_value)
 
-        return self.__find_best_data(vector_up, vector_none, vector_down, calc_value)
+        return self.find_best_data(vector_up, vector_none, vector_down, calc_value)
 
-    def __wrapper(self, inputs):
+    def wrapper(self, inputs):
         for vector in tf.data.Dataset.from_tensor_slices(inputs):
-            x = self.__concat_result(vector)
+            x = self.concat_result(vector)
             self.total = tf.concat([self.total, tf.reshape(x, [1, 3])], 0)
         return self.total
 
-    def call(self, inputs, **kwargs):
-        return self.__wrapper(inputs)
-
     @tf.autograph.experimental.do_not_convert
+    def call(self, inputs, **kwargs):
+        return self.wrapper(inputs)
+
     def __init__(self):
         super(ConcatLayer, self).__init__(dtype=tf.float64)
 
