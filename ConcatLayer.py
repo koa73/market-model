@@ -62,7 +62,7 @@ class ConcatLayer(tf.keras.layers.Layer):
             self.total = tf.concat([self.total, tf.reshape(self.concat_result(inputs[i]), [1, 3])], 0)
         return self.total
 
-    @tf.autograph.experimental.do_not_convert
+    #@tf.autograph.experimental.do_not_convert
     def call(self, inputs, **kwargs):
         return self.wrapper(inputs)
 
