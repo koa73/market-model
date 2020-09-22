@@ -16,11 +16,11 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         max_index_array = tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]),
                                                     tf.slice(down, [idx], [1])], 0))
-        #input(max_index_array)
-        if(max_index_array == 1):
+
+        if(tf.math.equal(max_index_array, tf.constant(1, dtype=tf.int64))):
             return none
 
-        elif (max_index_array == 0):
+        elif(tf.math.equal(max_index_array, tf.constant(0, dtype=tf.int64))):
             return up
 
         else:
