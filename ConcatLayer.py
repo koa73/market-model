@@ -51,11 +51,21 @@ class ConcatLayer(tf.keras.layers.Layer):
         return self.find_best_data(vector_up, vector_none, vector_down, calc_value)
 
     #@tf.function
-    @tf.autograph.experimental.set_loop_options(shape_invariants=[1,3])
+    @tf.function(autograph=True)
+    #@tf.autograph.experimental.set_loop_options(shape_invariants=[1, 3])
     def wrapper(self, inputs):
 
+        input(tf.range(0, inputs.shape[0]))
+
+        c = lambda inputs: tf.less(i, 10)
+        b = lambda inputs: (tf.add(i, 1),)
+        r = tf.while_loop(c, b, inputs)
+        input(r)
+
         for i in tf.range(0, inputs.shape[0]):
+            #tf.autograph.experimental.set_loop_options(shape_invariants=[tf.TensorShape([0, 3]), tf.TensorShape([1, 3])])
             self.total = tf.concat([self.total, tf.reshape(self.concat_result(inputs[i]), [1, 3])], 0)
+
         return self.total
 
     #@tf.autograph.experimental.do_not_convert
@@ -64,16 +74,7 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def __init__(self):
         super(ConcatLayer, self).__init__(dtype=tf.float64)
-
-
-    def build(self, input_shape):
         self.total = tf.Variable(np.empty((0, 3), dtype=np.float64))
-        return super(ConcatLayer, self).build(input_shape)
-
-    def get_config(self):
-        # Implement get_config to enable serialization. This is optional.
-        base_config = super(ConcatLayer, self).get_config()
-        return dict(list(base_config.items()))
 
 
 
