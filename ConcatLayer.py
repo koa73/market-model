@@ -19,7 +19,7 @@ class ConcatLayer(tf.keras.layers.Layer):
                                       lambda : tf.constant(2, dtype=tf.int64)))
 
         offset = tf.math.multiply(tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]),
-                                           tf.slice(down, [idx], [1])], 0)), tf.constant(3, dtype=tf.int64))
+                                                            tf.slice(down, [idx], [1])], 0)), tf.constant(3, dtype=tf.int64))
         return tf.slice(tf.concat([up, none, down], 0), [offset], [3])
 
     def remove_ex_data(self, vector, max_idx, calc_value):
@@ -29,7 +29,6 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         return tf.math.multiply(vector, tf.cond(tf.equal(calc_value, max_idx), lambda: tf.constant(1., dtype=tf.float64)
                                                 , lambda: tf.constant(0., dtype=tf.float64)))
-
 
     def concat_result(self, vector):
 
@@ -41,8 +40,8 @@ class ConcatLayer(tf.keras.layers.Layer):
         max_index_none = self.get_max_index(vector_none)
         max_index_down = self.get_max_index(vector_down)
 
-        calc_value = tf.math.multiply (tf.math.abs(max_index_none),
-                                       tf.math.add_n([max_index_up + max_index_down + max_index_none]))
+        calc_value = tf.math.multiply(tf.math.abs(max_index_none),
+                                      tf.math.add_n([max_index_up, max_index_down, max_index_none]))
 
         vector_up = self.remove_ex_data(vector_up, max_index_up, calc_value)
         vector_none = self.remove_ex_data(vector_none, max_index_none, calc_value)
@@ -50,15 +49,14 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         return self.find_best_data(vector_up, vector_none, vector_down, calc_value)
 
-    @tf.function(autograph=True)
+    #@tf.function(autograph=True)
     def wrapper(self, inputs):
 
-        for i in tf.range(0, inputs.shape[0]):
+        for i in tf.range(0, tf.shape(inputs)[0]):
             tf.autograph.experimental.set_loop_options(shape_invariants=[(self.total, tf.TensorShape([None, 3]))])
             self.total = tf.concat([self.total, tf.reshape(self.concat_result(inputs[i]), [1, 3])], 0)
         return self.total
 
-    #@tf.autograph.experimental.do_not_convert
     def call(self, inputs, **kwargs):
         return self.wrapper(inputs)
 
