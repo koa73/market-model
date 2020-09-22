@@ -55,9 +55,9 @@ class ConcatLayer(tf.keras.layers.Layer):
     def wrapper(self, inputs):
         #print(tf.shape(inputs))
         #print (inputs)
-        #print(tf.range(0, inputs.shape[0]))
+        print(tf.range(0, inputs.shape[0]))
         #print("------- ")
-        #input(tf.slice(inputs, [0, 0], [1, -1]))
+        input(tf.slice(inputs, [0, 0], [1, -1]))
         for i in tf.range(0, inputs.shape[0]):
             self.total = tf.concat([self.total, tf.reshape(self.concat_result(inputs[i]), [1, 3])], 0)
         return self.total
