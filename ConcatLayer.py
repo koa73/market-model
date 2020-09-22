@@ -59,7 +59,7 @@ class ConcatLayer(tf.keras.layers.Layer):
     def call(self, inputs, **kwargs):
         return self.__wrapper(inputs)
 
-    @tf.autograph.experimental.do_not_convert
+    #@tf.autograph.experimental.do_not_convert
     def __init__(self):
         super(ConcatLayer, self).__init__(dtype=tf.float64)
 
