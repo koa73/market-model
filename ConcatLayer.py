@@ -50,21 +50,11 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         return self.find_best_data(vector_up, vector_none, vector_down, calc_value)
 
-    #@tf.function
     @tf.function(autograph=True)
-    #@tf.autograph.experimental.set_loop_options(shape_invariants=[1, 3])
     def wrapper(self, inputs):
 
-        print(inputs.shape[0])
-        input(tf.range(0, inputs.shape[0]))
-
-        c = lambda inputs: tf.less(i, 10)
-        b = lambda inputs: (tf.add(i, 1),)
-        r = tf.while_loop(c, b, inputs)
-        input(r)
-
         for i in tf.range(0, inputs.shape[0]):
-            #tf.autograph.experimental.set_loop_options(shape_invariants=[tf.TensorShape([0, 3]), tf.TensorShape([1, 3])])
+            tf.autograph.experimental.set_loop_options(shape_invariants=[(self.total, tf.TensorShape([None, 3]))])
             self.total = tf.concat([self.total, tf.reshape(self.concat_result(inputs[i]), [1, 3])], 0)
 
         return self.total
