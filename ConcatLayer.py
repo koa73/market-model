@@ -18,20 +18,15 @@ class ConcatLayer(tf.keras.layers.Layer):
                                            tf.slice(down, [idx], [1])], 0))*3
         return tf.slice(tf.concat([up, none, down], 0), [offset], [3])
 
-    @tf.function
+    #@tf.function
     def __remove_ex_data(self, vector, max_idx, calc_value):
 
-        if (calc_value > 0 and max_idx > 0):
-            return vector
-
-        elif (calc_value < 0 and max_idx < 0):
-            return vector
-
-        elif (calc_value == 0 and max_idx == 0):
+        if(tf.equal(calc_value,max_idx)):
             return vector
         else:
             return tf.constant([0, 0, 0], dtype=float)
 
+    #@tf.function
     def __concat_result(self, vector):
 
         vector_up = tf.slice(vector, [0], [3])
