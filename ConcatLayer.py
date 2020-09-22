@@ -56,7 +56,6 @@ class ConcatLayer(tf.keras.layers.Layer):
         for i in tf.range(0, inputs.shape[0]):
             tf.autograph.experimental.set_loop_options(shape_invariants=[(self.total, tf.TensorShape([None, 3]))])
             self.total = tf.concat([self.total, tf.reshape(self.concat_result(inputs[i]), [1, 3])], 0)
-
         return self.total
 
     #@tf.autograph.experimental.do_not_convert
