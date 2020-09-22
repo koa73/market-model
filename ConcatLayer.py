@@ -8,7 +8,7 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         winner = tf.where(vector == tf.math.reduce_max(vector))
         if(winner.shape == tf.TensorShape([1, 1])):
-            return tf.math.argmax(tf.reverse(vector, [0])) - 1
+            return tf.math.add(tf.math.argmax(tf.reverse(vector, [0])), tf.constant(-1, dtype=tf.int64))
         else:
             return tf.constant(0, dtype=tf.int64)
 
@@ -18,8 +18,8 @@ class ConcatLayer(tf.keras.layers.Layer):
                       lambda: tf.cond(tf.equal(idx, 1), lambda: tf.constant(0, dtype=tf.int64),
                                       lambda : tf.constant(2, dtype=tf.int64)))
 
-        offset = tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]),
-                                           tf.slice(down, [idx], [1])], 0)) * 3
+        offset = tf.math.multiply(tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]),
+                                           tf.slice(down, [idx], [1])], 0)), tf.constant(3, dtype=tf.int64))
         return tf.slice(tf.concat([up, none, down], 0), [offset], [3])
 
     def __remove_ex_data(self, vector, max_idx, calc_value):
@@ -42,7 +42,8 @@ class ConcatLayer(tf.keras.layers.Layer):
         max_index_none = self.__get_max_index(vector_none)
         max_index_down = self.__get_max_index(vector_down)
 
-        calc_value = abs(max_index_none) * (max_index_up + max_index_down + max_index_none)
+        calc_value = tf.math.multiply (tf.math.abs(max_index_none),
+                                       tf.math.add_n([max_index_up + max_index_down + max_index_none]))
 
         vector_up = self.__remove_ex_data(vector_up, max_index_up, calc_value)
         vector_none = self.__remove_ex_data(vector_none, max_index_none, calc_value)
