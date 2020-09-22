@@ -7,7 +7,6 @@ class ConcatLayer(tf.keras.layers.Layer):
     def __get_max_index(self, vector):
 
         winner = tf.where(vector == tf.math.reduce_max(vector))
-
         if(winner.shape == tf.TensorShape([1, 1])):
             return tf.math.argmax(tf.reverse(vector, [0])) - 1
         else:
@@ -16,7 +15,8 @@ class ConcatLayer(tf.keras.layers.Layer):
     def __find_best_data(self, up, none, down, idx):
 
         max_index_array = tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]),
-                                                    tf.slice(down, [idx], [1])], 0)).numpy()
+                                                    tf.slice(down, [idx], [1])], 0))
+        #input(max_index_array)
         if(max_index_array == 1):
             return none
 
