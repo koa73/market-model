@@ -54,7 +54,7 @@ class ConcatLayer(tf.keras.layers.Layer):
         for vector in tf.data.Dataset.from_tensor_slices(inputs):
             x = self.concat_result(vector)
             self.total = tf.concat([self.total, tf.reshape(x, [1, 3])], 0)
-        return self.total
+        return inputs
 
     @tf.autograph.experimental.do_not_convert
     def call(self, inputs, **kwargs):
