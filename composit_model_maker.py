@@ -44,6 +44,10 @@ y_up_pred_test = model.predict([X_up, X_up, X_up])
 y_none_pred_test = model.predict([X_none, X_none, X_none])
 y_down_pred_test = model.predict([X_down, X_down, X_down])
 
+# ===================== Model checker =======================
+
+data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, sys.argv[1])
+
 y_pred_test = np.zeros(shape=(y_up.shape[0], 9))     # Сюда положим результаты прогона X_up моделями up, none, down
 
 for i in range(0, y_up_pred_test.shape[0]):
