@@ -147,10 +147,10 @@ class ModelMaker:
                               if os.path.isfile(os.path.join(outputDir + 'models', name))]) / 2
 
             copyfile(self.__fileDir+ "/data/model_test/"+model_name+".json",
-                 outputDir+"models/"+model_name + "_"+str(file_count)+".json" )
+                 outputDir+"models/"+model_name + "_"+str(int(file_count))+".json" )
 
             copyfile(self.__fileDir + "/data/model_test/" + model_name + ".h5",
-                 outputDir + "models/" + model_name + "_" + str(file_count) + ".h5")
+                 outputDir + "models/" + model_name + "_" + str(int(file_count)) + ".h5")
 
             with open(filename, append_write, newline='') as csv_out_file:
                 output = csv.writer(csv_out_file, delimiter=';')
