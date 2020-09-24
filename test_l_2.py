@@ -26,19 +26,23 @@ with open(filename, newline='') as f:
     rows = csv.reader(f, delimiter=';', quotechar='|')
     raw_data = []
     i = 0
+    xx = 0
+
     for row in rows:
         i += 1
+        xx +=1
         raw_data.append(list(np.float_(row[0:9])))
-        if (i == 10):
+        if(i == 100):
+            #input(j)
             # Превращает вектор [1,9] в тензор
             x = tf.constant(raw_data)
 
             #x = tf.constant([[0.01,0.06,0.06, 0.14,0.7,0.16, 0.2,0.11,0.69],
              #                [0.49,0.4,0.12, 0.85,0.99,0.10, 0.1,0.21,0.84]])
+            # Получаем выход вектор [1,3]
 
             # Инициирует слой
             separator = c.ConcatLayer()
-            # Получаем выход вектор [1,3]
             y = separator(x)
             # Классифицируем ответ
             for j in range(0, y.shape[0]):
@@ -49,8 +53,10 @@ with open(filename, newline='') as f:
                    up += 1
                else:
                    down += 1
+
             raw_data = []
             i = 0
+
     if (len(raw_data)>0):
         # Превращает вектор [1,9] в тензор
         x = tf.constant(raw_data)

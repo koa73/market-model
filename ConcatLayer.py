@@ -7,7 +7,7 @@ class ConcatLayer(tf.keras.layers.Layer):
     def get_max_index(self, vector):
 
         winner = tf.where(vector == tf.math.reduce_max(vector))
-        if(winner.shape == tf.TensorShape([1, 1])):
+        if(tf.equal(tf.shape(winner)[0], 1)):
             return tf.math.add(tf.math.argmax(tf.reverse(vector, [0])), tf.constant(-1, dtype=tf.int64))
         else:
             return tf.constant(0, dtype=tf.int64)
@@ -49,7 +49,7 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         return self.find_best_data(vector_up, vector_none, vector_down, calc_value)
 
-    #@tf.function(autograph=True)
+    @tf.function(autograph=True)
     def wrapper(self, inputs):
 
         for i in tf.range(0, tf.shape(inputs)[0]):
