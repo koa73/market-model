@@ -48,6 +48,7 @@ def prepare_model():
     #
 
     data.save_conf(model, sys.argv[1])  # Запись конфигурации скти для прерывания расчета
+
     # Сохранение модели с лучшими параметрами
     checkpointer = tf.keras.callbacks.ModelCheckpoint(monitor='accuracy',
                                                       filepath=dirPath + "weights_" + sys.argv[1] + ".h5",
@@ -58,6 +59,9 @@ def prepare_model():
     # Остановка при переобучении. patience - сколько эпох мы ждем прежде чем прерваться.
     early_stopping = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', min_delta=0, patience=10, verbose=0,
                                                       mode='auto')
+    if not (class_weight[1] > 1):
+        print(model.summary())
+
     model.fit(X_train, y_train, class_weight=class_weight, validation_split=0.05, epochs=100,
               batch_size=10, verbose=1, shuffle=True, callbacks=[checkpointer, reduce_lr, early_stopping])
 
@@ -77,8 +81,6 @@ for i in seq(1, 10, 0.1):
     # Тренировка сети
     class_weight[0] = i
     model = prepare_model()
-    print(type(i))
-    print(model.summary())
 
     # ===================== Data load =========================
 
