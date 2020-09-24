@@ -21,12 +21,12 @@ class ModelMaker:
             input_dir = self.__fileDir + '/data/model_test/archive/models/'
         else:
             input_dir = self.__fileDir + path
-        print("Load file : " + input_dir + prefix + ".json  .....")
+        print("\n >>>>>>> Load file : " + input_dir + prefix + ".json  .....\n")
         json_file = open(input_dir + prefix + ".json", "r")
         model_json = json_file.read()
         json_file.close()
         model = tf.keras.models.model_from_json(model_json)
-        print("Load file : " + input_dir + prefix + ".h5  .....")
+        print("\n >>>>>>> Load file : " + input_dir + prefix + ".h5  .....\n")
         model.load_weights(input_dir + prefix +".h5")
         model.trainable = False
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
