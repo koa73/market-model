@@ -22,10 +22,10 @@ X_none, y_none = data.get_edu_data('edu','NONE_'+sys.argv[1], '2D')
 
 class_weight = {0: 1., 1: 1., 2: 1.}
 
-X_train = np.concatenate((X_down,X_up), axis=0)
-y_train = np.concatenate((y_down,y_up), axis=0)
-X_train = np.concatenate((X_train,X_none), axis=0)
-y_train = np.concatenate((y_train,y_none), axis=0)
+X_train = np.concatenate((X_down, X_up), axis=0)
+y_train = np.concatenate((y_down, y_up), axis=0)
+X_train = np.concatenate((X_train, X_none), axis=0)
+y_train = np.concatenate((y_train, y_none), axis=0)
 
 sec = str(time.time())
 input_layer_1 = tf.keras.layers.Input(shape=(24,), name='1'+sec)
