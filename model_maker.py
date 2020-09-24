@@ -77,8 +77,8 @@ for i in seq(1, 10, 0.1):
     # Тренировка сети
     class_weight[0] = i
     model = prepare_model()
-    if(i == 1.):
-        print(model.summary())
+    print(type(i))
+    print(model.summary())
 
     # ===================== Data load =========================
 
