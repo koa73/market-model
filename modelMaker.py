@@ -158,7 +158,7 @@ class ModelMaker:
                     output.writerow(['Date', 'Gold', 'Shit', 'Rel Error', 'Abs Error', 'Model', 'Comment'])
 
                 output.writerow(
-                    [dateTime, gold, shit, relErr, absErr, model_name + "_" + str(file_count) + ".h5", comment])
+                    [dateTime, gold, shit, relErr, absErr, model_name + "_" + str(int(file_count)) + ".h5", comment])
             csv_out_file.close()
 
         except FileNotFoundError:
