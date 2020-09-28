@@ -14,9 +14,9 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def find_best_data(self, up, none, down, idx):
 
-        idx = tf.cond(tf.equal(idx, 0), lambda: tf.constant(1, dtype=tf.int64),
-                      lambda: tf.cond(tf.equal(idx, 1), lambda: tf.constant(0, dtype=tf.int64),
-                                      lambda : tf.constant(2, dtype=tf.int64)))
+        idx = tf.cond(tf.equal(idx, 0), lambda: tf.constant(1, dtype=tf.int32),
+                      lambda: tf.cond(tf.equal(idx, 1), lambda: tf.constant(0, dtype=tf.int32),
+                                      lambda : tf.constant(2, dtype=tf.int32)))
 
         offset = tf.math.multiply(tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]),
                                                             tf.slice(down, [idx], [1])], 0)), tf.constant(3, dtype=tf.int64))
