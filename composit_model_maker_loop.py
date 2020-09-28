@@ -10,9 +10,6 @@ data = d.ModelMaker()
 
 print("Start composit model making ....")
 
-if (len(sys.argv) < 2):
-    print("Argument not found ")
-    exit(0)
 
 # ===================== Case Data load =========================
 
@@ -20,9 +17,6 @@ X_down, y_down = data.get_check_data('test', 'DOWN_b38', '2D')
 X_up, y_up = data.get_check_data('test', 'UP_b38', '2D')
 X_none, y_none = data.get_check_data('test', 'NONE_b38', '2D')
 
-up_array = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,15,17,18,19,20,21,22,23,24,25,26,27,28]
-none_array = []
-down_array = []
 
 def calculate_model(model_up, model_none, model_down, idx, comment):
     # ===================== Build model =============================
@@ -36,8 +30,8 @@ def calculate_model(model_up, model_none, model_down, idx, comment):
     print(model.summary())
     data.save_conf(model, 'composite_4')  # Запись конфигурации скти для прерывания расчета
 
-    model.fit([X_up, X_none, X_down], y_down, validation_split=0.05, epochs=2, batch_size=10, verbose=1)
-    model.save(data.get_file_dir() + "/data/model_test/weights_composite_4.h5")
+    #model.fit([X_up, X_none, X_down], y_down, validation_split=0.05, epochs=2, batch_size=10, verbose=1)
+    model.save(data.get_file_dir() + "/data/model_test/weights_composite_"+str(idx)+".h5")
 
     # ===================== Make prediction =====================
     y_up_pred_test = model.predict([X_up, X_up, X_up])
@@ -46,7 +40,7 @@ def calculate_model(model_up, model_none, model_down, idx, comment):
 
     # ===================== Model checker =======================
 
-    data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, 'composite_4', )
+    data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, 'composite_'+str(idx), comment)
 
 
 i = 10
