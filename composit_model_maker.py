@@ -21,7 +21,7 @@ X_up, y_up = data.get_check_data('test', 'UP_b38', '2D')
 X_none, y_none = data.get_check_data('test', 'NONE_b38', '2D')
 
 # ====================== Load static models =====================
-model_up = data.model_loader('weights_b25_150_43')  # 3.18 х 0.271
+model_up = data.model_loader('weights_b25_150_55')  # 3.18 х 0.271
 model_none = data.model_loader('weights_b25_150_126') # 2.1 х 0.263
 model_down = data.model_loader('weights_b25_150_80') # 3.5 х 0.295
 
@@ -46,7 +46,7 @@ y_down_pred_test = model.predict([X_down, X_down, X_down])
 
 # ===================== Model checker =======================
 
-data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, 'composite_2', '43,126,80')
+data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, 'composite_2', '55,126,80')
 
 y_pred_test = np.zeros(shape=(y_up.shape[0], 9))     # Сюда положим результаты прогона X_up моделями up, none, down
 
