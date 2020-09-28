@@ -44,7 +44,7 @@ def calculate_model(model_up, model_none, model_down, idx, comment):
 
 
 i = 10
-for up in range(28) and range(34,57):
+for up in range(0,28) and range(34,57):
     for none in range(120, 134):
         for down in range(63, 119):
             # ====================== Load static models =====================
@@ -54,6 +54,7 @@ for up in range(28) and range(34,57):
             model_d = data.model_loader('weights_b25_150_' + str(down))  # 3.5 х 0.295
             calculate_model(model_u, model_n, model_d, i, str(up)+', '+str(none)+', '+str(down))
             i +=1
+            input()
 
 
 
