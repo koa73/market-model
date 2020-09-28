@@ -56,4 +56,4 @@ for i in range(0, y_up_pred_test.shape[0]):
                       y_down_pred_test[i, 0], y_down_pred_test[i, 1], y_down_pred_test[i, 2]]
 
 print("====== Save predicted data ======\n")
-np.savetxt(data.get_file_dir() + '/data/complex_1.csv', y_pred_test, delimiter=';')
+np.savetxt(data.get_file_dir() + '/data/complex_4.csv', y_pred_test, delimiter=';')
