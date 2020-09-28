@@ -28,7 +28,7 @@ def calculate_model(model_up, model_none, model_down, idx, comment):
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     #
     print(model.summary())
-    data.save_conf(model, 'composite_4')  # Запись конфигурации скти для прерывания расчета
+    data.save_conf(model, 'composite_'+str(idx))  # Запись конфигурации скти для прерывания расчета
 
     #model.fit([X_up, X_none, X_down], y_down, validation_split=0.05, epochs=2, batch_size=10, verbose=1)
     model.save(data.get_file_dir() + "/data/model_test/weights_composite_"+str(idx)+".h5")
@@ -49,12 +49,11 @@ for up in range(0, 28) and range(34, 57):
         for down in range(63, 119):
             # ====================== Load static models =====================
             print('>>>>>> Check models UP: '+str(up)+', None: '+str(none)+', Down: '+str(down))
-            model_u = data.model_loader('weights_b25_150_'+ str(up))  # 3.18 х 0.271
-            model_n = data.model_loader('weights_b25_150_' + str(none))  # 2.1 х 0.263
-            model_d = data.model_loader('weights_b25_150_' + str(down))  # 3.5 х 0.295
+            model_u = data.model_loader('weights_b25_150_'+ str(up))
+            model_n = data.model_loader('weights_b25_150_' + str(none))
+            model_d = data.model_loader('weights_b25_150_' + str(down))
             calculate_model(model_u, model_n, model_d, i, str(up)+', '+str(none)+', '+str(down))
-            i +=1
-            input()
+            i += 1
 
 
 
