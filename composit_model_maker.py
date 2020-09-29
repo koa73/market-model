@@ -14,6 +14,11 @@ if (len(sys.argv) < 2):
     print("Argument not found ")
     exit(0)
 
+# ===================== Load Education Data ====================
+
+X, y = data.get_edu_data('edu', sys.argv[1], '2D')
+
+
 # ===================== Case Data load =========================
 
 X_down, y_down = data.get_check_data('test', 'DOWN_b38', '2D')
@@ -21,9 +26,9 @@ X_up, y_up = data.get_check_data('test', 'UP_b38', '2D')
 X_none, y_none = data.get_check_data('test', 'NONE_b38', '2D')
 
 # ====================== Load static models =====================
-model_up = data.model_loader('weights_b25_150_43')  # 3.18 х 0.271
-model_none = data.model_loader('weights_b25_150_126') # 2.1 х 0.263
-model_down = data.model_loader('weights_b25_150_74') # 3.5 х 0.295
+model_up = data.model_loader('weights_b25_150_43')
+model_none = data.model_loader('weights_b25_150_126')
+model_down = data.model_loader('weights_b25_150_74')
 
 # ===================== Build model =============================
 
@@ -41,7 +46,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 print(model.summary())
 data.save_conf(model,'composite_8')                                                  # Запись конфигурации скти для прерывания расчета
 
-model.fit([X_up, X_none, X_down], y_down, validation_split=0.05, epochs=2, batch_size=10, verbose=1)
+model.fit([X, X, X], y, validation_split=0.05, epochs=2, batch_size=10, verbose=1)
 model.save(data.get_file_dir() + "/data/model_test/weights_composite_8.h5")
 
 # ===================== Make prediction =====================
@@ -61,4 +66,4 @@ for i in range(0, y_up_pred_test.shape[0]):
                       y_down_pred_test[i, 0], y_down_pred_test[i, 1], y_down_pred_test[i, 2]]
 
 print("====== Save predicted data ======\n")
-np.savetxt(data.get_file_dir() + '/data/complex_4.csv', y_pred_test, delimiter=';')
+np.savetxt(data.get_file_dir() + '/data/complex_8.csv', y_pred_test, delimiter=';')
