@@ -29,15 +29,20 @@ model_down = data.model_loader('weights_b25_150_74') # 3.5 х 0.295
 
 print("------------------- Build -------")
 input_layer_1 = tf.keras.layers.concatenate([model_up.output, model_none.output, model_down.output])
-output = c.ConcatLayer()(input_layer_1)
+concat = c.ConcatLayer()(input_layer_1)
+d2_dense = tf.keras.layers.Dense(12, activation='sigmoid', name='2')(concat)
+d3_dense = tf.keras.layers.Dense(34, activation='sigmoid', name='3')(d2_dense)
+d4_dense = tf.keras.layers.Dense(34, activation='sigmoid', name='4')(d3_dense)
+d5_dense = tf.keras.layers.Dense(6, activation='sigmoid', name='5')(d4_dense)
+output = tf.keras.layers.Dense(3, activation='sigmoid', name='6')(d5_dense)
 model = tf.keras.models.Model(inputs=[model_up.inputs, model_none.inputs, model_down.inputs], outputs=[output])
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 #
 print(model.summary())
-data.save_conf(model,'composite_4')                                                  # Запись конфигурации скти для прерывания расчета
+data.save_conf(model,'composite_8')                                                  # Запись конфигурации скти для прерывания расчета
 
 model.fit([X_up, X_none, X_down], y_down, validation_split=0.05, epochs=2, batch_size=10, verbose=1)
-model.save(data.get_file_dir() + "/data/model_test/weights_composite_4.h5")
+model.save(data.get_file_dir() + "/data/model_test/weights_composite_8.h5")
 
 # ===================== Make prediction =====================
 y_up_pred_test = model.predict([X_up, X_up, X_up])
@@ -46,7 +51,7 @@ y_down_pred_test = model.predict([X_down, X_down, X_down])
 
 # ===================== Model checker =======================
 
-data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, 'composite_4', '55,126,74')
+#data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, 'composite_8', '55,126,74')
 
 y_pred_test = np.zeros(shape=(y_up.shape[0], 9))     # Сюда положим результаты прогона X_up моделями up, none, down
 
