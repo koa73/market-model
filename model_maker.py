@@ -44,8 +44,7 @@ def prepare_model():
     #
     model = tf.keras.models.Model(inputs=[input_layer_1], outputs=[output])
     #
-    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'],
-                  experimental_run_tf_function=False)
+    model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     #
 
     data.save_conf(model, sys.argv[1])  # Запись конфигурации скти для прерывания расчета
