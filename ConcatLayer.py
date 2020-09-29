@@ -49,7 +49,7 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         return self.find_best_data(vector_up, vector_none, vector_down, calc_value)
 
-    @tf.function(autograph=True)
+    #@tf.function(autograph=True)
     def wrapper(self, inputs):
 
         for i in tf.range(0, tf.shape(inputs)[0]):
