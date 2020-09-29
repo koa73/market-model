@@ -44,9 +44,9 @@ def calculate_model(model_up, model_none, model_down, idx, comment):
 
 
 i = 10
-for up in (list(range(0, 28))+list(range(34, 57))):
-    for none in range(120, 134):
-        for down in range(63, 119):
+for up in (list(range(9, 28))+list(range(34, 57))):
+    for none in range(131, 134):
+        for down in range(102, 119):
             # ====================== Load static models =====================
             print('>>>>>> Check models UP: '+str(up)+', None: '+str(none)+', Down: '+str(down))
             model_u = data.model_loader('weights_b25_150_'+ str(up))
