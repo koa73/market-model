@@ -22,6 +22,7 @@ class ConcatLayer(tf.keras.layers.Layer):
                                                             tf.slice(down, [idx], [1])], 0)), tf.constant(3, dtype=tf.int64))
         return tf.slice(tf.concat([up, none, down], 0), [tf.cast(offset, dtype=tf.int32)], [3])
 
+
     def remove_ex_data(self, vector, max_idx, calc_value):
 
         calc_value = tf.cond(tf.equal(calc_value, 0), lambda: calc_value, lambda: tf.cond(
@@ -50,14 +51,18 @@ class ConcatLayer(tf.keras.layers.Layer):
         return self.find_best_data(vector_up, vector_none, vector_down, calc_value)
 
     @tf.function(autograph=True)
-    def wrapper(self, inputs):
-        for i in tf.range(0, tf.shape(inputs)[0]):
-             self.total = tf.concat([self.total, tf.reshape(self.concat_result(inputs[i]), [1, 3])], 0)
-
-        return self.total
-
     def call(self, inputs, **kwargs):
-        return self.wrapper(inputs)
+
+        outputs = tf.TensorArray(dtype=tf.float64, infer_shape=False, size=1,
+                                 dynamic_size=True)
+
+        for i in tf.range(0, tf.shape(inputs)[0]):
+            #res = tf.concat([self.res, tf.reshape(self.concat_result(inputs[i]), [1, 3])], 0)
+            outputs.write(i, tf.reshape(self.concat_result(inputs[i]), [1, 3]))
+
+        input(outputs)
+        self.total = tf.slice(inputs, [0, 0], [-1, 3])
+        return self.total
 
     def __init__(self):
         super(ConcatLayer, self).__init__(dtype=tf.float64)

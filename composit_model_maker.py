@@ -46,7 +46,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 print(model.summary())
 data.save_conf(model,'composite_8')                                                  # Запись конфигурации скти для прерывания расчета
 
-model.fit([X, X, X], y, validation_split=0.05, epochs=100, batch_size=10, verbose=1)
+model.fit([X, X, X], y, validation_split=0.05, epochs=100, batch_size=1, verbose=1)
 model.save(data.get_file_dir() + "/data/model_test/weights_composite_8.h5")
 
 # ===================== Make prediction =====================
