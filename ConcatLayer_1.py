@@ -21,11 +21,6 @@ class ConcatLayer(tf.keras.layers.Layer):
         offset = tf.math.multiply(tf.math.argmax(tf.concat([tf.slice(up, [idx], [1]), tf.slice(none, [idx], [1]),
                                                             tf.slice(down, [idx], [1])], 0)), tf.constant(3, dtype=tf.int64))
 
-        #return tf.cond(tf.equal(offset, 0), lambda: tf.constant([1,1,1,0,0,0,0,0,0], dtype=tf.float64),
-        #              lambda: tf.cond(tf.equal(offset, 3), lambda: tf.constant([0,0,0,1,1,1,0,0,0], dtype=tf.float64),
-        #                              lambda: tf.constant([0,0,0,0,0,0,1,1,1], dtype=tf.float64)))
-
-
         return tf.slice(tf.concat([up, none, down], 0), [tf.cast(offset, dtype=tf.int32)], [3])
 
 
@@ -60,15 +55,7 @@ class ConcatLayer(tf.keras.layers.Layer):
     #@tf.function(autograph=True)
     def wrapper(self, inputs):
 
-        _, self.total = tf.while_loop(cond=lambda i, output: tf.less(i, tf.shape(inputs)[0]),
-                                  body=lambda i, output: (i+1, tf.concat([output, (tf.reshape(
-                                      self.concat_result(inputs[i]), [1, 3]))], 0)),
-                                  loop_vars=(tf.constant(0, dtype=tf.int32), self.total)
-                                  )
-        #for i in tf.range(0, tf.shape(inputs)[0]):
-        #    self.total = tf.concat([self.total, (tf.reshape(self.concat_result(inputs[i]), [1, 3]))], 0)
-
-        return self.total
+        return tf.reshape(self.concat_result(inputs[0]), [1, 3])
 
     def call(self, inputs, **kwargs):
         return self.wrapper(inputs)
