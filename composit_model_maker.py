@@ -4,7 +4,7 @@ import tensorflow as tf
 import sys
 import numpy as np
 import modelMaker as d
-import ConcatLayer_1 as c
+import ConcatLayer as c
 
 data = d.ModelMaker()
 
@@ -41,12 +41,12 @@ d4_dense = tf.keras.layers.Dense(34, activation='sigmoid', name='4')(d3_dense)
 d5_dense = tf.keras.layers.Dense(12, activation='sigmoid', name='5')(d4_dense)
 output = tf.keras.layers.Dense(3, activation='sigmoid', name='6')(d5_dense)
 model = tf.keras.models.Model(inputs=[model_up.inputs, model_none.inputs, model_down.inputs], outputs=[output])
-model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'], experimental_run_tf_function=False)
+model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 #
 print(model.summary())
 data.save_conf(model,'composite_8')                                                  # Запись конфигурации скти для прерывания расчета
 
-model.fit([X, X, X], y, validation_split=0.05, epochs=100, batch_size=1, verbose=1)
+model.fit([X, X, X], y, validation_split=0.05, epochs=100, batch_size=10, verbose=1)
 model.save(data.get_file_dir() + "/data/model_test/weights_composite_8.h5")
 
 # ===================== Make prediction =====================
