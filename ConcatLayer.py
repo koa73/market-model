@@ -58,10 +58,8 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     @tf.function(autograph=True)
     def wrapper(self, inputs):
-        ta = tf.TensorArray(dtype=tf.float64, infer_shape=False, size=1, dynamic_size=True)
         for i in tf.range(0, tf.shape(inputs)[0]):
-            #ta.write(i,  self.concat_result(inputs[i]))
-            self.total.assign(tf.concat([self.total, (tf.reshape(self.concat_result(inputs[i]), [1, 3]))], 0))
+            self.total = tf.concat([self.total, (tf.reshape(self.concat_result(inputs[i]), [1, 3]))], 0)
 
         return self.total
 
