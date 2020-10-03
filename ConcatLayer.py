@@ -43,7 +43,7 @@ class ConcatLayer(tf.keras.layers.Layer):
         max_index_down = self.get_max_index(vector_down)
 
         calc_value = tf.math.multiply(tf.math.abs(max_index_none),
-                                      tf.math.add_n([max_index_up, max_index_down]))
+                                      tf.math.add_n([max_index_up, max_index_down, max_index_none]))
 
         vector_up = self.remove_ex_data(vector_up, max_index_up, calc_value)
         vector_none = self.remove_ex_data(vector_none, max_index_none, calc_value)
