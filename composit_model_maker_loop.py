@@ -44,8 +44,8 @@ def calculate_model(model_up, model_none, model_down, idx, comment):
 
 
 i = 10
-for up in (list(range(19, 28))+list(range(34, 53))):
-#for up in (list(range(52, 57))):
+#for up in (list(range(19, 28))+list(range(34, 53))):
+for up in (list(range(34, 57))):
     for none in range(120, 135):
         for down in range(63, 120):
             # ====================== Load static models =====================
