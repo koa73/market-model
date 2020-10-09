@@ -78,10 +78,15 @@ class ConcatLayer(tf.keras.layers.Layer):
     def call(self, inputs, **kwargs):
         return self.wrapper(inputs)
 
-    def __init__(self):
+
+    #def __init__(self):
+
+        #super(ConcatLayer, self).__init__(dtype=tf.float64, trainable=False)
+
+    def __init__(self, trainable=False, name=None, dtype=tf.float64, dynamic=False, **kwargs):
         self.output_dim = 3
         self.total = tf.Variable((np.empty((0, 3), dtype=np.float64)), shape=[None, 3])
-        super(ConcatLayer, self).__init__(dtype=tf.float64, trainable=False)
+        super().__init__(trainable, name, dtype, dynamic, **kwargs)
 
 
 
