@@ -63,4 +63,4 @@ i = 10
 model_u = data.model_loader('weights_composite_10_138')
 model_n = data.model_loader('weights_composite_11_139')
 model_d = data.model_loader('weights_composite_12_140')
-calculate_model(model_u, model_n, model_d, '', '10_138_11_139_12_140')
+calculate_model(model_u, model_n, model_d, i, '10_138_11_139_12_140')
