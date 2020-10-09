@@ -52,9 +52,16 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         return self.find_best_data(vector_up, vector_none, vector_down, calc_value)
 
+    def compute_output_shape(self, input_shape):
+        return (input_shape[0], self.output_dim)
+
+
     def get_config(self):
-        base_config = super(ConcatLayer, self).get_config()
-        return dict(list(base_config.items()))
+      config = {
+      'output_dim': self.output_dim
+      }
+      base_config = super(ConcatLayer, self).get_config()
+      return dict(list(base_config.items()) + list(config.items()))
 
     @tf.function(autograph=True)
     def wrapper(self, inputs):
@@ -71,11 +78,11 @@ class ConcatLayer(tf.keras.layers.Layer):
     def call(self, inputs, **kwargs):
         return self.wrapper(inputs)
 
-
-
     def __init__(self):
-        super(ConcatLayer, self).__init__(dtype=tf.float64)
+        self.output_dim = 3
         self.total = tf.Variable((np.empty((0, 3), dtype=np.float64)), shape=[None, 3])
+        super(ConcatLayer, self).__init__(dtype=tf.float64, trainable=False)
+
 
 
 
