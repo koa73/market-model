@@ -6,7 +6,7 @@ from datetime import datetime
 import numpy as np
 from shutil import copyfile
 import tensorflow as tf
-import ConcatLayer
+import ConcatLayer as c
 from keras.utils import CustomObjectScope
 
 
@@ -24,7 +24,7 @@ class ModelMaker:
         else:
             input_dir = self.__fileDir + path
         print("\n >>>>>>> Load file : " + input_dir + prefix + ".json  .....\n")
-        with CustomObjectScope({'ConcatLayer': ConcatLayer}):
+        with CustomObjectScope({'ConcatLayer': c}):
          json_file = open(input_dir + prefix + ".json", "r")
          model_json = json_file.read()
          json_file.close()
