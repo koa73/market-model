@@ -6,7 +6,7 @@ from datetime import datetime
 import numpy as np
 from shutil import copyfile
 import tensorflow as tf
-from ConcatLayer import ConcatLayer
+from ConcatLayer_3 import ConcatLayer
 from keras.utils import CustomObjectScope
 
 

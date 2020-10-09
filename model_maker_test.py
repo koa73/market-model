@@ -3,7 +3,7 @@
 import tensorflow as tf
 import sys
 import dataMiner as D
-import ConcatLayer as c
+import ConcatLayer_3 as c
 import Antirictifier as A
 
 data = D.DataMiner(3)

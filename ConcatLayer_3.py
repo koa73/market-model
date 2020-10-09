@@ -43,7 +43,7 @@ class ConcatLayer(tf.keras.layers.Layer):
         max_index_down = self.get_max_index(vector_down)
 
         calc_value = tf.math.multiply(tf.math.abs(max_index_none),
-                                      tf.math.add_n([max_index_up, max_index_down, max_index_none]))
+                                      tf.math.add_n([max_index_up, max_index_down]))
         #calc_value = tf.math.add_n([max_index_up, max_index_down, max_index_none])
 
         vector_up = self.remove_ex_data(vector_up, max_index_up, calc_value)
@@ -51,6 +51,12 @@ class ConcatLayer(tf.keras.layers.Layer):
         vector_down = self.remove_ex_data(vector_down, max_index_down, calc_value)
 
         return self.find_best_data(vector_up, vector_none, vector_down, calc_value)
+
+    def compute_output_shape(self, input_shape):
+        return (input_shape[0], self.output_dim)
+
+    def get_config(self):
+        return super().get_config()
 
     @tf.function(autograph=True)
     def wrapper(self, inputs):
@@ -64,29 +70,17 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         return self.total
 
+    def call(self, inputs, **kwargs):
+        return self.wrapper(inputs)
+
     def __init__(self, trainable=False, name=None, dtype=tf.float64, dynamic=False, **kwargs):
         self.output_dim = 3
         self.total = tf.Variable((np.empty((0, 3), dtype=np.float64)), shape=[None, 3])
         super().__init__(trainable, name, dtype, dynamic, **kwargs)
 
-    def build(self, input_shape):
-        # Create a trainable weight variable for this layer.
-        self.kernel = self.add_weight(name='kernel',
-                                      shape=(input_shape[1], self.output_dim),
-                                      initializer='uniform',
-                                      trainable=True)
-        super(ConcatLayer, self).build(input_shape)  # Be sure to call this at the end
-
-    def call(self, x):
-        return self.wrapper(x)
-
-    def compute_output_shape(self, input_shape):
-        return (input_shape[0], self.output_dim)
 
 
-    def get_config(self):
-      config = {
-      'output_dim': self.output_dim
-      }
-      base_config = super(ConcatLayer, self).get_config()
-      return dict(list(base_config.items()) + list(config.items()))
+
+
+
+
