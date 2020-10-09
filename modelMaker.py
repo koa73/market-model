@@ -29,7 +29,7 @@ class ModelMaker:
         json_file.close()
         model = tf.keras.models.model_from_json(model_json, custom_objects={'ConcatLayer': ConcatLayer})
         print("\n >>>>>>> Load file : " + input_dir + prefix + ".h5  .....\n")
-        model.load_weights(input_dir + prefix +".h5")
+        model.load_weights(input_dir + prefix +".h5", custom_objects={'ConcatLayer': ConcatLayer})
         model.trainable = False
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
         return model
