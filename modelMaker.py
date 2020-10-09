@@ -6,7 +6,8 @@ from datetime import datetime
 import numpy as np
 from shutil import copyfile
 import tensorflow as tf
-import ConcatLayer as c
+import ConcatLayer
+from keras.utils import CustomObjectScope
 
 
 class ModelMaker:
@@ -26,7 +27,7 @@ class ModelMaker:
         json_file = open(input_dir + prefix + ".json", "r")
         model_json = json_file.read()
         json_file.close()
-        model = tf.keras.models.model_from_json(model_json)
+        model = tf.keras.models.model_from_json(model_json, custom_objects={'ConcatLayer': ConcatLayer})
         print("\n >>>>>>> Load file : " + input_dir + prefix + ".h5  .....\n")
         model.load_weights(input_dir + prefix +".h5")
         model.trainable = False

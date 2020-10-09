@@ -52,6 +52,8 @@ class ConcatLayer(tf.keras.layers.Layer):
 
         return self.find_best_data(vector_up, vector_none, vector_down, calc_value)
 
+    def get_config(self):
+        return super().get_config()
 
     @tf.function(autograph=True)
     def wrapper(self, inputs):
