@@ -87,6 +87,8 @@ class ConcatLayer(tf.keras.layers.Layer):
         return super()._add_trackable(trackable_object, trainable)
 
     def get_config(self):
-
-      base_config = super(ConcatLayer, self).get_config()
-      return dict(list(base_config.items()))
+        config = {
+            'output_dim': self.output_dim
+        }
+        base_config = super(ConcatLayer, self).get_config()
+        return dict(list(base_config.items()) + list(config.items()))

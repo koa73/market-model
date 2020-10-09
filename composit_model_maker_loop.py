@@ -4,7 +4,7 @@ import tensorflow as tf
 import sys
 import numpy as np
 import modelMaker as d
-import ConcatLayer_3 as c
+import ConcatLayer as c
 
 data = d.ModelMaker()
 
