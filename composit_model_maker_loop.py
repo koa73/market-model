@@ -60,6 +60,6 @@ i = 10
     #calculate_model(model_u, model_n, model_d, i, str(x1[x]) + ', ' + str(x2[x]) + ', ' + str(x3[x]))
     #i += 1
 model_u = data.model_loader('weights_composite_10_135')
-model_n = data.model_loader('weights_composite_12_137')
-model_d = data.model_loader('weights_composite_15_140')
-calculate_model(model_u, model_n, model_d, i, '10_135_11_136_12_137')
+model_n = data.model_loader('weights_composite_18_143')
+model_d = data.model_loader('weights_composite_21_146')
+calculate_model(model_u, model_n, model_d, i, '10_135_18_143_21_146')
