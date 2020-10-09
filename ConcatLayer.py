@@ -64,22 +64,12 @@ class ConcatLayer(tf.keras.layers.Layer):
         self.total = tf.Variable((np.empty((0, 3), dtype=np.float64)), shape=[None, 3])
         super().__init__(trainable, name, dtype, dynamic, **kwargs)
 
-    def build(self, input_shape):
-        # Create a trainable weight variable for this layer.
-        self.kernel = self.add_weight(name='kernel',
-                                      shape=(input_shape[1], self.output_dim),
-                                      initializer='uniform',
-                                      trainable=True)
-        super(ConcatLayer, self).build(input_shape)  # Be sure to call this at the end
-
-    def call(self, x):
-        return self.wrapper(x)
+    def call(self, inputs, **kwargs):
+        return self.wrapper(inputs)
 
     def compute_output_shape(self, input_shape):
         return (input_shape[0], self.output_dim)
 
-    def _add_trackable(self, trackable_object, trainable):
-        return super()._add_trackable(trackable_object, trainable)
 
     def get_config(self):
         base_config = super(ConcatLayer, self).get_config()
