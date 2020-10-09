@@ -27,7 +27,7 @@ class ModelMaker:
         json_file = open(input_dir + prefix + ".json", "r")
         model_json = json_file.read()
         json_file.close()
-        model = tf.keras.models.model_from_json(model_json,  custom_objects={'ConcatLayer':ConcatLayer})
+        model = tf.keras.models.model_from_json(model_json,  custom_objects={'ConcatLayer': ConcatLayer})
         print("\n >>>>>>> Load file : " + input_dir + prefix + ".h5  .....\n")
         model.load_weights(input_dir + prefix +".h5")
         model.trainable = False
