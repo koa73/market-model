@@ -32,7 +32,6 @@ def calculate_model(model_up, model_none, model_down, idx, comment):
     print(model.summary())
     data.save_conf(model, 'composite_'+str(idx))  # Запись конфигурации скти для прерывания расчета
 
-    #model.fit([X_up, X_none, X_down], y_down, validation_split=0.05, epochs=2, batch_size=10, verbose=1)
     model.save(data.get_file_dir() + "/data/model_test/weights_composite_"+str(idx)+".h5")
 
     # ===================== Make prediction =====================
@@ -46,17 +45,18 @@ def calculate_model(model_up, model_none, model_down, idx, comment):
 
 
 i = 10
-for up in (list(range(0, 28))+list(range(34, 53))):
+#for up in (list(range(0, 28))+list(range(34, 53))):
 #for up in (list(range(18, 19))):
-    for none in range(120, 135):
-        for down in range(63, 120):
-            # ====================== Load static models =====================
-            print('>>>>>> Check models UP: '+str(up)+', None: '+str(none)+', Down: '+str(down))
-            model_u = data.model_loader('weights_b25_150_'+ str(up))
-            model_n = data.model_loader('weights_b25_150_' + str(none))
-            model_d = data.model_loader('weights_b25_150_' + str(down))
-            calculate_model(model_u, model_n, model_d, i, str(up)+', '+str(none)+', '+str(down))
-            i += 1
+    #for none in range(120, 135):
+     #   for down in range(63, 120):
 
 
 
+for x in range (len(x1)):
+    # ====================== Load static models =====================
+    print('>>>>>> Check models UP: ' + str(x1[x]) + ', None: ' + str(x2[x]) + ', Down: ' + str(x3[x]))
+    model_u = data.model_loader('weights_b25_150_' + str(x1[x]))
+    model_n = data.model_loader('weights_b25_150_' + str(x2[x]))
+    model_d = data.model_loader('weights_b25_150_' + str(x3[x]))
+    calculate_model(model_u, model_n, model_d, i, str(x1[x]) + ', ' + str(x2[x]) + ', ' + str(x3[x]))
+    i += 1
