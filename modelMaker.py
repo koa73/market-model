@@ -6,6 +6,7 @@ from datetime import datetime
 import numpy as np
 from shutil import copyfile
 import tensorflow as tf
+import ConcatLayer as c
 
 
 class ModelMaker:
