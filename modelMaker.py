@@ -24,12 +24,13 @@ class ModelMaker:
         else:
             input_dir = self.__fileDir + path
         print("\n >>>>>>> Load file : " + input_dir + prefix + ".json  .....\n")
-        json_file = open(input_dir + prefix + ".json", "r")
-        model_json = json_file.read()
-        json_file.close()
-        model = tf.keras.models.model_from_json(model_json, custom_objects={'ConcatLayer': ConcatLayer})
+        with CustomObjectScope({'ConcatLayer': ConcatLayer}):
+         json_file = open(input_dir + prefix + ".json", "r")
+         model_json = json_file.read()
+         json_file.close()
+         model = tf.keras.models.model_from_json(model_json, custom_objects={'ConcatLayer': ConcatLayer})
         print("\n >>>>>>> Load file : " + input_dir + prefix + ".h5  .....\n")
-        model.load_weights(input_dir + prefix +".h5", custom_objects={'ConcatLayer': ConcatLayer})
+        model.load_weights(input_dir + prefix +".h5")
         model.trainable = False
         model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
         return model
