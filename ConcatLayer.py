@@ -58,7 +58,7 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def get_config(self):
       config = {
-      'output_dim': self.output_dim
+        'output_dim': self.output_dim
       }
       base_config = super(ConcatLayer, self).get_config()
       return dict(list(base_config.items()) + list(config.items()))
@@ -77,11 +77,6 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     def call(self, inputs, **kwargs):
         return self.wrapper(inputs)
-
-
-    #def __init__(self):
-
-        #super(ConcatLayer, self).__init__(dtype=tf.float64, trainable=False)
 
     def __init__(self, trainable=False, name=None, dtype=tf.float64, dynamic=False, **kwargs):
         self.output_dim = 3
