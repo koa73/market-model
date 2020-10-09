@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-
+import time
 import tensorflow as tf
 import sys
 import numpy as np
@@ -23,8 +23,9 @@ x3 = [70, 70, 70, 70, 70, 70, 70, 70, 68, 69, 70, 69, 69, 70, 70, 70, 69, 70, 70
 def calculate_model(model_up, model_none, model_down, idx, comment):
     # ===================== Build model =============================
 
+    sec = str(time.time())
     print("------------------- Build -------")
-    input_layer_1 = tf.keras.layers.concatenate([model_up.output, model_none.output, model_down.output])
+    input_layer_1 = tf.keras.layers.concatenate([model_up.output, model_none.output, model_down.output], name='1' + sec)
     output = c.ConcatLayer()(input_layer_1)
     model = tf.keras.models.Model(inputs=[model_up.inputs, model_none.inputs, model_down.inputs], outputs=[output])
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])

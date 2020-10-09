@@ -26,9 +26,9 @@ X_up, y_up = data.get_check_data('test', 'UP_b38', '2D')
 X_none, y_none = data.get_check_data('test', 'NONE_b38', '2D')
 
 # ====================== Load static models =====================
-model_up = data.model_loader('weights_b25_150_43')
-model_none = data.model_loader('weights_b25_150_126')
-model_down = data.model_loader('weights_b25_150_74')
+model_up = data.model_loader('weights_b25_150_52')
+model_none = data.model_loader('weights_b25_150_133')
+model_down = data.model_loader('weights_b25_150_70')
 
 # ===================== Build model =============================
 
@@ -46,7 +46,7 @@ model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accur
 print(model.summary())
 data.save_conf(model,'composite_8')                                                  # Запись конфигурации скти для прерывания расчета
 
-model.fit([X, X, X], y, validation_split=0.05, epochs=100, batch_size=10, verbose=1)
+model.fit([X, X, X], y, validation_split=0.05, epochs=100, batch_size=1, verbose=1)
 model.save(data.get_file_dir() + "/data/model_test/weights_composite_8.h5")
 
 # ===================== Make prediction =====================
