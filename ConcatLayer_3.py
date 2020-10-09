@@ -55,8 +55,13 @@ class ConcatLayer(tf.keras.layers.Layer):
     def compute_output_shape(self, input_shape):
         return (input_shape[0], self.output_dim)
 
+
     def get_config(self):
-        return super().get_config()
+      config = {
+        'output_dim': self.output_dim
+      }
+      base_config = super(ConcatLayer, self).get_config()
+      return dict(list(base_config.items()) + list(config.items()))
 
     @tf.function(autograph=True)
     def wrapper(self, inputs):
