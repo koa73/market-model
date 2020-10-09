@@ -30,7 +30,7 @@ def calculate_model(model_up, model_none, model_down, idx, comment):
     model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
     #
     print(model.summary())
-    data.save_conf(model, 'composite_'+str(idx))  # Запись конфигурации скти для прерывания расчета
+    data.save_conf(model, 'composite_'+str(idx))  # Запись конфигурации сети для прерывания расчета
 
     model.save(data.get_file_dir() + "/data/model_test/weights_composite_"+str(idx)+".h5")
 
