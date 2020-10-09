@@ -51,15 +51,15 @@ i = 10
      #   for down in range(63, 120):
 
 
-for x in range (len(x1)):
+#for x in range (len(x1)):
     # ====================== Load static models =====================
-    print('>>>>>> Check models UP: ' + str(x1[x]) + ', None: ' + str(x2[x]) + ', Down: ' + str(x3[x]))
-    model_u = data.model_loader('weights_b25_150_' + str(x1[x]))
-    model_n = data.model_loader('weights_b25_150_' + str(x2[x]))
-    model_d = data.model_loader('weights_b25_150_' + str(x3[x]))
-    calculate_model(model_u, model_n, model_d, i, str(x1[x]) + ', ' + str(x2[x]) + ', ' + str(x3[x]))
-    i += 1
+    #print('>>>>>> Check models UP: ' + str(x1[x]) + ', None: ' + str(x2[x]) + ', Down: ' + str(x3[x]))
+    #model_u = data.model_loader('weights_b25_150_' + str(x1[x]))
+    #model_n = data.model_loader('weights_b25_150_' + str(x2[x]))
+    #model_d = data.model_loader('weights_b25_150_' + str(x3[x]))
+    #calculate_model(model_u, model_n, model_d, i, str(x1[x]) + ', ' + str(x2[x]) + ', ' + str(x3[x]))
+    #i += 1
 model_u = data.model_loader('weights_composite_10_135')
-model_n = data.model_loader('weights_composite_11_136')
-model_d = data.model_loader('weights_composite_12_137')
+model_n = data.model_loader('weights_composite_12_137')
+model_d = data.model_loader('weights_composite_15_140')
 calculate_model(model_u, model_n, model_d, i, '10_135_11_136_12_137')
