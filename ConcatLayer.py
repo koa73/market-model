@@ -43,7 +43,7 @@ class ConcatLayer(tf.keras.layers.Layer):
         max_index_down = self.get_max_index(vector_down)
 
         calc_value = tf.math.multiply(tf.math.abs(max_index_none),
-                                      tf.math.add_n([max_index_up, max_index_down, max_index_none]))
+                                      tf.math.add_n([max_index_up, max_index_down]))
         #calc_value = tf.math.add_n([max_index_up, max_index_down, max_index_none])
 
         vector_up = self.remove_ex_data(vector_up, max_index_up, calc_value)
@@ -54,11 +54,6 @@ class ConcatLayer(tf.keras.layers.Layer):
 
     @tf.function(autograph=True)
     def wrapper(self, inputs):
-        #_, self.total = tf.while_loop(cond=lambda i, output: tf.less(i, tf.shape(inputs)[0]),
-        #                          body=lambda i, output: (i+1, tf.concat([output, (tf.reshape(
-        #                              self.concat_result(inputs[i]), [1, 3]))], 0)),
-        #                          loop_vars=(tf.constant(0, dtype=tf.int32), self.total)
-        #                         )
         for i in tf.range(0, tf.shape(inputs)[0]):
             self.total = tf.concat([self.total, (tf.reshape(self.concat_result(inputs[i]), [1, 3]))], 0)
 
