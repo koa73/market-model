@@ -75,7 +75,7 @@ def seq(start, end, step):
     return itertools.islice(itertools.count(start, step), sample_count)
 
 
-for i in seq(3.2, 4.0, 0.05):
+for i in seq(4.5, 6.5, 0.05):
 
     print ("----------------  Start new loop with value : "+ str(i))
     # Тренировка сети
@@ -84,7 +84,7 @@ for i in seq(3.2, 4.0, 0.05):
 
     # ===================== Data load =========================
 
-    X_down, y_down = data.get_check_data('test', 'DOWN_b38', '2D')
+    X_down, y_down = data.get_check_data('test', 'NONE_b38', '2D')
     X_up, y_up = data.get_check_data('test', 'UP_b38', '2D')
     X_none, y_none = data.get_check_data('test', 'NONE_b38', '2D')
 
@@ -95,7 +95,7 @@ for i in seq(3.2, 4.0, 0.05):
     y_down_pred_test = model.predict([X_down])
 
     # ====================== Check model =========================
-    data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, sys.argv[1], "None model short period " + str(i))
+    data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, sys.argv[1], "UP model short period " + str(i))
 
 #
 # y_pred_test = np.zeros(shape=(y_up.shape[0], 9))     # Сюда положим результаты прогона X_up моделями up, none, down
