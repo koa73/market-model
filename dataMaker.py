@@ -11,7 +11,7 @@ class DataMaker:
 
     __fileDir = os.path.dirname(os.path.abspath(__file__))
     __tikets = []
-    # Смещение для предсказания в дня
+    # Смещение для предсказания в днях
     __pred_offset = 1
     # Число знаков в расчетных значениях
     __accuracy = '0.00001'
@@ -284,7 +284,7 @@ class DataMaker:
         self.__append_to_file('DOWN_' + str(list_num)+'_'+ str(__break), raw_data_down, outputDir)
 
     # Расчет данных
-    def prepare_data(self, type, list_num = 1):
+    def prepare_data(self, type, list_num=1):
         """
         :param type: Тип данных (edu or test)
         :param list_num: Номер списка из массива __tickers_array
@@ -292,21 +292,21 @@ class DataMaker:
         inputDir = self.__fileDir + '/data'
         outputDir = inputDir
 
-        if (type == 'edu'):
+        if type == 'edu':
 
             inputDir = inputDir + '/stocks/'
             outputDir = outputDir + '/rawdata/'
             print(" --- Prepare EDU data from Long tickers list" if (
                         list_num == 1) else ' --- Prepare EDU data from Short tickers list' + ' ----')
 
-        elif(type == 'test'):
+        elif type == 'test':
 
             inputDir = inputDir + '/test/'
             outputDir = outputDir + '/test/rawdata/'
             print(" --- Prepare TEST data from Long tickers list" if (
                         list_num == 1) else ' --- Prepare TEST data from Short tickers list' + ' ----')
 
-        elif (type == 'custom'):
+        elif type == 'custom':
 
             inputDir = inputDir + '/custom/'
             outputDir = outputDir + '/custom/rawdata/'
