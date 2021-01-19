@@ -75,11 +75,11 @@ def seq(start, end, step):
     return itertools.islice(itertools.count(start, step), sample_count)
 
 
-for i in seq(0.56, 0.6, 0.01):
+for i in seq(0.5, 0.8, 0.01):
 
     print ("----------------  Start new loop with value : "+ str(i))
-    # Тренировка сети
-    class_weight[1] = i
+    # Тренировка сети Set 0 -UP, 1-None, 2-Down
+    class_weight[0] = i
     model = prepare_model()
 
     # ===================== Data load =========================
