@@ -36,9 +36,9 @@ def prepare_model():
     input_layer_1 = tf.keras.layers.Input(shape=(24,), name='1' + sec)
     norma_layer = tf.keras.layers.LayerNormalization(axis=1, name='2' + sec)(input_layer_1)
     hidden_d2_dense = tf.keras.layers.Dense(12, activation='tanh', name='3' + sec)(norma_layer)
-    hidden_d3_dense = tf.keras.layers.Dense(34, activation='tanh', name='4' + sec)(hidden_d2_dense)
-    hidden_d4_dense = tf.keras.layers.Dense(34, activation='tanh', name='5' + sec)(hidden_d3_dense)
-    hidden_d5_dense = tf.keras.layers.Dense(6, activation='tanh', name='6' + sec)(hidden_d4_dense)
+    hidden_d3_dense = tf.keras.layers.Dense(24, activation='tanh', name='4' + sec)(hidden_d2_dense)
+    #hidden_d4_dense = tf.keras.layers.Dense(34, activation='tanh', name='5' + sec)(hidden_d3_dense)
+    hidden_d5_dense = tf.keras.layers.Dense(6, activation='tanh', name='6' + sec)(hidden_d2_dense)
     output = tf.keras.layers.Dense(3, activation='softmax', name='7' + sec)(hidden_d5_dense)
 
     #
@@ -75,7 +75,7 @@ def seq(start, end, step):
     return itertools.islice(itertools.count(start, step), sample_count)
 
 
-for i in seq(0.57, 0.59, 0.05):
+for i in seq(0.56, 0.6, 0.01):
 
     print ("----------------  Start new loop with value : "+ str(i))
     # Тренировка сети
