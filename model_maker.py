@@ -84,7 +84,7 @@ for i in seq(0.5, 0.51, 0.01):
 
     # ===================== Data load =========================
 
-    X_down, y_down = data.get_check_data('test', 'DOWN_b38', '2D')
+    X_down, y_down = data.get_check_data('test', 'NONE_b38', '2D')
     X_up, y_up = data.get_check_data('test', 'UP_b38', '2D')
     X_none, y_none = data.get_check_data('test', 'NONE_b38', '2D')
 
