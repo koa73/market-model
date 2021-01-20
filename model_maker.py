@@ -25,7 +25,7 @@ X_none, y_none = data.get_edu_data('edu','NONE_'+sys.argv[1], '2D')
 class_weight = {0: 1., 1: 1., 2: 1.}
 
 X_train = np.concatenate((X_down, X_up), axis=0)
-y_train = np.concatenate((y_down, y_up), axis=0)
+y_train = np.concatenate((y_none, y_up), axis=0)
 X_train = np.concatenate((X_train, X_none), axis=0)
 y_train = np.concatenate((y_train, y_none), axis=0)
 
@@ -75,18 +75,19 @@ def seq(start, end, step):
     return itertools.islice(itertools.count(start, step), sample_count)
 
 
-for i in seq(0.5, 0.51, 0.01):
+for i in seq(0.45, 0.7, 0.05):
 
     print ("----------------  Start new loop with value : "+ str(i))
     # Тренировка сети Set 0 -UP, 1-None, 2-Down
-    class_weight[0] = 1
+    class_weight[0] = i
     model = prepare_model()
 
     # ===================== Data load =========================
 
-    X_down, y_down = data.get_check_data('test', 'NONE_b38', '2D')
+    X_down, y_down = data.get_check_data('test', 'DOWN_b38', '2D')
     X_up, y_up = data.get_check_data('test', 'UP_b38', '2D')
     X_none, y_none = data.get_check_data('test', 'NONE_b38', '2D')
+
 
     # ===================== Make prediction =====================
 
