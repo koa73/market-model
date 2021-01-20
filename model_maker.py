@@ -75,7 +75,7 @@ def seq(start, end, step):
     return itertools.islice(itertools.count(start, step), sample_count)
 
 
-for i in seq(0.45, 0.7, 0.05):
+for i in seq(4.5, 5.5, 0.5):
 
     print ("----------------  Start new loop with value : "+ str(i))
     # Тренировка сети Set 0 -UP, 1-None, 2-Down
