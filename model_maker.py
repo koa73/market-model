@@ -25,7 +25,7 @@ X_none, y_none = data.get_edu_data('edu','NONE_'+sys.argv[1], '2D')
 class_weight = {0: 1., 1: 1., 2: 1.}
 
 X_train = np.concatenate((X_down, X_up), axis=0)
-y_train = np.concatenate((y_none, y_up), axis=0)
+y_train = np.concatenate((y_down, y_up), axis=0)
 X_train = np.concatenate((X_train, X_none), axis=0)
 y_train = np.concatenate((y_train, y_none), axis=0)
 
@@ -75,11 +75,12 @@ def seq(start, end, step):
     return itertools.islice(itertools.count(start, step), sample_count)
 
 
-for i in seq(4.5, 5.5, 0.5):
+for i in seq(3.0, 3.05, 0.05):
 
-    print ("----------------  Start new loop with value : "+ str(i))
+    print("----------------  Start new loop with value : " + str(i))
     # Тренировка сети Set 0 -UP, 1-None, 2-Down
-    class_weight[0] = i
+    #class_weight[1] = i
+
     model = prepare_model()
 
     # ===================== Data load =========================
@@ -96,7 +97,7 @@ for i in seq(4.5, 5.5, 0.5):
     y_down_pred_test = model.predict([X_down])
 
     # ====================== Check model =========================
-    data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, sys.argv[1], "UP model short period " + str(i))
+    data.check_single_model(y_up_pred_test, y_none_pred_test, y_down_pred_test, sys.argv[1], "NONE model short period " + str(i))
 
 #
 # y_pred_test = np.zeros(shape=(y_up.shape[0], 9))     # Сюда положим результаты прогона X_up моделями up, none, down
